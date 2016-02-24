@@ -54,6 +54,12 @@
 			return @llvmInt;
 		};
 
+		public static fn ArrayTypeTest = fn System.Types.Int32 ()
+		{
+			System.Types.Int32[3] @testArray;
+			return @testArray[0];
+		};
+
 		public static fn Main = fn System.Types.Int32 ()
 		{
 			System.Types.Int32 @ret;

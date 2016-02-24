@@ -65,13 +65,24 @@ namespace ClepsCompiler.CompilerHelpers
             string identifierText = clepsType.RawTypeName;
             int indirectionLevel = clepsType.PtrIndirectionLevel;
 
-            LLVMTypeRef ret;
-            if (ClassSkeletons.TryGetValue(identifierText, out ret))
+            LLVMTypeRef classLLVMType;
+            LLVMTypeRef? ret = null;
+
+            if (ClassSkeletons.TryGetValue(identifierText, out classLLVMType))
             {
-                return GetPtrToLLVMType(ClassSkeletons[identifierText], indirectionLevel);
+                ret = classLLVMType;
+                if (clepsType.IsArrayType)
+                {
+                    foreach (uint arrayDim in clepsType.ArrayDimensions)
+                    {
+                        ret = LLVM.ArrayType(ret.Value, arrayDim);
+                    }
+                }
+
+                ret = GetPtrToLLVMType(ret.Value, indirectionLevel);
             }
 
-            return null;
+            return ret;
         }
 
         public ClepsType GetClepsType(LLVMTypeRef llvmType)
@@ -80,11 +91,11 @@ namespace ClepsCompiler.CompilerHelpers
             {
                 if(llvmType.GetIntTypeWidth() == 1)
                 {
-                    return ClepsType.GetBasicType("System.Types.Bool", 0 /* ptr indirection level */);
+                    return ClepsType.GetBasicType("System.Types.Bool", new List<uint>() /* array dims */, 0 /* ptr indirection level */);
                 }
                 else if (llvmType.GetIntTypeWidth() == 32)
                 {
-                    return ClepsType.GetBasicType("System.Types.Int32", 0 /* ptr indirection level */);
+                    return ClepsType.GetBasicType("System.Types.Int32", new List<uint>() /* array dims */, 0 /* ptr indirection level */);
                 }
             }
             else if(llvmType.TypeKind == LLVMTypeKind.LLVMVoidTypeKind)
@@ -102,11 +113,11 @@ namespace ClepsCompiler.CompilerHelpers
             {
                 if (llvmType.GetIntTypeWidth() == 1)
                 {
-                    return ClepsType.GetBasicType("System.LLVMTypes.I1", 0 /* ptr indirection level */);
+                    return ClepsType.GetBasicType("System.LLVMTypes.I1", new List<uint>() /* array dims */, 0 /* ptr indirection level */);
                 }
                 else if (llvmType.GetIntTypeWidth() == 32)
                 {
-                    return ClepsType.GetBasicType("System.LLVMTypes.I32", 0 /* ptr indirection level */);
+                    return ClepsType.GetBasicType("System.LLVMTypes.I32", new List<uint>() /* array dims */, 0 /* ptr indirection level */);
                 }
             }
             else if (llvmType.TypeKind == LLVMTypeKind.LLVMVoidTypeKind)

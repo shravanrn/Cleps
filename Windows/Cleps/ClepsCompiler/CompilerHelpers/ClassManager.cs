@@ -54,8 +54,8 @@ namespace ClepsCompiler.CompilerHelpers
 
             if (memberType.IsFunctionType && isStatic && 
                 (
-                    memberType.FunctionReturnType == ClepsType.GetBasicType("System.Types.Int32", 0 /* ptrIndirectionLevel */) ||
-                    memberType.FunctionReturnType == ClepsType.GetBasicType("System.LLVMTypes.I32", 0 /* ptrIndirectionLevel */)
+                    memberType.FunctionReturnType == ClepsType.GetBasicType("System.Types.Int32", new List<uint>() /* array dims */, 0 /* ptrIndirectionLevel */) ||
+                    memberType.FunctionReturnType == ClepsType.GetBasicType("System.LLVMTypes.I32", new List<uint>() /* array dims */, 0 /* ptrIndirectionLevel */)
                 )
                 && memberType.FunctionParameters.Count == 0 && memberName == "Main")
             {

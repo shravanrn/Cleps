@@ -137,7 +137,7 @@ namespace ClepsCompiler.Compiler
 
             if (!isStatic)
             {
-                ClepsType thisClassType = ClepsType.GetBasicType(className, 1);
+                ClepsType thisClassType = ClepsType.GetBasicType(className, new List<uint>() /* array dims */, 1);
                 paramNames.Insert(0, "this");
                 clepsParameterTypes.Insert(0, thisClassType);
             }
@@ -219,7 +219,7 @@ namespace ClepsCompiler.Compiler
             {
                 variable = LLVM.BuildAlloca(Builder, primitiveTypeOrNull.Value, variableName + "Ptr");
             }
-            else if (clepsVariableType.IsPointerType)
+            else if (clepsVariableType.IsPointerType || clepsVariableType.IsArrayType)
             {
                 LLVMTypeRef? pointerType = ClepsLLVMTypeConvertorInst.GetLLVMTypeOrNull(clepsVariableType);
                 if (pointerType == null)
@@ -229,7 +229,7 @@ namespace ClepsCompiler.Compiler
                     return null;
                 }
 
-                variable = LLVM.BuildAlloca(Builder, pointerType.Value, variableName + "Ptr");
+                variable = LLVM.BuildAlloca(Builder, pointerType.Value, clepsVariableType.IsPointerType? (variableName + "Ptr") : (variableName + "Arr"));
             }
             else
             {
@@ -269,7 +269,7 @@ namespace ClepsCompiler.Compiler
             ClepsParser.RightHandExpressionContext condition = context.rightHandExpression();
             LLVMRegister expressionValue = Visit(condition);
 
-            ClepsType nativeBooleanType = ClepsType.GetBasicType("System.LLVMTypes.I1", 0 /* ptr indirection level */);
+            ClepsType nativeBooleanType = ClepsType.GetBasicType("System.LLVMTypes.I1", new List<uint>() /* array dims */, 0 /* ptr indirection level */);
             LLVMValueRef? conditionRegisterPtr = null;
 
             //handle native llvm boolean type
@@ -281,7 +281,7 @@ namespace ClepsCompiler.Compiler
             else if (ClassManager.RawLLVMTypeMappingClasses.ContainsKey(nativeBooleanType))
             {
                 ClepsClass mappedBooleanClass = ClassManager.RawLLVMTypeMappingClasses[nativeBooleanType];
-                ClepsType mappedBooleanType = ClepsType.GetBasicType(mappedBooleanClass.FullyQualifiedName, 0 /* ptr indirection level */);
+                ClepsType mappedBooleanType = ClepsType.GetBasicType(mappedBooleanClass.FullyQualifiedName, new List<uint>() /* array dims */, 0 /* ptr indirection level */);
 
                 if (expressionValue.VariableType == mappedBooleanType)
                 {
@@ -572,6 +572,63 @@ namespace ClepsCompiler.Compiler
             return memberPtrRegister;
         }
 
+        public override LLVMRegister VisitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context)
+        {
+            LLVMRegister arrayObject = Visit(context.ArrayExpression);
+
+            if(!arrayObject.VariableType.IsArrayType)
+            {
+                string errorMessage = String.Format("The expression does not return an array object. Returned type is {0}.", arrayObject.VariableType.GetTypeName());
+                Status.AddError(new CompilerError(FileName, context.ArrayExpression.Start.Line, context.ArrayExpression.Start.Column, errorMessage));
+                //just assume this is operation returns a constant int to avoid stalling the compilation
+                LLVMRegister errRet = GetConstantIntRegisterOfClepsType(context, LLVM.Int32TypeInContext(Context), 5, "int32" /* friendly type name */);
+                return errRet;
+            }
+
+            ClepsType int32NativeType = ClepsType.GetBasicType("System.LLVMTypes.I32", new List<uint>() /* arrayDims */, 0 /* ptrIndirectionLevel */);
+            ClepsClass int32MappedClass;
+            ClepsType int32MappedType = null;
+
+            if(ClassManager.RawLLVMTypeMappingClasses.TryGetValue(int32NativeType, out int32MappedClass))
+            {
+                int32MappedType = ClepsType.GetBasicType(int32MappedClass.FullyQualifiedName, new List<uint>() /* arrayDims */, 0 /* ptrIndirectionLevel */);
+            }
+
+            LLVMValueRef zero = LLVM.ConstInt(LLVM.Int32TypeInContext(Context), 0, false);
+            List<LLVMValueRef> indexList = new List<LLVMValueRef>() { zero };
+
+            foreach(var arrayIndexExpression in context._ArrayIndexExpression)
+            {
+                LLVMRegister index = Visit(arrayIndexExpression);
+                LLVMValueRef llvmIndex;
+
+                if (index.VariableType == int32NativeType)
+                {
+                    llvmIndex = index.LLVMPtrValueRef;
+                }
+                else if (int32MappedType != null && index.VariableType == int32MappedType)
+                {
+                    llvmIndex = LLVM.BuildStructGEP(Builder, index.LLVMPtrValueRef, 0, "rawField");
+                }
+                else
+                {
+                    string errorMessage = String.Format("The array index expression does not return an integer type. Returned type is {0}.", index.VariableType.GetTypeName());
+                    Status.AddError(new CompilerError(FileName, arrayIndexExpression.Start.Line, arrayIndexExpression.Start.Column, errorMessage));
+                    //just assume this is operation returns a constant int to avoid stalling the compilation
+                    LLVMRegister errRet = GetConstantIntRegisterOfClepsType(context, LLVM.Int32TypeInContext(Context), 5, "int32" /* friendly type name */);
+                    return errRet;
+                }
+
+                LLVMValueRef indexRegister = LLVM.BuildLoad(Builder, llvmIndex, "indexRegister");
+                indexList.Add(indexRegister);
+            }
+
+            LLVMValueRef element = LLVM.BuildInBoundsGEP(Builder, arrayObject.LLVMPtrValueRef, indexList.ToArray(), "arrayElement");
+            ClepsType returnType = ClepsType.GetArrayAccessOnType(arrayObject.VariableType, 1 /* number of dimensions accessed */);
+            LLVMRegister ret = new LLVMRegister(returnType, element);
+            return ret;
+        }
+
         public override LLVMRegister VisitFieldOrClassAssignment([NotNull] ClepsParser.FieldOrClassAssignmentContext context)
         {
             string memberName = context.classOrMemberName().Name.Text;
@@ -838,7 +895,7 @@ namespace ClepsCompiler.Compiler
                 return null;
             }
 
-            ClepsType mappedClassType = ClepsType.GetBasicType(mappedClass.FullyQualifiedName, 0);
+            ClepsType mappedClassType = ClepsType.GetBasicType(mappedClass.FullyQualifiedName, new List<uint>() /* array dims */, 0);
 
             LLVMValueRef? instPtr = CallConstructorAllocaForType(context, mappedClassType, friendlyTypeName + "Inst");
             if (instPtr == null)

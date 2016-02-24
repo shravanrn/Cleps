@@ -50,7 +50,7 @@ numeric : NumericValue=NUMERIC_TOKEN NumericType=ID?;
 classOrMemberName : Name=PASCALCASE_ID;
 
 visibilityModifier : PUBLIC | INTERNAL;
-typename : RawTypeName=nestedIdentifier (PtrIndirectionLevel+='*')* '!'?;
+typename : RawTypeName=nestedIdentifier ('[' ArrayDimensions+=numeric ']')* (PtrIndirectionLevel+='*')* '!'?;
 typenameAndVoid : typename | VOID;
 
 ///////////////////////////////////////////////////////
@@ -87,6 +87,7 @@ rightHandExpression :
 	| rightHandExpressionSimple # SimpleExpression
 	| rightHandExpression '.' functionCall # FunctionCallOnExpression
 	| rightHandExpression '.' FieldName=classOrMemberName # FieldAccessOnExpression
+	| ArrayExpression=rightHandExpression ('[' ArrayIndexExpression+=rightHandExpression ']')+ # ArrayAccessOnExpression
 	| operatorSymbol rightHandExpression # PreOperatorOnExpression
 	| LeftExpression=rightHandExpression operatorSymbol RightExpression=rightHandExpression # BinaryOperatorOnExpression
 	| rightHandExpression operatorSymbol # PostOperatorOnExpression

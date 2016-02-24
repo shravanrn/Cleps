@@ -72,7 +72,7 @@ namespace ClepsCompiler.Compiler
 
             var ret = VisitChildren(context);
 
-            ClepsType classType = ClepsType.GetBasicType(className, 0 /* ptrIndirectionLevel */);
+            ClepsType classType = ClepsType.GetBasicType(className, new List<uint>() /* array dims */, 0 /* ptrIndirectionLevel */);
             LLVMTypeRef? structType = ClepsLLVMTypeConvertorInst.GetLLVMTypeOrNull(classType);
 
             Debug.Assert(structType != null);
@@ -99,7 +99,7 @@ namespace ClepsCompiler.Compiler
                     string errorMessage = String.Format("Type {0} was not found", clepsMemberType.GetTypeName());
                     Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
                     //If the type is not found, try to continue by assuming int32. Compiler will still show an error
-                    llvmMemberType = ClepsLLVMTypeConvertorInst.GetLLVMTypeOrNull(ClepsType.GetBasicType("System.LLVMTypes.I32", 0 /* pointer indirection level */));
+                    llvmMemberType = ClepsLLVMTypeConvertorInst.GetLLVMTypeOrNull(ClepsType.GetBasicType("System.LLVMTypes.I32", new List<uint>() /* array dims */, 0 /* pointer indirection level */));
                 }
 
                 memberTypes.Add(llvmMemberType.Value);
@@ -188,7 +188,7 @@ namespace ClepsCompiler.Compiler
             List<ClepsType> clepsParameterTypes = parameterContext._FunctionParameterTypes.Select(t => ClepsType.GetBasicType(t)).ToList();
             if(!isStatic)
             {
-                ClepsType currentClassPtrType = ClepsType.GetBasicType(className, 1 /* */);
+                ClepsType currentClassPtrType = ClepsType.GetBasicType(className, new List<uint>() /* array dims */, 1 /* */);
                 clepsParameterTypes.Insert(0, currentClassPtrType);
             }
 
