@@ -107,7 +107,7 @@ functionCall : FunctionName=classOrMemberName '(' (FunctionParameters+=rightHand
 
 /////////////////////////////////////////////////////////////
 
-functionStatement : functionReturnStatement | functionVariableDeclarationStatement | functionFieldAssignmentStatement | functionVariableAssigmentStatement | functionDeclarationStatement | functionCallStatement | ifStatement | doWhileStatement;
+functionStatement : functionReturnStatement | functionVariableDeclarationStatement | functionFieldAssignmentStatement | functionVariableAssigmentStatement | functionArrayAssignmentStatement | functionDeclarationStatement | functionCallStatement | ifStatement | doWhileStatement;
 
 functionReturnStatement : RETURN rightHandExpression? END;
 
@@ -115,6 +115,7 @@ functionVariableDeclarationStatement : variableDeclarationStatement;
 variableDeclarationStatement : typename variable (ASSIGNMENT_OPERATOR rightHandExpression)? END;
 functionVariableAssigmentStatement : variable ASSIGNMENT_OPERATOR rightHandExpression END;
 functionFieldAssignmentStatement : (LeftExpression=rightHandExpression '.')? FieldName=classOrMemberName ASSIGNMENT_OPERATOR RightExpression=rightHandExpression END;
+functionArrayAssignmentStatement : ArrayExpression=rightHandExpression ('[' ArrayIndexExpression+=rightHandExpression ']')+ ASSIGNMENT_OPERATOR RightExpression=rightHandExpression END;
 
 functionDeclarationStatement : FUNC FunctionName=classOrMemberName (ASSIGNMENT_OPERATOR FUNC FunctionReturnType=typenameAndVoid '(' functionParametersList ')' statementBlock)? END;
 assignmentFunctionDeclarationStatement : ASSIGNMENT FunctionName=ASSIGNMENT_OPERATOR FUNC FunctionReturnType=VOID '(' functionParametersList ')' statementBlock END;

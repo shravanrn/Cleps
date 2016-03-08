@@ -507,6 +507,14 @@ namespace ClepsCompiler.Compiler
             return memberPtrRegister;
         }
 
+        public override LLVMRegister VisitFunctionArrayAssignmentStatement([NotNull] ClepsParser.FunctionArrayAssignmentStatementContext context)
+        {
+            LLVMRegister register = GetLLVMRegisterForArrayAccess(context, context.ArrayExpression, context._ArrayIndexExpression);
+            LLVMRegister assignmentValuePtrRegister = Visit(context.RightExpression);
+            string assignmentOperator = context.ASSIGNMENT_OPERATOR().GetText();
+            return GenerateAssignmentToRegister(context, register, assignmentValuePtrRegister, assignmentOperator);
+        }
+
         #endregion Function Statement Implementations
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -574,12 +582,17 @@ namespace ClepsCompiler.Compiler
 
         public override LLVMRegister VisitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context)
         {
-            LLVMRegister arrayObject = Visit(context.ArrayExpression);
+            return GetLLVMRegisterForArrayAccess(context, context.ArrayExpression, context._ArrayIndexExpression);
+        }
+
+        private LLVMRegister GetLLVMRegisterForArrayAccess(ParserRuleContext context, ClepsParser.RightHandExpressionContext arrayExpression, IList<ClepsParser.RightHandExpressionContext> arrayIndexExpressions)
+        {
+            LLVMRegister arrayObject = Visit(arrayExpression);
 
             if(!arrayObject.VariableType.IsArrayType)
             {
                 string errorMessage = String.Format("The expression does not return an array object. Returned type is {0}.", arrayObject.VariableType.GetTypeName());
-                Status.AddError(new CompilerError(FileName, context.ArrayExpression.Start.Line, context.ArrayExpression.Start.Column, errorMessage));
+                Status.AddError(new CompilerError(FileName, arrayExpression.Start.Line, arrayExpression.Start.Column, errorMessage));
                 //just assume this is operation returns a constant int to avoid stalling the compilation
                 LLVMRegister errRet = GetConstantIntRegisterOfClepsType(context, LLVM.Int32TypeInContext(Context), 5, "int32" /* friendly type name */);
                 return errRet;
@@ -597,7 +610,7 @@ namespace ClepsCompiler.Compiler
             LLVMValueRef zero = LLVM.ConstInt(LLVM.Int32TypeInContext(Context), 0, false);
             List<LLVMValueRef> indexList = new List<LLVMValueRef>() { zero };
 
-            foreach(var arrayIndexExpression in context._ArrayIndexExpression)
+            foreach(var arrayIndexExpression in arrayIndexExpressions)
             {
                 LLVMRegister index = Visit(arrayIndexExpression);
                 LLVMValueRef llvmIndex;
