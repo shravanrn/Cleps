@@ -1,0 +1,37 @@
+namespace System.Tests
+{
+	public class TestStruct
+	{
+		public System.Types.Byte ByteVal;
+	}
+
+	public class MainProgram
+	{
+		public static System.RawTypes.Byte TestStaticVar;
+
+		public System.RawTypes.Byte TestMemberVar;
+		public System.Tests.TestStruct TestStructVar;
+
+		public static () -> System.Types.Byte TestStaticFn = () ->
+		{
+			System.Types.Byte @test;
+			@test = 1b;
+
+			System.Types.Byte[2] @testArr = [ 7b, @test ];
+			@test = @testArr[@test];	
+			@testArr[@test] = 6b;
+			@test = TestStaticFn2();
+			return 5b;
+		};
+
+		public static () -> System.Types.Byte TestStaticFn2 = () ->
+		{
+			return 5b;
+		};
+
+		public () -> System.Types.Byte TestMemberFn = () ->
+		{
+			return 5b;
+		};
+	}
+}
