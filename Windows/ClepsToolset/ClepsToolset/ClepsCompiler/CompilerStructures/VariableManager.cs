@@ -29,7 +29,11 @@ namespace ClepsCompiler.CompilerStructures
             }
         }
         
-        private List<Dictionary<string, VariableAndRegister>> LocalVariableBlocks = new List<Dictionary<string, VariableAndRegister>>();
+        //Start with a default block which holds the formal parameters
+        private List<Dictionary<string, VariableAndRegister>> LocalVariableBlocks = new List<Dictionary<string, VariableAndRegister>>()
+        {
+            new Dictionary<string, VariableAndRegister>()
+        };
 
         public void AddBlock()
         {

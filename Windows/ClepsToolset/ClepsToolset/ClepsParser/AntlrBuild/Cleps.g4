@@ -100,7 +100,7 @@ functionCallAssignment : functionCall;
 variableAssignment : variable;
 fieldOrClassAssignment : classOrMemberName;
 classInstanceAssignment : NEW typename '(' (FunctionParameters+=rightHandExpression (',' FunctionParameters+=rightHandExpression)*)? ')';
-functionAssignment : '(' (FormalParameters+=variable (',' FormalParameters+=variable)*)? ')' '->' statementBlock;
+functionAssignment : '(' (FunctionParameterTypes+=typename FormalParameters+=variable (',' FormalParameters+=variable)*)? ')' '->' FunctionReturnType=typename statementBlock;
 
 functionCall : FunctionName=classOrMemberName '(' (FunctionParameters+=rightHandExpression (',' FunctionParameters+=rightHandExpression)*)? ')';
 statementBlock : '{' functionStatement* '}';

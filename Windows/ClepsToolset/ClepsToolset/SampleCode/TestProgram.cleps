@@ -12,7 +12,7 @@ namespace System.Tests
 		public System.RawTypes.Byte TestMemberVar;
 		public System.Tests.TestStruct TestStructVar;
 
-		public static () -> System.Types.Byte TestStaticFn = () ->
+		public static () -> System.Types.Byte TestStaticFn = () -> System.Types.Byte
 		{
 			System.Types.Byte @test;
 			@test = 1b;
@@ -20,16 +20,16 @@ namespace System.Tests
 			System.Types.Byte[2] @testArr = [ 7b, @test ];
 			@test = @testArr[@test];	
 			@testArr[@test] = 6b;
-			@test = TestStaticFn2();
+			@test = TestStaticFn2(@testArr[@test]);
 			return 5b;
 		};
 
-		public static () -> System.Types.Byte TestStaticFn2 = () ->
+		public static (System.Types.Byte) -> System.Types.Byte TestStaticFn2 = (System.Types.Byte @testVar) -> System.Types.Byte
 		{
-			return 5b;
+			return @testVar;
 		};
 
-		public () -> System.Types.Byte TestMemberFn = () ->
+		public () -> System.Types.Byte TestMemberFn = () -> System.Types.Byte
 		{
 			return 5b;
 		};

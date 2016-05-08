@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClepsCompiler.CompilerStructures;
+using ClepsCompiler.CompilerTypes;
 
 namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
 {
@@ -17,7 +18,17 @@ namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
             Block = block;
         }
 
-        public IValueRegister CreateNewVariable(string suggestedName)
+        public void SetMethodType(FunctionClepsType methodType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetFormalParameterNames(List<string> formalParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IValueRegister GetFormalParameterRegister(string name)
         {
             throw new NotImplementedException();
         }
@@ -27,12 +38,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
             throw new NotImplementedException();
         }
 
-        public void CreateAssignment(IValueRegister register, IValueRegister value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CreateAssignment(IValueRegister register, IValue value)
+        public void CreateAssignment(IValueRegister targetRegister, IValue value)
         {
             throw new NotImplementedException();
         }

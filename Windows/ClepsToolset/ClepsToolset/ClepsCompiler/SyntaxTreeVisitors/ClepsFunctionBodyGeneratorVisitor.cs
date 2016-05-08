@@ -55,7 +55,28 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         public override object VisitFunctionAssignment_Ex([NotNull] ClepsParser.FunctionAssignmentContext context)
         {
-            VariableManagers.Add(new VariableManager());
+            VariableManager variableManager = new VariableManager();
+            VariableManagers.Add(variableManager);
+
+            ClepsType returnType = VoidType.GetVoidType();
+            if(context.FunctionReturnType != null)
+            {
+                returnType = Visit(context.FunctionReturnType) as ClepsType;
+            }
+
+            List<ClepsType> parameterTypes = context._FunctionParameterTypes.Select(t => Visit(context.FunctionReturnType) as ClepsType).ToList();
+            FunctionClepsType functionType = new FunctionClepsType(parameterTypes, returnType);
+
+            IMethodRegister methodRegister = CodeGenerator.GetMethodRegister(FullyQualifiedClassName, CurrMemberIsStatic, CurrMemberType, CurrMemberName);
+            var formalParameterNames = context._FormalParameters.Select(p => Visit(p) as string).ToList();
+            methodRegister.SetFormalParameterNames(formalParameterNames);
+
+            formalParameterNames.Zip(parameterTypes, (name, clepsType) => new ClepsVariable(name, clepsType))
+                .ToList().ForEach(variable =>
+                {
+                    variableManager.AddLocalVariable(variable, methodRegister.GetFormalParameterRegister(variable.VariableName));
+                });
+
             var ret = Visit(context.statementBlock());
             VariableManagers.RemoveAt(VariableManagers.Count - 1);
             return ret;

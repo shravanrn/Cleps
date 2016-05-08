@@ -53,7 +53,6 @@ namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
             LLVM.StructSetBody(ClassSkeletons[clepsClass.FullyQualifiedName], memberTypes, false /* packed */);
         }
 
-
         public IMethodRegister CreateMethod(string className, bool isStatic, ClepsType functionType, string functionName)
         {
             string fullFunctionName = className + "." + functionName;
@@ -113,32 +112,12 @@ namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
             throw new NotImplementedException();
         }
 
-        public IValueRegister CreateByteRegister(byte value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IValueRegister CreateArrayRegister(ClepsType arrayType, List<IValueRegister> arrayElements)
-        {
-            throw new NotImplementedException();
-        }
-
-        IValue ICodeGenerator.CreateByte(byte value)
+        public IValue CreateByte(byte value)
         {
             throw new NotImplementedException();
         }
 
         public IValue CreateArray(ClepsType arrayType, List<IValue> arrayElements)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IValue CreateULongRegister(ulong ulongVal)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IValueRegister GetArrayElementRegister(IValue value, List<IValue> indexes)
         {
             throw new NotImplementedException();
         }
@@ -149,6 +128,11 @@ namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
         }
 
         public IValue GetFunctionCallReturnValue(string fullyQualifiedClassName, string targetFunctionName, FunctionClepsType clepsType, List<IValue> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IValueRegister GetArrayElementRegister(IValue value, List<IValue> indexes)
         {
             throw new NotImplementedException();
         }

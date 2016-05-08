@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\shr\Desktop\Code\ClepsOfficialRepo\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
+// Generated from C:\Users\shravan\Documents\GitHubVisualStudio\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -261,17 +261,17 @@ public partial class ClepsBaseListener : IClepsListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMemberDeclarationStatement([NotNull] ClepsParser.MemberDeclarationStatementContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ClepsParser.BinaryOperatorOnExpression"/>.
+	/// Enter a parse tree produced by <see cref="ClepsParser.BracketedExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context) { }
+	public virtual void EnterBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ClepsParser.BinaryOperatorOnExpression"/>.
+	/// Exit a parse tree produced by <see cref="ClepsParser.BracketedExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context) { }
+	public virtual void ExitBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ClepsParser.PreOperatorOnExpression"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -285,41 +285,17 @@ public partial class ClepsBaseListener : IClepsListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPreOperatorOnExpression([NotNull] ClepsParser.PreOperatorOnExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ClepsParser.BracketedExpression"/>.
+	/// Enter a parse tree produced by <see cref="ClepsParser.SimpleExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context) { }
+	public virtual void EnterSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ClepsParser.BracketedExpression"/>.
+	/// Exit a parse tree produced by <see cref="ClepsParser.SimpleExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="ClepsParser.ArrayAccessOnExpression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ClepsParser.ArrayAccessOnExpression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="ClepsParser.FieldAccessOnExpression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFieldAccessOnExpression([NotNull] ClepsParser.FieldAccessOnExpressionContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ClepsParser.FieldAccessOnExpression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFieldAccessOnExpression([NotNull] ClepsParser.FieldAccessOnExpressionContext context) { }
+	public virtual void ExitSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ClepsParser.FunctionCallOnExpression"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -333,6 +309,18 @@ public partial class ClepsBaseListener : IClepsListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="ClepsParser.BinaryOperatorOnExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ClepsParser.BinaryOperatorOnExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="ClepsParser.PostOperatorOnExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -345,17 +333,29 @@ public partial class ClepsBaseListener : IClepsListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ClepsParser.SimpleExpression"/>.
+	/// Enter a parse tree produced by <see cref="ClepsParser.FieldAccessOnExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context) { }
+	public virtual void EnterFieldAccessOnExpression([NotNull] ClepsParser.FieldAccessOnExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ClepsParser.SimpleExpression"/>.
+	/// Exit a parse tree produced by <see cref="ClepsParser.FieldAccessOnExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context) { }
+	public virtual void ExitFieldAccessOnExpression([NotNull] ClepsParser.FieldAccessOnExpressionContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ClepsParser.ArrayAccessOnExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ClepsParser.ArrayAccessOnExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ClepsParser.rightHandExpressionSimple"/>.
 	/// <para>The default implementation does nothing.</para>

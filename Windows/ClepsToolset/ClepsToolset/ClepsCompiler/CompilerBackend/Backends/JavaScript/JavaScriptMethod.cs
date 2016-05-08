@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClepsCompiler.CompilerTypes;
+using ClepsCompiler.Utils.Collections;
+using System.Collections.Specialized;
 
 namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 {
@@ -13,6 +15,34 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
     {
         private StringBuilder methodBody = new StringBuilder();
         private List<string> variablesCreated = new List<string>();
+        private FunctionClepsType MethodType;
+        private OrderedDictionary<string, string> FormalParameters;
+
+        public JavaScriptMethod(FunctionClepsType methodType)
+        {
+            MethodType = methodType;
+        }
+
+        public void SetFormalParameterNames(List<string> formalParameters)
+        {
+            FormalParameters = new OrderedDictionary<string, string>();
+
+            formalParameters.ForEach(parameterName =>
+            {
+                string varNameUsed = NameGenerator.GetAvailableName(parameterName, variablesCreated);
+                variablesCreated.Add(varNameUsed);
+                FormalParameters.Add(parameterName, varNameUsed);
+            });
+        }
+
+        public IValueRegister GetFormalParameterRegister(string name)
+        {
+            int index = Array.IndexOf(FormalParameters.Keys.ToArray(), name);
+            ClepsType paramType = MethodType.ParameterTypes[index];
+
+            JavaScriptRegister register = new JavaScriptRegister(FormalParameters[name], paramType);
+            return register;
+        }
 
         public IValueRegister CreateNewVariable(ClepsVariable variable, IValue initialValue = null)
         {
@@ -48,7 +78,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
         public string GetMethodBody()
         {
-            return methodBody.ToString();
+            return String.Format("function({0}) {{\n{1}}}", String.Join(", ", FormalParameters.Values.ToList()), methodBody.ToString());
         }
     }
 }

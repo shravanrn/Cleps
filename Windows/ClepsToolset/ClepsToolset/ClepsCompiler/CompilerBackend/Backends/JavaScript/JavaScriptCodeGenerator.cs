@@ -71,7 +71,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             }
 
             methodList.Add(functionNameAndType);
-            var methodRegister = new JavaScriptMethod();
+            var methodRegister = new JavaScriptMethod(functionType as FunctionClepsType);
             methodBodies.Add(functionNameAndType, methodRegister);
 
             return methodRegister;
@@ -156,9 +156,9 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
                 output.AppendLine("\tnewInst(this);");
             }
             output.AppendLine("};");
-            clepsClass.MemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.prototype.{2} = function() {{\n{3}\n}};\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(clepsClass.FullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
+            clepsClass.MemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.prototype.{2} = {3};\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(clepsClass.FullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
             clepsClass.StaticMemberVariables.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = undefined;\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key));
-            clepsClass.StaticMemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = function() {{\n{3}\n}};\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(clepsClass.FullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
+            clepsClass.StaticMemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = {3};\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(clepsClass.FullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
         }
 
         private void EnsureNamespaceExists(StringBuilder output, ClepsClass clepsClass)
