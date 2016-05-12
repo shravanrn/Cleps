@@ -15,8 +15,9 @@ namespace ClepsCompiler.CompilerTypes
         {
             ParameterTypes = parameterTypes;
             ReturnType = returnType;
-            IsFunctionType = true;
             IsArrayType = false;
+            IsFunctionType = true;
+            IsStaticType = false;
         }
 
         public override string GetClepsTypeString()

@@ -13,8 +13,9 @@ namespace ClepsCompiler.CompilerTypes
         public PointerClepsType(ClepsType baseType)
         {
             BaseType = baseType;
-            IsFunctionType = false;
             IsArrayType = false;
+            IsFunctionType = false;
+            IsStaticType = false;
         }
 
         public override string GetClepsTypeString()

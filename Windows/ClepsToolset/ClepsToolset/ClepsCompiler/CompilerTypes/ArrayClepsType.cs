@@ -16,8 +16,9 @@ namespace ClepsCompiler.CompilerTypes
         {
             BaseType = baseType;
             Dimensions = dimensions;
-            IsFunctionType = false;
             IsArrayType = true;
+            IsFunctionType = false;
+            IsStaticType = false;
         }
 
         public override string GetClepsTypeString()

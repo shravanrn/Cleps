@@ -6,23 +6,22 @@ using System.Threading.Tasks;
 
 namespace ClepsCompiler.CompilerTypes
 {
-    class BasicClepsType : ClepsType
+    class BasicStaticClepsType : ClepsType
     {
-        public BasicStaticClepsType StaticType { get; private set; }
-        public string RawTypeName { get; private set; }
+        protected string RawTypeNameVal;
+        public string RawTypeName { get { return RawTypeNameVal + ".static";  } }
 
-        public BasicClepsType(string rawTypeName)
+        public BasicStaticClepsType(string rawTypeName)
         {
-            StaticType = new BasicStaticClepsType(rawTypeName);
-            RawTypeName = rawTypeName;
+            RawTypeNameVal = rawTypeName;
             IsArrayType = false;
             IsFunctionType = false;
-            IsStaticType = false;
+            IsStaticType = true;
         }
 
         public override string GetClepsTypeString()
         {
-            return RawTypeName;
+            return RawTypeNameVal;
         }
 
         public override int GetHashCode()
@@ -32,12 +31,12 @@ namespace ClepsCompiler.CompilerTypes
 
         public override bool NotNullObjectEquals(ClepsType obj)
         {
-            if (obj.GetType() != typeof(BasicClepsType))
+            if (obj.GetType() != typeof(BasicStaticClepsType))
             {
                 return false;
             }
 
-            BasicClepsType objToCompare = obj as BasicClepsType;
+            BasicStaticClepsType objToCompare = obj as BasicStaticClepsType;
             return RawTypeName == objToCompare.RawTypeName;
         }
     }

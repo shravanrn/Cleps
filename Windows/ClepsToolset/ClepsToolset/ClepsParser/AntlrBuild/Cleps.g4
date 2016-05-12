@@ -20,6 +20,8 @@ FOR : 'for';
 DO : 'do';
 WHILE : 'while';
 RETURN : 'return';
+PLATFORMTARGET : 'platform.Target';
+NATIVE : 'native';
 ASSIGNMENT : 'assignment';
 OPERATOR : 'operator';
 ASSIGNMENT_OPERATOR : '=';
@@ -56,12 +58,12 @@ typename :
 	RawTypeName=nestedIdentifier # BasicType
 	| BaseType=typename '*' # PointerType
 	| BaseType=typename '[' ArrayDimensions+=numeric (',' ArrayDimensions+=numeric)* ']' # ArrayType
-	| '(' (FunctionParameterTypes+=typename (',' FunctionParameterTypes+=typename)*)? ')' '->' FunctionReturnType=typename #FunctionType;
+	| '(' (FunctionParameterTypes+=typename (',' FunctionParameterTypes+=typename)*)? ')' '->' FunctionReturnType=typenameAndVoid #FunctionType;
 typenameAndVoid : typename | VOID;
 
 ///////////////////////////////////////////////////////
 
-compilationUnit : namespaceBlockStatement;
+compilationUnit : namespaceBlockStatement+ EOF;
 
 namespaceBlockStatement : (NAMESPACE NamespaceName=nestedIdentifier '{' usingNamespaceStatements*)( namespaceBlockStatement | classDeclarationStatements)*('}');
 
@@ -90,7 +92,7 @@ rightHandExpression :
 	| rightHandExpression operatorSymbol # PostOperatorOnExpression
 ;
 
-rightHandExpressionSimple : stringAssignments | numericAssignments | nullAssignment | booleanAssignments | arrayAssignment | functionCallAssignment | variableAssignment | fieldOrClassAssignment | classInstanceAssignment | functionAssignment;
+rightHandExpressionSimple : stringAssignments | numericAssignments | nullAssignment | booleanAssignments | arrayAssignment | functionCallAssignment | variableAssignment | fieldOrClassAssignment | classInstanceAssignment | functionAssignment | platformAssignment;
 numericAssignments : numeric;
 nullAssignment : NULL;
 booleanAssignments : TRUE|FALSE;
@@ -98,16 +100,17 @@ stringAssignments : stringValue;
 arrayAssignment : '[' (ArrayElements+=rightHandExpression (',' ArrayElements+=rightHandExpression)*)? ']';
 functionCallAssignment : functionCall;
 variableAssignment : variable;
-fieldOrClassAssignment : classOrMemberName;
+fieldOrClassAssignment : ClassHierarchy+=classOrMemberName ('.' ClassHierarchy+=classOrMemberName)*;
 classInstanceAssignment : NEW typename '(' (FunctionParameters+=rightHandExpression (',' FunctionParameters+=rightHandExpression)*)? ')';
-functionAssignment : '(' (FunctionParameterTypes+=typename FormalParameters+=variable (',' FormalParameters+=variable)*)? ')' '->' FunctionReturnType=typename statementBlock;
+functionAssignment : '(' (FunctionParameterTypes+=typename FormalParameters+=variable (',' FormalParameters+=variable)*)? ')' '->' FunctionReturnType=typenameAndVoid statementBlock;
+platformAssignment : PLATFORMTARGET;
 
 functionCall : FunctionName=classOrMemberName '(' (FunctionParameters+=rightHandExpression (',' FunctionParameters+=rightHandExpression)*)? ')';
 statementBlock : '{' functionStatement* '}';
 
 /////////////////////////////////////////////////////////////
 
-functionStatement : functionReturnStatement | functionVariableDeclarationStatement | functionFieldAssignmentStatement | functionVariableAssignmentStatement | functionArrayAssignmentStatement | functionCallStatement | ifStatement | doWhileStatement;
+functionStatement : functionReturnStatement | functionVariableDeclarationStatement | functionFieldAssignmentStatement | functionVariableAssignmentStatement | functionArrayAssignmentStatement | functionCallStatement | ifStatement | doWhileStatement | nativeStatement;
 
 functionReturnStatement : RETURN rightHandExpression? END;
 
@@ -119,3 +122,6 @@ functionCallStatement : (rightHandExpression '.')? functionCall END;
 
 ifStatement : IF '(' rightHandExpression ')' statementBlock;
 doWhileStatement : DO statementBlock WHILE '(' TerminalCondition=rightHandExpression ')' END;
+
+nativeStatement : NATIVE NativeOpen='[{' nativeCode NativeClose='}]' END;
+nativeCode : (~('}]'))*?;

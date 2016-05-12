@@ -43,11 +43,21 @@ namespace ClepsCompiler
             CommandLineParameters programParams = new CommandLineParameters { Files = new List<string>(args), OutputDirectory = ".", OutputFileName = "outputFile", ExitOnFirstError = false };
             if (programParams.Files.Count == 0)
             {
-                string testFileName = @"..\..\..\SampleCode\TestProgram.cleps";
-
-                if (File.Exists(testFileName))
                 {
-                    programParams.Files.Add(testFileName);
+                    string testFileName = @"..\..\..\SampleCode\CoreLibrary.cleps";
+
+                    if (File.Exists(testFileName))
+                    {
+                        programParams.Files.Add(testFileName);
+                    }
+                }
+                {
+                    string testFileName = @"..\..\..\SampleCode\TestProgram.cleps";
+
+                    if (File.Exists(testFileName))
+                    {
+                        programParams.Files.Add(testFileName);
+                    }
                 }
             }
 

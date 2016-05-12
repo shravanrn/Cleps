@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClepsParser", "ClepsParser\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleCode", "SampleCode", "{DB95DFFD-55F0-4AEC-A1C0-CB028D7A37AA}"
 	ProjectSection(SolutionItems) = preProject
+		SampleCode\CoreLibrary.cleps = SampleCode\CoreLibrary.cleps
 		SampleCode\TestProgram.cleps = SampleCode\TestProgram.cleps
 	EndProjectSection
 EndProject

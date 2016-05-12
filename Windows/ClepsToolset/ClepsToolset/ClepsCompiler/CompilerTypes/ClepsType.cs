@@ -9,8 +9,9 @@ namespace ClepsCompiler.CompilerTypes
 {
     abstract class ClepsType : EqualsAndHashCode<ClepsType>
     {
-        public bool IsFunctionType { get; internal set; }
         public bool IsArrayType { get; internal set; }
+        public bool IsFunctionType { get; internal set; }
+        public bool IsStaticType { get; internal set; }
 
         public abstract string GetClepsTypeString();
 

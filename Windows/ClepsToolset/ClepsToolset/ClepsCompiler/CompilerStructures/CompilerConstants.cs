@@ -10,6 +10,6 @@ namespace ClepsCompiler.CompilerStructures
     class CompilerConstants
     {
         public static readonly ClepsType ClepsByteType = new BasicClepsType("System.Types.Byte");
-        //public static readonly ClepsType ClepsULongType = new BasicClepsType("System.Types.ULong");
+        public static readonly ClepsType ClepsBoolType = new BasicClepsType("System.Types.Bool");
     }
 }

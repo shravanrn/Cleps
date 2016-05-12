@@ -18,9 +18,16 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         private FunctionClepsType MethodType;
         private OrderedDictionary<string, string> FormalParameters;
 
+        private int indentationLevel = 1;
+
         public JavaScriptMethod(FunctionClepsType methodType)
         {
             MethodType = methodType;
+        }
+
+        public void AddNativeCode(string nativeCode)
+        {
+            methodBody.Append(nativeCode);
         }
 
         public void SetFormalParameterNames(List<string> formalParameters)
@@ -51,11 +58,11 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
             if (initialValue == null)
             {
-                methodBody.AppendFormat("\tvar {0};\n", varName);
+                AppendFormatLine("var {0};", varName);
             }
             else
             {
-                methodBody.AppendFormat("\tvar {0} = {1};\n", varName, (initialValue as JavaScriptValue).Expression);
+                AppendFormatLine("var {0} = {1};", varName, (initialValue as JavaScriptValue).Expression);
             }
 
             var ret = new JavaScriptRegister(varName, variable.VariableType);
@@ -67,18 +74,50 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             JavaScriptRegister registerToUse = targetRegister as JavaScriptRegister;
             JavaScriptValue valueToUse = value as JavaScriptValue;
 
-            methodBody.AppendFormat("\t{0} = {1};\n", registerToUse.Expression, valueToUse.Expression);
+            AppendFormatLine("{0} = {1};", registerToUse.Expression, valueToUse.Expression);
         }
 
         public void CreateReturnStatement(IValue value)
         {
             JavaScriptValue valueToUse = value as JavaScriptValue;
-            methodBody.AppendFormat("\treturn {0};\n", valueToUse == null? "" : valueToUse.Expression);
+            AppendFormatLine("return {0};", valueToUse == null ? "" : valueToUse.Expression);
+        }
+
+        public void CreateFunctionCallStatement(IValue value)
+        {
+            JavaScriptValue valueToUse = value as JavaScriptValue;
+            AppendFormatLine("{0};", valueToUse.Expression);
+        }
+
+        public void CreateIfStatementBlock(IValue condition)
+        {
+            JavaScriptValue conditionToUse = condition as JavaScriptValue;
+            AppendFormatLine("if({0}) {{", conditionToUse.Expression);
+            indentationLevel++;
+        }
+
+        public void CloseBlock()
+        {
+            indentationLevel--;
+            if(indentationLevel == 0)
+            {
+                throw new Exception("Got extra close block call");
+            }
+
+            AppendFormatLine("}}");
+        }
+
+        private void AppendFormatLine(string format, params object[] args)
+        {
+            methodBody.Append(new String('\t', indentationLevel));
+            methodBody.AppendFormat(format, args);
+            methodBody.AppendLine();
         }
 
         public string GetMethodBody()
         {
-            return String.Format("function({0}) {{\n{1}}}", String.Join(", ", FormalParameters.Values.ToList()), methodBody.ToString());
+            var paramsList = FormalParameters == null? new List<string>() : FormalParameters.Values.ToList();
+            return String.Format("function({0}) {{\n{1}}}", String.Join(", ", paramsList), methodBody.ToString());
         }
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\shravan\Documents\GitHubVisualStudio\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
+// Generated from C:\Users\shr\Desktop\Code\ClepsOfficialRepo\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -32,11 +32,12 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 public partial class ClepsParser : Parser {
 	public const int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, COMMENT_SINGLELINE=16, 
-		COMMENT_MULTILINE=17, WS=18, USING=19, END=20, NAMESPACE=21, NEW=22, CLASS=23, 
-		STATIC=24, PUBLIC=25, INTERNAL=26, VOID=27, TRUE=28, FALSE=29, NULL=30, 
-		IF=31, FOR=32, DO=33, WHILE=34, RETURN=35, ASSIGNMENT=36, OPERATOR=37, 
-		ASSIGNMENT_OPERATOR=38, PASCALCASE_ID=39, ID=40, NUMERIC_TOKEN=41, OPERATOR_SYMBOL_LEXER=42;
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
+		COMMENT_SINGLELINE=18, COMMENT_MULTILINE=19, WS=20, USING=21, END=22, 
+		NAMESPACE=23, NEW=24, CLASS=25, STATIC=26, PUBLIC=27, INTERNAL=28, VOID=29, 
+		TRUE=30, FALSE=31, NULL=32, IF=33, FOR=34, DO=35, WHILE=36, RETURN=37, 
+		PLATFORMTARGET=38, NATIVE=39, ASSIGNMENT=40, OPERATOR=41, ASSIGNMENT_OPERATOR=42, 
+		PASCALCASE_ID=43, ID=44, NUMERIC_TOKEN=45, OPERATOR_SYMBOL_LEXER=46;
 	public const int
 		RULE_operatorSymbol = 0, RULE_stringValue = 1, RULE_variable = 2, RULE_nestedIdentifier = 3, 
 		RULE_numeric = 4, RULE_classOrMemberName = 5, RULE_visibilityModifier = 6, 
@@ -47,11 +48,13 @@ public partial class ClepsParser : Parser {
 		RULE_rightHandExpressionSimple = 17, RULE_numericAssignments = 18, RULE_nullAssignment = 19, 
 		RULE_booleanAssignments = 20, RULE_stringAssignments = 21, RULE_arrayAssignment = 22, 
 		RULE_functionCallAssignment = 23, RULE_variableAssignment = 24, RULE_fieldOrClassAssignment = 25, 
-		RULE_classInstanceAssignment = 26, RULE_functionAssignment = 27, RULE_functionCall = 28, 
-		RULE_statementBlock = 29, RULE_functionStatement = 30, RULE_functionReturnStatement = 31, 
-		RULE_functionVariableDeclarationStatement = 32, RULE_functionVariableAssignmentStatement = 33, 
-		RULE_functionFieldAssignmentStatement = 34, RULE_functionArrayAssignmentStatement = 35, 
-		RULE_functionCallStatement = 36, RULE_ifStatement = 37, RULE_doWhileStatement = 38;
+		RULE_classInstanceAssignment = 26, RULE_functionAssignment = 27, RULE_platformAssignment = 28, 
+		RULE_functionCall = 29, RULE_statementBlock = 30, RULE_functionStatement = 31, 
+		RULE_functionReturnStatement = 32, RULE_functionVariableDeclarationStatement = 33, 
+		RULE_functionVariableAssignmentStatement = 34, RULE_functionFieldAssignmentStatement = 35, 
+		RULE_functionArrayAssignmentStatement = 36, RULE_functionCallStatement = 37, 
+		RULE_ifStatement = 38, RULE_doWhileStatement = 39, RULE_nativeStatement = 40, 
+		RULE_nativeCode = 41;
 	public static readonly string[] ruleNames = {
 		"operatorSymbol", "stringValue", "variable", "nestedIdentifier", "numeric", 
 		"classOrMemberName", "visibilityModifier", "typename", "typenameAndVoid", 
@@ -60,27 +63,29 @@ public partial class ClepsParser : Parser {
 		"memberDeclarationStatement", "rightHandExpression", "rightHandExpressionSimple", 
 		"numericAssignments", "nullAssignment", "booleanAssignments", "stringAssignments", 
 		"arrayAssignment", "functionCallAssignment", "variableAssignment", "fieldOrClassAssignment", 
-		"classInstanceAssignment", "functionAssignment", "functionCall", "statementBlock", 
-		"functionStatement", "functionReturnStatement", "functionVariableDeclarationStatement", 
-		"functionVariableAssignmentStatement", "functionFieldAssignmentStatement", 
-		"functionArrayAssignmentStatement", "functionCallStatement", "ifStatement", 
-		"doWhileStatement"
+		"classInstanceAssignment", "functionAssignment", "platformAssignment", 
+		"functionCall", "statementBlock", "functionStatement", "functionReturnStatement", 
+		"functionVariableDeclarationStatement", "functionVariableAssignmentStatement", 
+		"functionFieldAssignmentStatement", "functionArrayAssignmentStatement", 
+		"functionCallStatement", "ifStatement", "doWhileStatement", "nativeStatement", 
+		"nativeCode"
 	};
 
 	private static readonly string[] _LiteralNames = {
 		null, "'*'", "'\"'", "'\\\"'", "''''", "'\\''", "'@'", "'.'", "'['", "','", 
-		"']'", "'('", "')'", "'->'", "'{'", "'}'", null, null, null, "'using'", 
-		"';'", "'namespace'", "'new'", "'class'", "'static'", "'public'", "'internal'", 
-		"'void'", "'true'", "'false'", "'null'", "'if'", "'for'", "'do'", "'while'", 
-		"'return'", "'assignment'", "'operator'", "'='"
+		"']'", "'('", "')'", "'->'", "'{'", "'}'", "'[{'", "'}]'", null, null, 
+		null, "'using'", "';'", "'namespace'", "'new'", "'class'", "'static'", 
+		"'public'", "'internal'", "'void'", "'true'", "'false'", "'null'", "'if'", 
+		"'for'", "'do'", "'while'", "'return'", "'platform.Target'", "'native'", 
+		"'assignment'", "'operator'", "'='"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, "COMMENT_SINGLELINE", "COMMENT_MULTILINE", "WS", 
-		"USING", "END", "NAMESPACE", "NEW", "CLASS", "STATIC", "PUBLIC", "INTERNAL", 
-		"VOID", "TRUE", "FALSE", "NULL", "IF", "FOR", "DO", "WHILE", "RETURN", 
-		"ASSIGNMENT", "OPERATOR", "ASSIGNMENT_OPERATOR", "PASCALCASE_ID", "ID", 
-		"NUMERIC_TOKEN", "OPERATOR_SYMBOL_LEXER"
+		null, null, null, null, null, null, "COMMENT_SINGLELINE", "COMMENT_MULTILINE", 
+		"WS", "USING", "END", "NAMESPACE", "NEW", "CLASS", "STATIC", "PUBLIC", 
+		"INTERNAL", "VOID", "TRUE", "FALSE", "NULL", "IF", "FOR", "DO", "WHILE", 
+		"RETURN", "PLATFORMTARGET", "NATIVE", "ASSIGNMENT", "OPERATOR", "ASSIGNMENT_OPERATOR", 
+		"PASCALCASE_ID", "ID", "NUMERIC_TOKEN", "OPERATOR_SYMBOL_LEXER"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -134,7 +139,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 78;
+			State = 84;
 			_la = TokenStream.La(1);
 			if ( !(_la==T__0 || _la==OPERATOR_SYMBOL_LEXER) ) {
 			ErrorHandler.RecoverInline(this);
@@ -188,78 +193,78 @@ public partial class ClepsParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 81;
+			State = 87;
 			_la = TokenStream.La(1);
 			if (_la==ID) {
 				{
-				State = 80; _localctx.StringType = Match(ID);
+				State = 86; _localctx.StringType = Match(ID);
 				}
 			}
 
-			State = 101;
+			State = 107;
 			switch (TokenStream.La(1)) {
 			case T__1:
 				{
-				State = 83; _localctx.StringStyle = Match(T__1);
-				State = 88;
+				State = 89; _localctx.StringStyle = Match(T__1);
+				State = 94;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 				while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
 					if ( _alt==1+1 ) {
 						{
-						State = 86;
+						State = 92;
 						switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
 						case 1:
 							{
-							State = 84; Match(T__2);
+							State = 90; Match(T__2);
 							}
 							break;
 						case 2:
 							{
-							State = 85;
+							State = 91;
 							MatchWildcard();
 							}
 							break;
 						}
 						} 
 					}
-					State = 90;
+					State = 96;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 				}
-				State = 91; Match(T__1);
+				State = 97; Match(T__1);
 				}
 				break;
 			case T__3:
 				{
-				State = 92; _localctx.StringStyle = Match(T__3);
-				State = 97;
+				State = 98; _localctx.StringStyle = Match(T__3);
+				State = 103;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,4,Context);
 				while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
 					if ( _alt==1+1 ) {
 						{
-						State = 95;
+						State = 101;
 						switch ( Interpreter.AdaptivePredict(TokenStream,3,Context) ) {
 						case 1:
 							{
-							State = 93; Match(T__4);
+							State = 99; Match(T__4);
 							}
 							break;
 						case 2:
 							{
-							State = 94;
+							State = 100;
 							MatchWildcard();
 							}
 							break;
 						}
 						} 
 					}
-					State = 99;
+					State = 105;
 					ErrorHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(TokenStream,4,Context);
 				}
-				State = 100; Match(T__3);
+				State = 106; Match(T__3);
 				}
 				break;
 			default:
@@ -310,8 +315,8 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 103; Match(T__5);
-			State = 104;
+			State = 109; Match(T__5);
+			State = 110;
 			_localctx.VariableName = TokenStream.Lt(1);
 			_la = TokenStream.La(1);
 			if ( !(_la==PASCALCASE_ID || _la==ID) ) {
@@ -366,20 +371,20 @@ public partial class ClepsParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 106; Match(PASCALCASE_ID);
-			State = 111;
+			State = 112; Match(PASCALCASE_ID);
+			State = 117;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,6,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
 				if ( _alt==1 ) {
 					{
 					{
-					State = 107; Match(T__6);
-					State = 108; Match(PASCALCASE_ID);
+					State = 113; Match(T__6);
+					State = 114; Match(PASCALCASE_ID);
 					}
 					} 
 				}
-				State = 113;
+				State = 119;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,6,Context);
 			}
@@ -428,12 +433,12 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 114; _localctx.NumericValue = Match(NUMERIC_TOKEN);
-			State = 116;
+			State = 120; _localctx.NumericValue = Match(NUMERIC_TOKEN);
+			State = 122;
 			switch ( Interpreter.AdaptivePredict(TokenStream,7,Context) ) {
 			case 1:
 				{
-				State = 115; _localctx.NumericType = Match(ID);
+				State = 121; _localctx.NumericType = Match(ID);
 				}
 				break;
 			}
@@ -480,7 +485,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 118; _localctx.Name = Match(PASCALCASE_ID);
+			State = 124; _localctx.Name = Match(PASCALCASE_ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -525,7 +530,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 120;
+			State = 126;
 			_la = TokenStream.La(1);
 			if ( !(_la==PUBLIC || _la==INTERNAL) ) {
 			ErrorHandler.RecoverInline(this);
@@ -558,26 +563,6 @@ public partial class ClepsParser : Parser {
 			base.CopyFrom(context);
 		}
 	}
-	public partial class BasicTypeContext : TypenameContext {
-		public NestedIdentifierContext RawTypeName;
-		public NestedIdentifierContext nestedIdentifier() {
-			return GetRuleContext<NestedIdentifierContext>(0);
-		}
-		public BasicTypeContext(TypenameContext context) { CopyFrom(context); }
-		public override void EnterRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.EnterBasicType(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.ExitBasicType(this);
-		}
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitBasicType(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
 	public partial class ArrayTypeContext : TypenameContext {
 		public TypenameContext BaseType;
 		public NumericContext _numeric;
@@ -606,10 +591,33 @@ public partial class ClepsParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
+	public partial class BasicTypeContext : TypenameContext {
+		public NestedIdentifierContext RawTypeName;
+		public NestedIdentifierContext nestedIdentifier() {
+			return GetRuleContext<NestedIdentifierContext>(0);
+		}
+		public BasicTypeContext(TypenameContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterBasicType(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitBasicType(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBasicType(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 	public partial class FunctionTypeContext : TypenameContext {
 		public TypenameContext _typename;
 		public IList<TypenameContext> _FunctionParameterTypes = new List<TypenameContext>();
-		public TypenameContext FunctionReturnType;
+		public TypenameAndVoidContext FunctionReturnType;
+		public TypenameAndVoidContext typenameAndVoid() {
+			return GetRuleContext<TypenameAndVoidContext>(0);
+		}
 		public TypenameContext[] typename() {
 			return GetRuleContexts<TypenameContext>();
 		}
@@ -669,57 +677,57 @@ public partial class ClepsParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 138;
+			State = 144;
 			switch (TokenStream.La(1)) {
+			case PASCALCASE_ID:
+				{
+				_localctx = new BasicTypeContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+
+				State = 129; ((BasicTypeContext)_localctx).RawTypeName = nestedIdentifier();
+				}
+				break;
 			case T__10:
 				{
 				_localctx = new FunctionTypeContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
-
-				State = 123; Match(T__10);
-				State = 132;
+				State = 130; Match(T__10);
+				State = 139;
 				_la = TokenStream.La(1);
 				if (_la==T__10 || _la==PASCALCASE_ID) {
 					{
-					State = 124; ((FunctionTypeContext)_localctx)._typename = typename(0);
+					State = 131; ((FunctionTypeContext)_localctx)._typename = typename(0);
 					((FunctionTypeContext)_localctx)._FunctionParameterTypes.Add(((FunctionTypeContext)_localctx)._typename);
-					State = 129;
+					State = 136;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.La(1);
 					while (_la==T__8) {
 						{
 						{
-						State = 125; Match(T__8);
-						State = 126; ((FunctionTypeContext)_localctx)._typename = typename(0);
+						State = 132; Match(T__8);
+						State = 133; ((FunctionTypeContext)_localctx)._typename = typename(0);
 						((FunctionTypeContext)_localctx)._FunctionParameterTypes.Add(((FunctionTypeContext)_localctx)._typename);
 						}
 						}
-						State = 131;
+						State = 138;
 						ErrorHandler.Sync(this);
 						_la = TokenStream.La(1);
 					}
 					}
 				}
 
-				State = 134; Match(T__11);
-				State = 135; Match(T__12);
-				State = 136; ((FunctionTypeContext)_localctx).FunctionReturnType = typename(1);
-				}
-				break;
-			case PASCALCASE_ID:
-				{
-				_localctx = new BasicTypeContext(_localctx);
-				Context = _localctx;
-				_prevctx = _localctx;
-				State = 137; ((BasicTypeContext)_localctx).RawTypeName = nestedIdentifier();
+				State = 141; Match(T__11);
+				State = 142; Match(T__12);
+				State = 143; ((FunctionTypeContext)_localctx).FunctionReturnType = typenameAndVoid();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			Context.Stop = TokenStream.Lt(-1);
-			State = 156;
+			State = 162;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,13,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
@@ -728,16 +736,16 @@ public partial class ClepsParser : Parser {
 						TriggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					State = 154;
+					State = 160;
 					switch ( Interpreter.AdaptivePredict(TokenStream,12,Context) ) {
 					case 1:
 						{
 						_localctx = new PointerTypeContext(new TypenameContext(_parentctx, _parentState));
 						((PointerTypeContext)_localctx).BaseType = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_typename);
-						State = 140;
+						State = 146;
 						if (!(Precpred(Context, 3))) throw new FailedPredicateException(this, "Precpred(Context, 3)");
-						State = 141; Match(T__0);
+						State = 147; Match(T__0);
 						}
 						break;
 					case 2:
@@ -745,33 +753,33 @@ public partial class ClepsParser : Parser {
 						_localctx = new ArrayTypeContext(new TypenameContext(_parentctx, _parentState));
 						((ArrayTypeContext)_localctx).BaseType = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_typename);
-						State = 142;
+						State = 148;
 						if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-						State = 143; Match(T__7);
-						State = 144; ((ArrayTypeContext)_localctx)._numeric = numeric();
+						State = 149; Match(T__7);
+						State = 150; ((ArrayTypeContext)_localctx)._numeric = numeric();
 						((ArrayTypeContext)_localctx)._ArrayDimensions.Add(((ArrayTypeContext)_localctx)._numeric);
-						State = 149;
+						State = 155;
 						ErrorHandler.Sync(this);
 						_la = TokenStream.La(1);
 						while (_la==T__8) {
 							{
 							{
-							State = 145; Match(T__8);
-							State = 146; ((ArrayTypeContext)_localctx)._numeric = numeric();
+							State = 151; Match(T__8);
+							State = 152; ((ArrayTypeContext)_localctx)._numeric = numeric();
 							((ArrayTypeContext)_localctx)._ArrayDimensions.Add(((ArrayTypeContext)_localctx)._numeric);
 							}
 							}
-							State = 151;
+							State = 157;
 							ErrorHandler.Sync(this);
 							_la = TokenStream.La(1);
 						}
-						State = 152; Match(T__9);
+						State = 158; Match(T__9);
 						}
 						break;
 					}
 					} 
 				}
-				State = 158;
+				State = 164;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,13,Context);
 			}
@@ -818,19 +826,19 @@ public partial class ClepsParser : Parser {
 		TypenameAndVoidContext _localctx = new TypenameAndVoidContext(Context, State);
 		EnterRule(_localctx, 16, RULE_typenameAndVoid);
 		try {
-			State = 161;
+			State = 167;
 			switch (TokenStream.La(1)) {
 			case T__10:
 			case PASCALCASE_ID:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 159; typename(0);
+				State = 165; typename(0);
 				}
 				break;
 			case VOID:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 160; Match(VOID);
+				State = 166; Match(VOID);
 				}
 				break;
 			default:
@@ -849,8 +857,12 @@ public partial class ClepsParser : Parser {
 	}
 
 	public partial class CompilationUnitContext : ParserRuleContext {
-		public NamespaceBlockStatementContext namespaceBlockStatement() {
-			return GetRuleContext<NamespaceBlockStatementContext>(0);
+		public ITerminalNode Eof() { return GetToken(ClepsParser.Eof, 0); }
+		public NamespaceBlockStatementContext[] namespaceBlockStatement() {
+			return GetRuleContexts<NamespaceBlockStatementContext>();
+		}
+		public NamespaceBlockStatementContext namespaceBlockStatement(int i) {
+			return GetRuleContext<NamespaceBlockStatementContext>(i);
 		}
 		public CompilationUnitContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -876,10 +888,24 @@ public partial class ClepsParser : Parser {
 	public CompilationUnitContext compilationUnit() {
 		CompilationUnitContext _localctx = new CompilationUnitContext(Context, State);
 		EnterRule(_localctx, 18, RULE_compilationUnit);
+		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 163; namespaceBlockStatement();
+			State = 170;
+			ErrorHandler.Sync(this);
+			_la = TokenStream.La(1);
+			do {
+				{
+				{
+				State = 169; namespaceBlockStatement();
+				}
+				}
+				State = 172;
+				ErrorHandler.Sync(this);
+				_la = TokenStream.La(1);
+			} while ( _la==NAMESPACE );
+			State = 174; Match(Eof);
 			}
 		}
 		catch (RecognitionException re) {
@@ -946,51 +972,51 @@ public partial class ClepsParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 165; Match(NAMESPACE);
-			State = 166; _localctx.NamespaceName = nestedIdentifier();
-			State = 167; Match(T__13);
-			State = 171;
+			State = 176; Match(NAMESPACE);
+			State = 177; _localctx.NamespaceName = nestedIdentifier();
+			State = 178; Match(T__13);
+			State = 182;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.La(1);
 			while (_la==USING) {
 				{
 				{
-				State = 168; usingNamespaceStatements();
+				State = 179; usingNamespaceStatements();
 				}
 				}
-				State = 173;
+				State = 184;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 			}
 			}
-			State = 178;
+			State = 189;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.La(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NAMESPACE) | (1L << PUBLIC) | (1L << INTERNAL))) != 0)) {
 				{
-				State = 176;
+				State = 187;
 				switch (TokenStream.La(1)) {
 				case NAMESPACE:
 					{
-					State = 174; namespaceBlockStatement();
+					State = 185; namespaceBlockStatement();
 					}
 					break;
 				case PUBLIC:
 				case INTERNAL:
 					{
-					State = 175; classDeclarationStatements();
+					State = 186; classDeclarationStatements();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
 				}
-				State = 180;
+				State = 191;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 			}
 			{
-			State = 181; Match(T__14);
+			State = 192; Match(T__14);
 			}
 			}
 		}
@@ -1040,17 +1066,17 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 183; Match(USING);
-			State = 185;
+			State = 194; Match(USING);
+			State = 196;
 			_la = TokenStream.La(1);
 			if (_la==STATIC) {
 				{
-				State = 184; Match(STATIC);
+				State = 195; Match(STATIC);
 				}
 			}
 
-			State = 187; nestedIdentifier();
-			State = 188; Match(END);
+			State = 198; nestedIdentifier();
+			State = 199; Match(END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1099,7 +1125,7 @@ public partial class ClepsParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 191;
+			State = 202;
 			ErrorHandler.Sync(this);
 			_alt = 1;
 			do {
@@ -1107,16 +1133,16 @@ public partial class ClepsParser : Parser {
 				case 1:
 					{
 					{
-					State = 190; usingNamespaceStatement();
+					State = 201; usingNamespaceStatement();
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 193;
+				State = 204;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,19,Context);
+				_alt = Interpreter.AdaptivePredict(TokenStream,20,Context);
 			} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
 			}
 		}
@@ -1171,14 +1197,14 @@ public partial class ClepsParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 195; visibilityModifier();
-			State = 196; Match(CLASS);
-			State = 197; _localctx.ClassName = classOrMemberName();
-			State = 198; Match(T__13);
+			State = 206; visibilityModifier();
+			State = 207; Match(CLASS);
+			State = 208; _localctx.ClassName = classOrMemberName();
+			State = 209; Match(T__13);
 			}
-			State = 200; classBodyStatements();
+			State = 211; classBodyStatements();
 			{
-			State = 201; Match(T__14);
+			State = 212; Match(T__14);
 			}
 			}
 		}
@@ -1234,26 +1260,26 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 207;
+			State = 218;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.La(1);
 			while (_la==PUBLIC || _la==INTERNAL) {
 				{
-				State = 205;
-				switch ( Interpreter.AdaptivePredict(TokenStream,20,Context) ) {
+				State = 216;
+				switch ( Interpreter.AdaptivePredict(TokenStream,21,Context) ) {
 				case 1:
 					{
-					State = 203; classDeclarationStatements();
+					State = 214; classDeclarationStatements();
 					}
 					break;
 				case 2:
 					{
-					State = 204; memberDeclarationStatement();
+					State = 215; memberDeclarationStatement();
 					}
 					break;
 				}
 				}
-				State = 209;
+				State = 220;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 			}
@@ -1315,27 +1341,27 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 210; visibilityModifier();
-			State = 212;
+			State = 221; visibilityModifier();
+			State = 223;
 			_la = TokenStream.La(1);
 			if (_la==STATIC) {
 				{
-				State = 211; Match(STATIC);
+				State = 222; Match(STATIC);
 				}
 			}
 
-			State = 214; typename(0);
-			State = 215; _localctx.FieldName = classOrMemberName();
-			State = 218;
+			State = 225; typename(0);
+			State = 226; _localctx.FieldName = classOrMemberName();
+			State = 229;
 			_la = TokenStream.La(1);
 			if (_la==ASSIGNMENT_OPERATOR) {
 				{
-				State = 216; Match(ASSIGNMENT_OPERATOR);
-				State = 217; rightHandExpression(0);
+				State = 227; Match(ASSIGNMENT_OPERATOR);
+				State = 228; rightHandExpression(0);
 				}
 			}
 
-			State = 220; Match(END);
+			State = 231; Match(END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1359,88 +1385,6 @@ public partial class ClepsParser : Parser {
 		public RightHandExpressionContext() { }
 		public virtual void CopyFrom(RightHandExpressionContext context) {
 			base.CopyFrom(context);
-		}
-	}
-	public partial class BracketedExpressionContext : RightHandExpressionContext {
-		public RightHandExpressionContext rightHandExpression() {
-			return GetRuleContext<RightHandExpressionContext>(0);
-		}
-		public BracketedExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
-		public override void EnterRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.EnterBracketedExpression(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.ExitBracketedExpression(this);
-		}
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitBracketedExpression(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class PreOperatorOnExpressionContext : RightHandExpressionContext {
-		public OperatorSymbolContext operatorSymbol() {
-			return GetRuleContext<OperatorSymbolContext>(0);
-		}
-		public RightHandExpressionContext rightHandExpression() {
-			return GetRuleContext<RightHandExpressionContext>(0);
-		}
-		public PreOperatorOnExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
-		public override void EnterRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.EnterPreOperatorOnExpression(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.ExitPreOperatorOnExpression(this);
-		}
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitPreOperatorOnExpression(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class SimpleExpressionContext : RightHandExpressionContext {
-		public RightHandExpressionSimpleContext rightHandExpressionSimple() {
-			return GetRuleContext<RightHandExpressionSimpleContext>(0);
-		}
-		public SimpleExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
-		public override void EnterRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.EnterSimpleExpression(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.ExitSimpleExpression(this);
-		}
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitSimpleExpression(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class FunctionCallOnExpressionContext : RightHandExpressionContext {
-		public RightHandExpressionContext rightHandExpression() {
-			return GetRuleContext<RightHandExpressionContext>(0);
-		}
-		public FunctionCallContext functionCall() {
-			return GetRuleContext<FunctionCallContext>(0);
-		}
-		public FunctionCallOnExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
-		public override void EnterRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.EnterFunctionCallOnExpression(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.ExitFunctionCallOnExpression(this);
-		}
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitFunctionCallOnExpression(this);
-			else return visitor.VisitChildren(this);
 		}
 	}
 	public partial class BinaryOperatorOnExpressionContext : RightHandExpressionContext {
@@ -1470,48 +1414,44 @@ public partial class ClepsParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class FieldAccessOnExpressionContext : RightHandExpressionContext {
-		public ClassOrMemberNameContext FieldName;
-		public RightHandExpressionContext rightHandExpression() {
-			return GetRuleContext<RightHandExpressionContext>(0);
-		}
-		public ClassOrMemberNameContext classOrMemberName() {
-			return GetRuleContext<ClassOrMemberNameContext>(0);
-		}
-		public FieldAccessOnExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
-		public override void EnterRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.EnterFieldAccessOnExpression(this);
-		}
-		public override void ExitRule(IParseTreeListener listener) {
-			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.ExitFieldAccessOnExpression(this);
-		}
-		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
-			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitFieldAccessOnExpression(this);
-			else return visitor.VisitChildren(this);
-		}
-	}
-	public partial class PostOperatorOnExpressionContext : RightHandExpressionContext {
-		public RightHandExpressionContext rightHandExpression() {
-			return GetRuleContext<RightHandExpressionContext>(0);
-		}
+	public partial class PreOperatorOnExpressionContext : RightHandExpressionContext {
 		public OperatorSymbolContext operatorSymbol() {
 			return GetRuleContext<OperatorSymbolContext>(0);
 		}
-		public PostOperatorOnExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
+		public RightHandExpressionContext rightHandExpression() {
+			return GetRuleContext<RightHandExpressionContext>(0);
+		}
+		public PreOperatorOnExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
 		public override void EnterRule(IParseTreeListener listener) {
 			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.EnterPostOperatorOnExpression(this);
+			if (typedListener != null) typedListener.EnterPreOperatorOnExpression(this);
 		}
 		public override void ExitRule(IParseTreeListener listener) {
 			IClepsListener typedListener = listener as IClepsListener;
-			if (typedListener != null) typedListener.ExitPostOperatorOnExpression(this);
+			if (typedListener != null) typedListener.ExitPreOperatorOnExpression(this);
 		}
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitPostOperatorOnExpression(this);
+			if (typedVisitor != null) return typedVisitor.VisitPreOperatorOnExpression(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BracketedExpressionContext : RightHandExpressionContext {
+		public RightHandExpressionContext rightHandExpression() {
+			return GetRuleContext<RightHandExpressionContext>(0);
+		}
+		public BracketedExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterBracketedExpression(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitBracketedExpression(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBracketedExpression(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -1540,6 +1480,92 @@ public partial class ClepsParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
+	public partial class FieldAccessOnExpressionContext : RightHandExpressionContext {
+		public ClassOrMemberNameContext FieldName;
+		public RightHandExpressionContext rightHandExpression() {
+			return GetRuleContext<RightHandExpressionContext>(0);
+		}
+		public ClassOrMemberNameContext classOrMemberName() {
+			return GetRuleContext<ClassOrMemberNameContext>(0);
+		}
+		public FieldAccessOnExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterFieldAccessOnExpression(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitFieldAccessOnExpression(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitFieldAccessOnExpression(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class FunctionCallOnExpressionContext : RightHandExpressionContext {
+		public RightHandExpressionContext rightHandExpression() {
+			return GetRuleContext<RightHandExpressionContext>(0);
+		}
+		public FunctionCallContext functionCall() {
+			return GetRuleContext<FunctionCallContext>(0);
+		}
+		public FunctionCallOnExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterFunctionCallOnExpression(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitFunctionCallOnExpression(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitFunctionCallOnExpression(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class PostOperatorOnExpressionContext : RightHandExpressionContext {
+		public RightHandExpressionContext rightHandExpression() {
+			return GetRuleContext<RightHandExpressionContext>(0);
+		}
+		public OperatorSymbolContext operatorSymbol() {
+			return GetRuleContext<OperatorSymbolContext>(0);
+		}
+		public PostOperatorOnExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterPostOperatorOnExpression(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitPostOperatorOnExpression(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitPostOperatorOnExpression(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class SimpleExpressionContext : RightHandExpressionContext {
+		public RightHandExpressionSimpleContext rightHandExpressionSimple() {
+			return GetRuleContext<RightHandExpressionSimpleContext>(0);
+		}
+		public SimpleExpressionContext(RightHandExpressionContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterSimpleExpression(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitSimpleExpression(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitSimpleExpression(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 
 	[RuleVersion(0)]
 	public RightHandExpressionContext rightHandExpression() {
@@ -1557,16 +1583,16 @@ public partial class ClepsParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 231;
-			switch ( Interpreter.AdaptivePredict(TokenStream,24,Context) ) {
+			State = 242;
+			switch ( Interpreter.AdaptivePredict(TokenStream,25,Context) ) {
 			case 1:
 				{
 				_localctx = new PreOperatorOnExpressionContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
 
-				State = 223; operatorSymbol();
-				State = 224; rightHandExpression(3);
+				State = 234; operatorSymbol();
+				State = 235; rightHandExpression(3);
 				}
 				break;
 			case 2:
@@ -1574,9 +1600,9 @@ public partial class ClepsParser : Parser {
 				_localctx = new BracketedExpressionContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
-				State = 226; Match(T__10);
-				State = 227; rightHandExpression(0);
-				State = 228; Match(T__11);
+				State = 237; Match(T__10);
+				State = 238; rightHandExpression(0);
+				State = 239; Match(T__11);
 				}
 				break;
 			case 3:
@@ -1584,51 +1610,51 @@ public partial class ClepsParser : Parser {
 				_localctx = new SimpleExpressionContext(_localctx);
 				Context = _localctx;
 				_prevctx = _localctx;
-				State = 230; rightHandExpressionSimple();
+				State = 241; rightHandExpressionSimple();
 				}
 				break;
 			}
 			Context.Stop = TokenStream.Lt(-1);
-			State = 256;
+			State = 267;
 			ErrorHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(TokenStream,27,Context);
+			_alt = Interpreter.AdaptivePredict(TokenStream,28,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
 				if ( _alt==1 ) {
 					if ( ParseListeners!=null )
 						TriggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					State = 254;
-					switch ( Interpreter.AdaptivePredict(TokenStream,26,Context) ) {
+					State = 265;
+					switch ( Interpreter.AdaptivePredict(TokenStream,27,Context) ) {
 					case 1:
 						{
 						_localctx = new BinaryOperatorOnExpressionContext(new RightHandExpressionContext(_parentctx, _parentState));
 						((BinaryOperatorOnExpressionContext)_localctx).LeftExpression = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_rightHandExpression);
-						State = 233;
+						State = 244;
 						if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-						State = 234; operatorSymbol();
-						State = 235; ((BinaryOperatorOnExpressionContext)_localctx).RightExpression = rightHandExpression(3);
+						State = 245; operatorSymbol();
+						State = 246; ((BinaryOperatorOnExpressionContext)_localctx).RightExpression = rightHandExpression(3);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new FunctionCallOnExpressionContext(new RightHandExpressionContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_rightHandExpression);
-						State = 237;
+						State = 248;
 						if (!(Precpred(Context, 6))) throw new FailedPredicateException(this, "Precpred(Context, 6)");
-						State = 238; Match(T__6);
-						State = 239; functionCall();
+						State = 249; Match(T__6);
+						State = 250; functionCall();
 						}
 						break;
 					case 3:
 						{
 						_localctx = new FieldAccessOnExpressionContext(new RightHandExpressionContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_rightHandExpression);
-						State = 240;
+						State = 251;
 						if (!(Precpred(Context, 5))) throw new FailedPredicateException(this, "Precpred(Context, 5)");
-						State = 241; Match(T__6);
-						State = 242; ((FieldAccessOnExpressionContext)_localctx).FieldName = classOrMemberName();
+						State = 252; Match(T__6);
+						State = 253; ((FieldAccessOnExpressionContext)_localctx).FieldName = classOrMemberName();
 						}
 						break;
 					case 4:
@@ -1636,9 +1662,9 @@ public partial class ClepsParser : Parser {
 						_localctx = new ArrayAccessOnExpressionContext(new RightHandExpressionContext(_parentctx, _parentState));
 						((ArrayAccessOnExpressionContext)_localctx).ArrayExpression = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_rightHandExpression);
-						State = 243;
+						State = 254;
 						if (!(Precpred(Context, 4))) throw new FailedPredicateException(this, "Precpred(Context, 4)");
-						State = 248;
+						State = 259;
 						ErrorHandler.Sync(this);
 						_alt = 1;
 						do {
@@ -1646,19 +1672,19 @@ public partial class ClepsParser : Parser {
 							case 1:
 								{
 								{
-								State = 244; Match(T__7);
-								State = 245; ((ArrayAccessOnExpressionContext)_localctx)._rightHandExpression = rightHandExpression(0);
+								State = 255; Match(T__7);
+								State = 256; ((ArrayAccessOnExpressionContext)_localctx)._rightHandExpression = rightHandExpression(0);
 								((ArrayAccessOnExpressionContext)_localctx)._ArrayIndexExpression.Add(((ArrayAccessOnExpressionContext)_localctx)._rightHandExpression);
-								State = 246; Match(T__9);
+								State = 257; Match(T__9);
 								}
 								}
 								break;
 							default:
 								throw new NoViableAltException(this);
 							}
-							State = 250;
+							State = 261;
 							ErrorHandler.Sync(this);
-							_alt = Interpreter.AdaptivePredict(TokenStream,25,Context);
+							_alt = Interpreter.AdaptivePredict(TokenStream,26,Context);
 						} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
 						}
 						break;
@@ -1666,17 +1692,17 @@ public partial class ClepsParser : Parser {
 						{
 						_localctx = new PostOperatorOnExpressionContext(new RightHandExpressionContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_rightHandExpression);
-						State = 252;
+						State = 263;
 						if (!(Precpred(Context, 1))) throw new FailedPredicateException(this, "Precpred(Context, 1)");
-						State = 253; operatorSymbol();
+						State = 264; operatorSymbol();
 						}
 						break;
 					}
 					} 
 				}
-				State = 258;
+				State = 269;
 				ErrorHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(TokenStream,27,Context);
+				_alt = Interpreter.AdaptivePredict(TokenStream,28,Context);
 			}
 			}
 		}
@@ -1722,6 +1748,9 @@ public partial class ClepsParser : Parser {
 		public FunctionAssignmentContext functionAssignment() {
 			return GetRuleContext<FunctionAssignmentContext>(0);
 		}
+		public PlatformAssignmentContext platformAssignment() {
+			return GetRuleContext<PlatformAssignmentContext>(0);
+		}
 		public RightHandExpressionSimpleContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1747,66 +1776,72 @@ public partial class ClepsParser : Parser {
 		RightHandExpressionSimpleContext _localctx = new RightHandExpressionSimpleContext(Context, State);
 		EnterRule(_localctx, 34, RULE_rightHandExpressionSimple);
 		try {
-			State = 269;
-			switch ( Interpreter.AdaptivePredict(TokenStream,28,Context) ) {
+			State = 281;
+			switch ( Interpreter.AdaptivePredict(TokenStream,29,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 259; stringAssignments();
+				State = 270; stringAssignments();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 260; numericAssignments();
+				State = 271; numericAssignments();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 261; nullAssignment();
+				State = 272; nullAssignment();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 262; booleanAssignments();
+				State = 273; booleanAssignments();
 				}
 				break;
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 263; arrayAssignment();
+				State = 274; arrayAssignment();
 				}
 				break;
 			case 6:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 264; functionCallAssignment();
+				State = 275; functionCallAssignment();
 				}
 				break;
 			case 7:
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 265; variableAssignment();
+				State = 276; variableAssignment();
 				}
 				break;
 			case 8:
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 266; fieldOrClassAssignment();
+				State = 277; fieldOrClassAssignment();
 				}
 				break;
 			case 9:
 				EnterOuterAlt(_localctx, 9);
 				{
-				State = 267; classInstanceAssignment();
+				State = 278; classInstanceAssignment();
 				}
 				break;
 			case 10:
 				EnterOuterAlt(_localctx, 10);
 				{
-				State = 268; functionAssignment();
+				State = 279; functionAssignment();
+				}
+				break;
+			case 11:
+				EnterOuterAlt(_localctx, 11);
+				{
+				State = 280; platformAssignment();
 				}
 				break;
 			}
@@ -1853,7 +1888,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 271; numeric();
+			State = 283; numeric();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1896,7 +1931,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 273; Match(NULL);
+			State = 285; Match(NULL);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1941,7 +1976,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 275;
+			State = 287;
 			_la = TokenStream.La(1);
 			if ( !(_la==TRUE || _la==FALSE) ) {
 			ErrorHandler.RecoverInline(this);
@@ -1993,7 +2028,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 277; stringValue();
+			State = 289; stringValue();
 			}
 		}
 		catch (RecognitionException re) {
@@ -2044,32 +2079,32 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 279; Match(T__7);
-			State = 288;
+			State = 291; Match(T__7);
+			State = 300;
 			_la = TokenStream.La(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << PLATFORMTARGET) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
 				{
-				State = 280; _localctx._rightHandExpression = rightHandExpression(0);
+				State = 292; _localctx._rightHandExpression = rightHandExpression(0);
 				_localctx._ArrayElements.Add(_localctx._rightHandExpression);
-				State = 285;
+				State = 297;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 				while (_la==T__8) {
 					{
 					{
-					State = 281; Match(T__8);
-					State = 282; _localctx._rightHandExpression = rightHandExpression(0);
+					State = 293; Match(T__8);
+					State = 294; _localctx._rightHandExpression = rightHandExpression(0);
 					_localctx._ArrayElements.Add(_localctx._rightHandExpression);
 					}
 					}
-					State = 287;
+					State = 299;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.La(1);
 				}
 				}
 			}
 
-			State = 290; Match(T__9);
+			State = 302; Match(T__9);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2114,7 +2149,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 292; functionCall();
+			State = 304; functionCall();
 			}
 		}
 		catch (RecognitionException re) {
@@ -2159,7 +2194,7 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 294; variable();
+			State = 306; variable();
 			}
 		}
 		catch (RecognitionException re) {
@@ -2174,8 +2209,13 @@ public partial class ClepsParser : Parser {
 	}
 
 	public partial class FieldOrClassAssignmentContext : ParserRuleContext {
-		public ClassOrMemberNameContext classOrMemberName() {
-			return GetRuleContext<ClassOrMemberNameContext>(0);
+		public ClassOrMemberNameContext _classOrMemberName;
+		public IList<ClassOrMemberNameContext> _ClassHierarchy = new List<ClassOrMemberNameContext>();
+		public ClassOrMemberNameContext[] classOrMemberName() {
+			return GetRuleContexts<ClassOrMemberNameContext>();
+		}
+		public ClassOrMemberNameContext classOrMemberName(int i) {
+			return GetRuleContext<ClassOrMemberNameContext>(i);
 		}
 		public FieldOrClassAssignmentContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -2202,9 +2242,28 @@ public partial class ClepsParser : Parser {
 		FieldOrClassAssignmentContext _localctx = new FieldOrClassAssignmentContext(Context, State);
 		EnterRule(_localctx, 50, RULE_fieldOrClassAssignment);
 		try {
+			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 296; classOrMemberName();
+			State = 308; _localctx._classOrMemberName = classOrMemberName();
+			_localctx._ClassHierarchy.Add(_localctx._classOrMemberName);
+			State = 313;
+			ErrorHandler.Sync(this);
+			_alt = Interpreter.AdaptivePredict(TokenStream,32,Context);
+			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
+				if ( _alt==1 ) {
+					{
+					{
+					State = 309; Match(T__6);
+					State = 310; _localctx._classOrMemberName = classOrMemberName();
+					_localctx._ClassHierarchy.Add(_localctx._classOrMemberName);
+					}
+					} 
+				}
+				State = 315;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,32,Context);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -2259,34 +2318,34 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 298; Match(NEW);
-			State = 299; typename(0);
-			State = 300; Match(T__10);
-			State = 309;
+			State = 316; Match(NEW);
+			State = 317; typename(0);
+			State = 318; Match(T__10);
+			State = 327;
 			_la = TokenStream.La(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << PLATFORMTARGET) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
 				{
-				State = 301; _localctx._rightHandExpression = rightHandExpression(0);
+				State = 319; _localctx._rightHandExpression = rightHandExpression(0);
 				_localctx._FunctionParameters.Add(_localctx._rightHandExpression);
-				State = 306;
+				State = 324;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 				while (_la==T__8) {
 					{
 					{
-					State = 302; Match(T__8);
-					State = 303; _localctx._rightHandExpression = rightHandExpression(0);
+					State = 320; Match(T__8);
+					State = 321; _localctx._rightHandExpression = rightHandExpression(0);
 					_localctx._FunctionParameters.Add(_localctx._rightHandExpression);
 					}
 					}
-					State = 308;
+					State = 326;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.La(1);
 				}
 				}
 			}
 
-			State = 311; Match(T__11);
+			State = 329; Match(T__11);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2305,15 +2364,15 @@ public partial class ClepsParser : Parser {
 		public IList<TypenameContext> _FunctionParameterTypes = new List<TypenameContext>();
 		public VariableContext _variable;
 		public IList<VariableContext> _FormalParameters = new List<VariableContext>();
-		public TypenameContext FunctionReturnType;
+		public TypenameAndVoidContext FunctionReturnType;
 		public StatementBlockContext statementBlock() {
 			return GetRuleContext<StatementBlockContext>(0);
 		}
-		public TypenameContext[] typename() {
-			return GetRuleContexts<TypenameContext>();
+		public TypenameAndVoidContext typenameAndVoid() {
+			return GetRuleContext<TypenameAndVoidContext>(0);
 		}
-		public TypenameContext typename(int i) {
-			return GetRuleContext<TypenameContext>(i);
+		public TypenameContext typename() {
+			return GetRuleContext<TypenameContext>(0);
 		}
 		public VariableContext[] variable() {
 			return GetRuleContexts<VariableContext>();
@@ -2349,37 +2408,80 @@ public partial class ClepsParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 313; Match(T__10);
-			State = 323;
+			State = 331; Match(T__10);
+			State = 341;
 			_la = TokenStream.La(1);
 			if (_la==T__10 || _la==PASCALCASE_ID) {
 				{
-				State = 314; _localctx._typename = typename(0);
+				State = 332; _localctx._typename = typename(0);
 				_localctx._FunctionParameterTypes.Add(_localctx._typename);
-				State = 315; _localctx._variable = variable();
+				State = 333; _localctx._variable = variable();
 				_localctx._FormalParameters.Add(_localctx._variable);
-				State = 320;
+				State = 338;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 				while (_la==T__8) {
 					{
 					{
-					State = 316; Match(T__8);
-					State = 317; _localctx._variable = variable();
+					State = 334; Match(T__8);
+					State = 335; _localctx._variable = variable();
 					_localctx._FormalParameters.Add(_localctx._variable);
 					}
 					}
-					State = 322;
+					State = 340;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.La(1);
 				}
 				}
 			}
 
-			State = 325; Match(T__11);
-			State = 326; Match(T__12);
-			State = 327; _localctx.FunctionReturnType = typename(0);
-			State = 328; statementBlock();
+			State = 343; Match(T__11);
+			State = 344; Match(T__12);
+			State = 345; _localctx.FunctionReturnType = typenameAndVoid();
+			State = 346; statementBlock();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class PlatformAssignmentContext : ParserRuleContext {
+		public ITerminalNode PLATFORMTARGET() { return GetToken(ClepsParser.PLATFORMTARGET, 0); }
+		public PlatformAssignmentContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_platformAssignment; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterPlatformAssignment(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitPlatformAssignment(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitPlatformAssignment(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public PlatformAssignmentContext platformAssignment() {
+		PlatformAssignmentContext _localctx = new PlatformAssignmentContext(Context, State);
+		EnterRule(_localctx, 56, RULE_platformAssignment);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 348; Match(PLATFORMTARGET);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2429,38 +2531,38 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public FunctionCallContext functionCall() {
 		FunctionCallContext _localctx = new FunctionCallContext(Context, State);
-		EnterRule(_localctx, 56, RULE_functionCall);
+		EnterRule(_localctx, 58, RULE_functionCall);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 330; _localctx.FunctionName = classOrMemberName();
-			State = 331; Match(T__10);
-			State = 340;
+			State = 350; _localctx.FunctionName = classOrMemberName();
+			State = 351; Match(T__10);
+			State = 360;
 			_la = TokenStream.La(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << PLATFORMTARGET) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
 				{
-				State = 332; _localctx._rightHandExpression = rightHandExpression(0);
+				State = 352; _localctx._rightHandExpression = rightHandExpression(0);
 				_localctx._FunctionParameters.Add(_localctx._rightHandExpression);
-				State = 337;
+				State = 357;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 				while (_la==T__8) {
 					{
 					{
-					State = 333; Match(T__8);
-					State = 334; _localctx._rightHandExpression = rightHandExpression(0);
+					State = 353; Match(T__8);
+					State = 354; _localctx._rightHandExpression = rightHandExpression(0);
 					_localctx._FunctionParameters.Add(_localctx._rightHandExpression);
 					}
 					}
-					State = 339;
+					State = 359;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.La(1);
 				}
 				}
 			}
 
-			State = 342; Match(T__11);
+			State = 362; Match(T__11);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2504,26 +2606,26 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public StatementBlockContext statementBlock() {
 		StatementBlockContext _localctx = new StatementBlockContext(Context, State);
-		EnterRule(_localctx, 58, RULE_statementBlock);
+		EnterRule(_localctx, 60, RULE_statementBlock);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 344; Match(T__13);
-			State = 348;
+			State = 364; Match(T__13);
+			State = 368;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.La(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << IF) | (1L << DO) | (1L << RETURN) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << IF) | (1L << DO) | (1L << RETURN) | (1L << PLATFORMTARGET) | (1L << NATIVE) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
 				{
 				{
-				State = 345; functionStatement();
+				State = 365; functionStatement();
 				}
 				}
-				State = 350;
+				State = 370;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 			}
-			State = 351; Match(T__14);
+			State = 371; Match(T__14);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2562,6 +2664,9 @@ public partial class ClepsParser : Parser {
 		public DoWhileStatementContext doWhileStatement() {
 			return GetRuleContext<DoWhileStatementContext>(0);
 		}
+		public NativeStatementContext nativeStatement() {
+			return GetRuleContext<NativeStatementContext>(0);
+		}
 		public FunctionStatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -2585,56 +2690,62 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public FunctionStatementContext functionStatement() {
 		FunctionStatementContext _localctx = new FunctionStatementContext(Context, State);
-		EnterRule(_localctx, 60, RULE_functionStatement);
+		EnterRule(_localctx, 62, RULE_functionStatement);
 		try {
-			State = 361;
-			switch ( Interpreter.AdaptivePredict(TokenStream,38,Context) ) {
+			State = 382;
+			switch ( Interpreter.AdaptivePredict(TokenStream,40,Context) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 353; functionReturnStatement();
+				State = 373; functionReturnStatement();
 				}
 				break;
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 354; functionVariableDeclarationStatement();
+				State = 374; functionVariableDeclarationStatement();
 				}
 				break;
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 355; functionFieldAssignmentStatement();
+				State = 375; functionFieldAssignmentStatement();
 				}
 				break;
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 356; functionVariableAssignmentStatement();
+				State = 376; functionVariableAssignmentStatement();
 				}
 				break;
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 357; functionArrayAssignmentStatement();
+				State = 377; functionArrayAssignmentStatement();
 				}
 				break;
 			case 6:
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 358; functionCallStatement();
+				State = 378; functionCallStatement();
 				}
 				break;
 			case 7:
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 359; ifStatement();
+				State = 379; ifStatement();
 				}
 				break;
 			case 8:
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 360; doWhileStatement();
+				State = 380; doWhileStatement();
+				}
+				break;
+			case 9:
+				EnterOuterAlt(_localctx, 9);
+				{
+				State = 381; nativeStatement();
 				}
 				break;
 			}
@@ -2679,21 +2790,21 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public FunctionReturnStatementContext functionReturnStatement() {
 		FunctionReturnStatementContext _localctx = new FunctionReturnStatementContext(Context, State);
-		EnterRule(_localctx, 62, RULE_functionReturnStatement);
+		EnterRule(_localctx, 64, RULE_functionReturnStatement);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 363; Match(RETURN);
-			State = 365;
+			State = 384; Match(RETURN);
+			State = 386;
 			_la = TokenStream.La(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__3) | (1L << T__5) | (1L << T__7) | (1L << T__10) | (1L << NEW) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << PLATFORMTARGET) | (1L << PASCALCASE_ID) | (1L << ID) | (1L << NUMERIC_TOKEN) | (1L << OPERATOR_SYMBOL_LEXER))) != 0)) {
 				{
-				State = 364; rightHandExpression(0);
+				State = 385; rightHandExpression(0);
 				}
 			}
 
-			State = 367; Match(END);
+			State = 388; Match(END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2742,23 +2853,23 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public FunctionVariableDeclarationStatementContext functionVariableDeclarationStatement() {
 		FunctionVariableDeclarationStatementContext _localctx = new FunctionVariableDeclarationStatementContext(Context, State);
-		EnterRule(_localctx, 64, RULE_functionVariableDeclarationStatement);
+		EnterRule(_localctx, 66, RULE_functionVariableDeclarationStatement);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 369; typename(0);
-			State = 370; variable();
-			State = 373;
+			State = 390; typename(0);
+			State = 391; variable();
+			State = 394;
 			_la = TokenStream.La(1);
 			if (_la==ASSIGNMENT_OPERATOR) {
 				{
-				State = 371; Match(ASSIGNMENT_OPERATOR);
-				State = 372; rightHandExpression(0);
+				State = 392; Match(ASSIGNMENT_OPERATOR);
+				State = 393; rightHandExpression(0);
 				}
 			}
 
-			State = 375; Match(END);
+			State = 396; Match(END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2804,14 +2915,14 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public FunctionVariableAssignmentStatementContext functionVariableAssignmentStatement() {
 		FunctionVariableAssignmentStatementContext _localctx = new FunctionVariableAssignmentStatementContext(Context, State);
-		EnterRule(_localctx, 66, RULE_functionVariableAssignmentStatement);
+		EnterRule(_localctx, 68, RULE_functionVariableAssignmentStatement);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 377; variableAssignment();
-			State = 378; Match(ASSIGNMENT_OPERATOR);
-			State = 379; rightHandExpression(0);
-			State = 380; Match(END);
+			State = 398; variableAssignment();
+			State = 399; Match(ASSIGNMENT_OPERATOR);
+			State = 400; rightHandExpression(0);
+			State = 401; Match(END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2863,23 +2974,23 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public FunctionFieldAssignmentStatementContext functionFieldAssignmentStatement() {
 		FunctionFieldAssignmentStatementContext _localctx = new FunctionFieldAssignmentStatementContext(Context, State);
-		EnterRule(_localctx, 68, RULE_functionFieldAssignmentStatement);
+		EnterRule(_localctx, 70, RULE_functionFieldAssignmentStatement);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 385;
-			switch ( Interpreter.AdaptivePredict(TokenStream,41,Context) ) {
+			State = 406;
+			switch ( Interpreter.AdaptivePredict(TokenStream,43,Context) ) {
 			case 1:
 				{
-				State = 382; _localctx.LeftExpression = rightHandExpression(0);
-				State = 383; Match(T__6);
+				State = 403; _localctx.LeftExpression = rightHandExpression(0);
+				State = 404; Match(T__6);
 				}
 				break;
 			}
-			State = 387; _localctx.FieldName = classOrMemberName();
-			State = 388; Match(ASSIGNMENT_OPERATOR);
-			State = 389; _localctx.RightExpression = rightHandExpression(0);
-			State = 390; Match(END);
+			State = 408; _localctx.FieldName = classOrMemberName();
+			State = 409; Match(ASSIGNMENT_OPERATOR);
+			State = 410; _localctx.RightExpression = rightHandExpression(0);
+			State = 411; Match(END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2929,31 +3040,31 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public FunctionArrayAssignmentStatementContext functionArrayAssignmentStatement() {
 		FunctionArrayAssignmentStatementContext _localctx = new FunctionArrayAssignmentStatementContext(Context, State);
-		EnterRule(_localctx, 70, RULE_functionArrayAssignmentStatement);
+		EnterRule(_localctx, 72, RULE_functionArrayAssignmentStatement);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 392; _localctx.ArrayExpression = rightHandExpression(0);
-			State = 397;
+			State = 413; _localctx.ArrayExpression = rightHandExpression(0);
+			State = 418;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.La(1);
 			do {
 				{
 				{
-				State = 393; Match(T__7);
-				State = 394; _localctx._rightHandExpression = rightHandExpression(0);
+				State = 414; Match(T__7);
+				State = 415; _localctx._rightHandExpression = rightHandExpression(0);
 				_localctx._ArrayIndexExpression.Add(_localctx._rightHandExpression);
-				State = 395; Match(T__9);
+				State = 416; Match(T__9);
 				}
 				}
-				State = 399;
+				State = 420;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.La(1);
 			} while ( _la==T__7 );
-			State = 401; Match(ASSIGNMENT_OPERATOR);
-			State = 402; _localctx.RightExpression = rightHandExpression(0);
-			State = 403; Match(END);
+			State = 422; Match(ASSIGNMENT_OPERATOR);
+			State = 423; _localctx.RightExpression = rightHandExpression(0);
+			State = 424; Match(END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2998,21 +3109,21 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public FunctionCallStatementContext functionCallStatement() {
 		FunctionCallStatementContext _localctx = new FunctionCallStatementContext(Context, State);
-		EnterRule(_localctx, 72, RULE_functionCallStatement);
+		EnterRule(_localctx, 74, RULE_functionCallStatement);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 408;
-			switch ( Interpreter.AdaptivePredict(TokenStream,43,Context) ) {
+			State = 429;
+			switch ( Interpreter.AdaptivePredict(TokenStream,45,Context) ) {
 			case 1:
 				{
-				State = 405; rightHandExpression(0);
-				State = 406; Match(T__6);
+				State = 426; rightHandExpression(0);
+				State = 427; Match(T__6);
 				}
 				break;
 			}
-			State = 410; functionCall();
-			State = 411; Match(END);
+			State = 431; functionCall();
+			State = 432; Match(END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -3057,15 +3168,15 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public IfStatementContext ifStatement() {
 		IfStatementContext _localctx = new IfStatementContext(Context, State);
-		EnterRule(_localctx, 74, RULE_ifStatement);
+		EnterRule(_localctx, 76, RULE_ifStatement);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 413; Match(IF);
-			State = 414; Match(T__10);
-			State = 415; rightHandExpression(0);
-			State = 416; Match(T__11);
-			State = 417; statementBlock();
+			State = 434; Match(IF);
+			State = 435; Match(T__10);
+			State = 436; rightHandExpression(0);
+			State = 437; Match(T__11);
+			State = 438; statementBlock();
 			}
 		}
 		catch (RecognitionException re) {
@@ -3113,17 +3224,135 @@ public partial class ClepsParser : Parser {
 	[RuleVersion(0)]
 	public DoWhileStatementContext doWhileStatement() {
 		DoWhileStatementContext _localctx = new DoWhileStatementContext(Context, State);
-		EnterRule(_localctx, 76, RULE_doWhileStatement);
+		EnterRule(_localctx, 78, RULE_doWhileStatement);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 419; Match(DO);
-			State = 420; statementBlock();
-			State = 421; Match(WHILE);
-			State = 422; Match(T__10);
-			State = 423; _localctx.TerminalCondition = rightHandExpression(0);
-			State = 424; Match(T__11);
-			State = 425; Match(END);
+			State = 440; Match(DO);
+			State = 441; statementBlock();
+			State = 442; Match(WHILE);
+			State = 443; Match(T__10);
+			State = 444; _localctx.TerminalCondition = rightHandExpression(0);
+			State = 445; Match(T__11);
+			State = 446; Match(END);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NativeStatementContext : ParserRuleContext {
+		public IToken NativeOpen;
+		public IToken NativeClose;
+		public ITerminalNode NATIVE() { return GetToken(ClepsParser.NATIVE, 0); }
+		public NativeCodeContext nativeCode() {
+			return GetRuleContext<NativeCodeContext>(0);
+		}
+		public ITerminalNode END() { return GetToken(ClepsParser.END, 0); }
+		public NativeStatementContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_nativeStatement; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterNativeStatement(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitNativeStatement(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNativeStatement(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NativeStatementContext nativeStatement() {
+		NativeStatementContext _localctx = new NativeStatementContext(Context, State);
+		EnterRule(_localctx, 80, RULE_nativeStatement);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 448; Match(NATIVE);
+			State = 449; _localctx.NativeOpen = Match(T__15);
+			State = 450; nativeCode();
+			State = 451; _localctx.NativeClose = Match(T__16);
+			State = 452; Match(END);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NativeCodeContext : ParserRuleContext {
+		public NativeCodeContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_nativeCode; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.EnterNativeCode(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IClepsListener typedListener = listener as IClepsListener;
+			if (typedListener != null) typedListener.ExitNativeCode(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IClepsVisitor<TResult> typedVisitor = visitor as IClepsVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNativeCode(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NativeCodeContext nativeCode() {
+		NativeCodeContext _localctx = new NativeCodeContext(Context, State);
+		EnterRule(_localctx, 82, RULE_nativeCode);
+		int _la;
+		try {
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 457;
+			ErrorHandler.Sync(this);
+			_alt = Interpreter.AdaptivePredict(TokenStream,46,Context);
+			while ( _alt!=1 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
+				if ( _alt==1+1 ) {
+					{
+					{
+					State = 454;
+					_la = TokenStream.La(1);
+					if ( _la <= 0 || (_la==T__16) ) {
+					ErrorHandler.RecoverInline(this);
+					}
+					else {
+					    Consume();
+					}
+					}
+					} 
+				}
+				State = 459;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,46,Context);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -3163,175 +3392,189 @@ public partial class ClepsParser : Parser {
 	}
 
 	public static readonly string _serializedATN =
-		"\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3,\x1AE\x4\x2\t\x2"+
-		"\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t\t"+
-		"\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4\xE\t\xE\x4\xF\t\xF\x4\x10\t"+
-		"\x10\x4\x11\t\x11\x4\x12\t\x12\x4\x13\t\x13\x4\x14\t\x14\x4\x15\t\x15"+
+		"\x3\x430\xD6D1\x8206\xAD2D\x4417\xAEF1\x8D80\xAADD\x3\x30\x1CF\x4\x2\t"+
+		"\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t"+
+		"\t\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4\xE\t\xE\x4\xF\t\xF\x4\x10"+
+		"\t\x10\x4\x11\t\x11\x4\x12\t\x12\x4\x13\t\x13\x4\x14\t\x14\x4\x15\t\x15"+
 		"\x4\x16\t\x16\x4\x17\t\x17\x4\x18\t\x18\x4\x19\t\x19\x4\x1A\t\x1A\x4\x1B"+
 		"\t\x1B\x4\x1C\t\x1C\x4\x1D\t\x1D\x4\x1E\t\x1E\x4\x1F\t\x1F\x4 \t \x4!"+
-		"\t!\x4\"\t\"\x4#\t#\x4$\t$\x4%\t%\x4&\t&\x4\'\t\'\x4(\t(\x3\x2\x3\x2\x3"+
-		"\x3\x5\x3T\n\x3\x3\x3\x3\x3\x3\x3\a\x3Y\n\x3\f\x3\xE\x3\\\v\x3\x3\x3\x3"+
-		"\x3\x3\x3\x3\x3\a\x3\x62\n\x3\f\x3\xE\x3\x65\v\x3\x3\x3\x5\x3h\n\x3\x3"+
-		"\x4\x3\x4\x3\x4\x3\x5\x3\x5\x3\x5\a\x5p\n\x5\f\x5\xE\x5s\v\x5\x3\x6\x3"+
-		"\x6\x5\x6w\n\x6\x3\a\x3\a\x3\b\x3\b\x3\t\x3\t\x3\t\x3\t\x3\t\a\t\x82\n"+
-		"\t\f\t\xE\t\x85\v\t\x5\t\x87\n\t\x3\t\x3\t\x3\t\x3\t\x5\t\x8D\n\t\x3\t"+
-		"\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\a\t\x96\n\t\f\t\xE\t\x99\v\t\x3\t\x3\t"+
-		"\a\t\x9D\n\t\f\t\xE\t\xA0\v\t\x3\n\x3\n\x5\n\xA4\n\n\x3\v\x3\v\x3\f\x3"+
-		"\f\x3\f\x3\f\a\f\xAC\n\f\f\f\xE\f\xAF\v\f\x3\f\x3\f\a\f\xB3\n\f\f\f\xE"+
-		"\f\xB6\v\f\x3\f\x3\f\x3\r\x3\r\x5\r\xBC\n\r\x3\r\x3\r\x3\r\x3\xE\x6\xE"+
-		"\xC2\n\xE\r\xE\xE\xE\xC3\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3"+
-		"\xF\x3\x10\x3\x10\a\x10\xD0\n\x10\f\x10\xE\x10\xD3\v\x10\x3\x11\x3\x11"+
-		"\x5\x11\xD7\n\x11\x3\x11\x3\x11\x3\x11\x3\x11\x5\x11\xDD\n\x11\x3\x11"+
-		"\x3\x11\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12"+
-		"\x5\x12\xEA\n\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3"+
-		"\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x6\x12\xFB\n\x12"+
-		"\r\x12\xE\x12\xFC\x3\x12\x3\x12\a\x12\x101\n\x12\f\x12\xE\x12\x104\v\x12"+
-		"\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13"+
-		"\x5\x13\x110\n\x13\x3\x14\x3\x14\x3\x15\x3\x15\x3\x16\x3\x16\x3\x17\x3"+
-		"\x17\x3\x18\x3\x18\x3\x18\x3\x18\a\x18\x11E\n\x18\f\x18\xE\x18\x121\v"+
-		"\x18\x5\x18\x123\n\x18\x3\x18\x3\x18\x3\x19\x3\x19\x3\x1A\x3\x1A\x3\x1B"+
-		"\x3\x1B\x3\x1C\x3\x1C\x3\x1C\x3\x1C\x3\x1C\x3\x1C\a\x1C\x133\n\x1C\f\x1C"+
-		"\xE\x1C\x136\v\x1C\x5\x1C\x138\n\x1C\x3\x1C\x3\x1C\x3\x1D\x3\x1D\x3\x1D"+
-		"\x3\x1D\x3\x1D\a\x1D\x141\n\x1D\f\x1D\xE\x1D\x144\v\x1D\x5\x1D\x146\n"+
-		"\x1D\x3\x1D\x3\x1D\x3\x1D\x3\x1D\x3\x1D\x3\x1E\x3\x1E\x3\x1E\x3\x1E\x3"+
-		"\x1E\a\x1E\x152\n\x1E\f\x1E\xE\x1E\x155\v\x1E\x5\x1E\x157\n\x1E\x3\x1E"+
-		"\x3\x1E\x3\x1F\x3\x1F\a\x1F\x15D\n\x1F\f\x1F\xE\x1F\x160\v\x1F\x3\x1F"+
-		"\x3\x1F\x3 \x3 \x3 \x3 \x3 \x3 \x3 \x3 \x5 \x16C\n \x3!\x3!\x5!\x170\n"+
-		"!\x3!\x3!\x3\"\x3\"\x3\"\x3\"\x5\"\x178\n\"\x3\"\x3\"\x3#\x3#\x3#\x3#"+
-		"\x3#\x3$\x3$\x3$\x5$\x184\n$\x3$\x3$\x3$\x3$\x3$\x3%\x3%\x3%\x3%\x3%\x6"+
-		"%\x190\n%\r%\xE%\x191\x3%\x3%\x3%\x3%\x3&\x3&\x3&\x5&\x19B\n&\x3&\x3&"+
-		"\x3&\x3\'\x3\'\x3\'\x3\'\x3\'\x3\'\x3(\x3(\x3(\x3(\x3(\x3(\x3(\x3(\x3"+
-		"(\x4Z\x63\x4\x10\")\x2\x4\x6\b\n\f\xE\x10\x12\x14\x16\x18\x1A\x1C\x1E"+
-		" \"$&(*,.\x30\x32\x34\x36\x38:<>@\x42\x44\x46HJLN\x2\x6\x4\x2\x3\x3,,"+
-		"\x3\x2)*\x3\x2\x1B\x1C\x3\x2\x1E\x1F\x1C4\x2P\x3\x2\x2\x2\x4S\x3\x2\x2"+
-		"\x2\x6i\x3\x2\x2\x2\bl\x3\x2\x2\x2\nt\x3\x2\x2\x2\fx\x3\x2\x2\x2\xEz\x3"+
-		"\x2\x2\x2\x10\x8C\x3\x2\x2\x2\x12\xA3\x3\x2\x2\x2\x14\xA5\x3\x2\x2\x2"+
-		"\x16\xA7\x3\x2\x2\x2\x18\xB9\x3\x2\x2\x2\x1A\xC1\x3\x2\x2\x2\x1C\xC5\x3"+
-		"\x2\x2\x2\x1E\xD1\x3\x2\x2\x2 \xD4\x3\x2\x2\x2\"\xE9\x3\x2\x2\x2$\x10F"+
-		"\x3\x2\x2\x2&\x111\x3\x2\x2\x2(\x113\x3\x2\x2\x2*\x115\x3\x2\x2\x2,\x117"+
-		"\x3\x2\x2\x2.\x119\x3\x2\x2\x2\x30\x126\x3\x2\x2\x2\x32\x128\x3\x2\x2"+
-		"\x2\x34\x12A\x3\x2\x2\x2\x36\x12C\x3\x2\x2\x2\x38\x13B\x3\x2\x2\x2:\x14C"+
-		"\x3\x2\x2\x2<\x15A\x3\x2\x2\x2>\x16B\x3\x2\x2\x2@\x16D\x3\x2\x2\x2\x42"+
-		"\x173\x3\x2\x2\x2\x44\x17B\x3\x2\x2\x2\x46\x183\x3\x2\x2\x2H\x18A\x3\x2"+
-		"\x2\x2J\x19A\x3\x2\x2\x2L\x19F\x3\x2\x2\x2N\x1A5\x3\x2\x2\x2PQ\t\x2\x2"+
-		"\x2Q\x3\x3\x2\x2\x2RT\a*\x2\x2SR\x3\x2\x2\x2ST\x3\x2\x2\x2Tg\x3\x2\x2"+
-		"\x2UZ\a\x4\x2\x2VY\a\x5\x2\x2WY\v\x2\x2\x2XV\x3\x2\x2\x2XW\x3\x2\x2\x2"+
-		"Y\\\x3\x2\x2\x2Z[\x3\x2\x2\x2ZX\x3\x2\x2\x2[]\x3\x2\x2\x2\\Z\x3\x2\x2"+
-		"\x2]h\a\x4\x2\x2^\x63\a\x6\x2\x2_\x62\a\a\x2\x2`\x62\v\x2\x2\x2\x61_\x3"+
-		"\x2\x2\x2\x61`\x3\x2\x2\x2\x62\x65\x3\x2\x2\x2\x63\x64\x3\x2\x2\x2\x63"+
-		"\x61\x3\x2\x2\x2\x64\x66\x3\x2\x2\x2\x65\x63\x3\x2\x2\x2\x66h\a\x6\x2"+
-		"\x2gU\x3\x2\x2\x2g^\x3\x2\x2\x2h\x5\x3\x2\x2\x2ij\a\b\x2\x2jk\t\x3\x2"+
-		"\x2k\a\x3\x2\x2\x2lq\a)\x2\x2mn\a\t\x2\x2np\a)\x2\x2om\x3\x2\x2\x2ps\x3"+
-		"\x2\x2\x2qo\x3\x2\x2\x2qr\x3\x2\x2\x2r\t\x3\x2\x2\x2sq\x3\x2\x2\x2tv\a"+
-		"+\x2\x2uw\a*\x2\x2vu\x3\x2\x2\x2vw\x3\x2\x2\x2w\v\x3\x2\x2\x2xy\a)\x2"+
-		"\x2y\r\x3\x2\x2\x2z{\t\x4\x2\x2{\xF\x3\x2\x2\x2|}\b\t\x1\x2}\x86\a\r\x2"+
-		"\x2~\x83\x5\x10\t\x2\x7F\x80\a\v\x2\x2\x80\x82\x5\x10\t\x2\x81\x7F\x3"+
-		"\x2\x2\x2\x82\x85\x3\x2\x2\x2\x83\x81\x3\x2\x2\x2\x83\x84\x3\x2\x2\x2"+
-		"\x84\x87\x3\x2\x2\x2\x85\x83\x3\x2\x2\x2\x86~\x3\x2\x2\x2\x86\x87\x3\x2"+
-		"\x2\x2\x87\x88\x3\x2\x2\x2\x88\x89\a\xE\x2\x2\x89\x8A\a\xF\x2\x2\x8A\x8D"+
-		"\x5\x10\t\x3\x8B\x8D\x5\b\x5\x2\x8C|\x3\x2\x2\x2\x8C\x8B\x3\x2\x2\x2\x8D"+
-		"\x9E\x3\x2\x2\x2\x8E\x8F\f\x5\x2\x2\x8F\x9D\a\x3\x2\x2\x90\x91\f\x4\x2"+
-		"\x2\x91\x92\a\n\x2\x2\x92\x97\x5\n\x6\x2\x93\x94\a\v\x2\x2\x94\x96\x5"+
-		"\n\x6\x2\x95\x93\x3\x2\x2\x2\x96\x99\x3\x2\x2\x2\x97\x95\x3\x2\x2\x2\x97"+
-		"\x98\x3\x2\x2\x2\x98\x9A\x3\x2\x2\x2\x99\x97\x3\x2\x2\x2\x9A\x9B\a\f\x2"+
-		"\x2\x9B\x9D\x3\x2\x2\x2\x9C\x8E\x3\x2\x2\x2\x9C\x90\x3\x2\x2\x2\x9D\xA0"+
-		"\x3\x2\x2\x2\x9E\x9C\x3\x2\x2\x2\x9E\x9F\x3\x2\x2\x2\x9F\x11\x3\x2\x2"+
-		"\x2\xA0\x9E\x3\x2\x2\x2\xA1\xA4\x5\x10\t\x2\xA2\xA4\a\x1D\x2\x2\xA3\xA1"+
-		"\x3\x2\x2\x2\xA3\xA2\x3\x2\x2\x2\xA4\x13\x3\x2\x2\x2\xA5\xA6\x5\x16\f"+
-		"\x2\xA6\x15\x3\x2\x2\x2\xA7\xA8\a\x17\x2\x2\xA8\xA9\x5\b\x5\x2\xA9\xAD"+
-		"\a\x10\x2\x2\xAA\xAC\x5\x1A\xE\x2\xAB\xAA\x3\x2\x2\x2\xAC\xAF\x3\x2\x2"+
-		"\x2\xAD\xAB\x3\x2\x2\x2\xAD\xAE\x3\x2\x2\x2\xAE\xB4\x3\x2\x2\x2\xAF\xAD"+
-		"\x3\x2\x2\x2\xB0\xB3\x5\x16\f\x2\xB1\xB3\x5\x1C\xF\x2\xB2\xB0\x3\x2\x2"+
-		"\x2\xB2\xB1\x3\x2\x2\x2\xB3\xB6\x3\x2\x2\x2\xB4\xB2\x3\x2\x2\x2\xB4\xB5"+
-		"\x3\x2\x2\x2\xB5\xB7\x3\x2\x2\x2\xB6\xB4\x3\x2\x2\x2\xB7\xB8\a\x11\x2"+
-		"\x2\xB8\x17\x3\x2\x2\x2\xB9\xBB\a\x15\x2\x2\xBA\xBC\a\x1A\x2\x2\xBB\xBA"+
-		"\x3\x2\x2\x2\xBB\xBC\x3\x2\x2\x2\xBC\xBD\x3\x2\x2\x2\xBD\xBE\x5\b\x5\x2"+
-		"\xBE\xBF\a\x16\x2\x2\xBF\x19\x3\x2\x2\x2\xC0\xC2\x5\x18\r\x2\xC1\xC0\x3"+
-		"\x2\x2\x2\xC2\xC3\x3\x2\x2\x2\xC3\xC1\x3\x2\x2\x2\xC3\xC4\x3\x2\x2\x2"+
-		"\xC4\x1B\x3\x2\x2\x2\xC5\xC6\x5\xE\b\x2\xC6\xC7\a\x19\x2\x2\xC7\xC8\x5"+
-		"\f\a\x2\xC8\xC9\a\x10\x2\x2\xC9\xCA\x3\x2\x2\x2\xCA\xCB\x5\x1E\x10\x2"+
-		"\xCB\xCC\a\x11\x2\x2\xCC\x1D\x3\x2\x2\x2\xCD\xD0\x5\x1C\xF\x2\xCE\xD0"+
-		"\x5 \x11\x2\xCF\xCD\x3\x2\x2\x2\xCF\xCE\x3\x2\x2\x2\xD0\xD3\x3\x2\x2\x2"+
-		"\xD1\xCF\x3\x2\x2\x2\xD1\xD2\x3\x2\x2\x2\xD2\x1F\x3\x2\x2\x2\xD3\xD1\x3"+
-		"\x2\x2\x2\xD4\xD6\x5\xE\b\x2\xD5\xD7\a\x1A\x2\x2\xD6\xD5\x3\x2\x2\x2\xD6"+
-		"\xD7\x3\x2\x2\x2\xD7\xD8\x3\x2\x2\x2\xD8\xD9\x5\x10\t\x2\xD9\xDC\x5\f"+
-		"\a\x2\xDA\xDB\a(\x2\x2\xDB\xDD\x5\"\x12\x2\xDC\xDA\x3\x2\x2\x2\xDC\xDD"+
-		"\x3\x2\x2\x2\xDD\xDE\x3\x2\x2\x2\xDE\xDF\a\x16\x2\x2\xDF!\x3\x2\x2\x2"+
-		"\xE0\xE1\b\x12\x1\x2\xE1\xE2\x5\x2\x2\x2\xE2\xE3\x5\"\x12\x5\xE3\xEA\x3"+
-		"\x2\x2\x2\xE4\xE5\a\r\x2\x2\xE5\xE6\x5\"\x12\x2\xE6\xE7\a\xE\x2\x2\xE7"+
-		"\xEA\x3\x2\x2\x2\xE8\xEA\x5$\x13\x2\xE9\xE0\x3\x2\x2\x2\xE9\xE4\x3\x2"+
-		"\x2\x2\xE9\xE8\x3\x2\x2\x2\xEA\x102\x3\x2\x2\x2\xEB\xEC\f\x4\x2\x2\xEC"+
-		"\xED\x5\x2\x2\x2\xED\xEE\x5\"\x12\x5\xEE\x101\x3\x2\x2\x2\xEF\xF0\f\b"+
-		"\x2\x2\xF0\xF1\a\t\x2\x2\xF1\x101\x5:\x1E\x2\xF2\xF3\f\a\x2\x2\xF3\xF4"+
-		"\a\t\x2\x2\xF4\x101\x5\f\a\x2\xF5\xFA\f\x6\x2\x2\xF6\xF7\a\n\x2\x2\xF7"+
-		"\xF8\x5\"\x12\x2\xF8\xF9\a\f\x2\x2\xF9\xFB\x3\x2\x2\x2\xFA\xF6\x3\x2\x2"+
-		"\x2\xFB\xFC\x3\x2\x2\x2\xFC\xFA\x3\x2\x2\x2\xFC\xFD\x3\x2\x2\x2\xFD\x101"+
-		"\x3\x2\x2\x2\xFE\xFF\f\x3\x2\x2\xFF\x101\x5\x2\x2\x2\x100\xEB\x3\x2\x2"+
-		"\x2\x100\xEF\x3\x2\x2\x2\x100\xF2\x3\x2\x2\x2\x100\xF5\x3\x2\x2\x2\x100"+
-		"\xFE\x3\x2\x2\x2\x101\x104\x3\x2\x2\x2\x102\x100\x3\x2\x2\x2\x102\x103"+
-		"\x3\x2\x2\x2\x103#\x3\x2\x2\x2\x104\x102\x3\x2\x2\x2\x105\x110\x5,\x17"+
-		"\x2\x106\x110\x5&\x14\x2\x107\x110\x5(\x15\x2\x108\x110\x5*\x16\x2\x109"+
-		"\x110\x5.\x18\x2\x10A\x110\x5\x30\x19\x2\x10B\x110\x5\x32\x1A\x2\x10C"+
-		"\x110\x5\x34\x1B\x2\x10D\x110\x5\x36\x1C\x2\x10E\x110\x5\x38\x1D\x2\x10F"+
-		"\x105\x3\x2\x2\x2\x10F\x106\x3\x2\x2\x2\x10F\x107\x3\x2\x2\x2\x10F\x108"+
-		"\x3\x2\x2\x2\x10F\x109\x3\x2\x2\x2\x10F\x10A\x3\x2\x2\x2\x10F\x10B\x3"+
-		"\x2\x2\x2\x10F\x10C\x3\x2\x2\x2\x10F\x10D\x3\x2\x2\x2\x10F\x10E\x3\x2"+
-		"\x2\x2\x110%\x3\x2\x2\x2\x111\x112\x5\n\x6\x2\x112\'\x3\x2\x2\x2\x113"+
-		"\x114\a \x2\x2\x114)\x3\x2\x2\x2\x115\x116\t\x5\x2\x2\x116+\x3\x2\x2\x2"+
-		"\x117\x118\x5\x4\x3\x2\x118-\x3\x2\x2\x2\x119\x122\a\n\x2\x2\x11A\x11F"+
-		"\x5\"\x12\x2\x11B\x11C\a\v\x2\x2\x11C\x11E\x5\"\x12\x2\x11D\x11B\x3\x2"+
-		"\x2\x2\x11E\x121\x3\x2\x2\x2\x11F\x11D\x3\x2\x2\x2\x11F\x120\x3\x2\x2"+
-		"\x2\x120\x123\x3\x2\x2\x2\x121\x11F\x3\x2\x2\x2\x122\x11A\x3\x2\x2\x2"+
-		"\x122\x123\x3\x2\x2\x2\x123\x124\x3\x2\x2\x2\x124\x125\a\f\x2\x2\x125"+
-		"/\x3\x2\x2\x2\x126\x127\x5:\x1E\x2\x127\x31\x3\x2\x2\x2\x128\x129\x5\x6"+
-		"\x4\x2\x129\x33\x3\x2\x2\x2\x12A\x12B\x5\f\a\x2\x12B\x35\x3\x2\x2\x2\x12C"+
-		"\x12D\a\x18\x2\x2\x12D\x12E\x5\x10\t\x2\x12E\x137\a\r\x2\x2\x12F\x134"+
-		"\x5\"\x12\x2\x130\x131\a\v\x2\x2\x131\x133\x5\"\x12\x2\x132\x130\x3\x2"+
-		"\x2\x2\x133\x136\x3\x2\x2\x2\x134\x132\x3\x2\x2\x2\x134\x135\x3\x2\x2"+
-		"\x2\x135\x138\x3\x2\x2\x2\x136\x134\x3\x2\x2\x2\x137\x12F\x3\x2\x2\x2"+
-		"\x137\x138\x3\x2\x2\x2\x138\x139\x3\x2\x2\x2\x139\x13A\a\xE\x2\x2\x13A"+
-		"\x37\x3\x2\x2\x2\x13B\x145\a\r\x2\x2\x13C\x13D\x5\x10\t\x2\x13D\x142\x5"+
-		"\x6\x4\x2\x13E\x13F\a\v\x2\x2\x13F\x141\x5\x6\x4\x2\x140\x13E\x3\x2\x2"+
-		"\x2\x141\x144\x3\x2\x2\x2\x142\x140\x3\x2\x2\x2\x142\x143\x3\x2\x2\x2"+
-		"\x143\x146\x3\x2\x2\x2\x144\x142\x3\x2\x2\x2\x145\x13C\x3\x2\x2\x2\x145"+
-		"\x146\x3\x2\x2\x2\x146\x147\x3\x2\x2\x2\x147\x148\a\xE\x2\x2\x148\x149"+
-		"\a\xF\x2\x2\x149\x14A\x5\x10\t\x2\x14A\x14B\x5<\x1F\x2\x14B\x39\x3\x2"+
-		"\x2\x2\x14C\x14D\x5\f\a\x2\x14D\x156\a\r\x2\x2\x14E\x153\x5\"\x12\x2\x14F"+
-		"\x150\a\v\x2\x2\x150\x152\x5\"\x12\x2\x151\x14F\x3\x2\x2\x2\x152\x155"+
-		"\x3\x2\x2\x2\x153\x151\x3\x2\x2\x2\x153\x154\x3\x2\x2\x2\x154\x157\x3"+
-		"\x2\x2\x2\x155\x153\x3\x2\x2\x2\x156\x14E\x3\x2\x2\x2\x156\x157\x3\x2"+
-		"\x2\x2\x157\x158\x3\x2\x2\x2\x158\x159\a\xE\x2\x2\x159;\x3\x2\x2\x2\x15A"+
-		"\x15E\a\x10\x2\x2\x15B\x15D\x5> \x2\x15C\x15B\x3\x2\x2\x2\x15D\x160\x3"+
-		"\x2\x2\x2\x15E\x15C\x3\x2\x2\x2\x15E\x15F\x3\x2\x2\x2\x15F\x161\x3\x2"+
-		"\x2\x2\x160\x15E\x3\x2\x2\x2\x161\x162\a\x11\x2\x2\x162=\x3\x2\x2\x2\x163"+
-		"\x16C\x5@!\x2\x164\x16C\x5\x42\"\x2\x165\x16C\x5\x46$\x2\x166\x16C\x5"+
-		"\x44#\x2\x167\x16C\x5H%\x2\x168\x16C\x5J&\x2\x169\x16C\x5L\'\x2\x16A\x16C"+
-		"\x5N(\x2\x16B\x163\x3\x2\x2\x2\x16B\x164\x3\x2\x2\x2\x16B\x165\x3\x2\x2"+
-		"\x2\x16B\x166\x3\x2\x2\x2\x16B\x167\x3\x2\x2\x2\x16B\x168\x3\x2\x2\x2"+
-		"\x16B\x169\x3\x2\x2\x2\x16B\x16A\x3\x2\x2\x2\x16C?\x3\x2\x2\x2\x16D\x16F"+
-		"\a%\x2\x2\x16E\x170\x5\"\x12\x2\x16F\x16E\x3\x2\x2\x2\x16F\x170\x3\x2"+
-		"\x2\x2\x170\x171\x3\x2\x2\x2\x171\x172\a\x16\x2\x2\x172\x41\x3\x2\x2\x2"+
-		"\x173\x174\x5\x10\t\x2\x174\x177\x5\x6\x4\x2\x175\x176\a(\x2\x2\x176\x178"+
-		"\x5\"\x12\x2\x177\x175\x3\x2\x2\x2\x177\x178\x3\x2\x2\x2\x178\x179\x3"+
-		"\x2\x2\x2\x179\x17A\a\x16\x2\x2\x17A\x43\x3\x2\x2\x2\x17B\x17C\x5\x32"+
-		"\x1A\x2\x17C\x17D\a(\x2\x2\x17D\x17E\x5\"\x12\x2\x17E\x17F\a\x16\x2\x2"+
-		"\x17F\x45\x3\x2\x2\x2\x180\x181\x5\"\x12\x2\x181\x182\a\t\x2\x2\x182\x184"+
-		"\x3\x2\x2\x2\x183\x180\x3\x2\x2\x2\x183\x184\x3\x2\x2\x2\x184\x185\x3"+
-		"\x2\x2\x2\x185\x186\x5\f\a\x2\x186\x187\a(\x2\x2\x187\x188\x5\"\x12\x2"+
-		"\x188\x189\a\x16\x2\x2\x189G\x3\x2\x2\x2\x18A\x18F\x5\"\x12\x2\x18B\x18C"+
-		"\a\n\x2\x2\x18C\x18D\x5\"\x12\x2\x18D\x18E\a\f\x2\x2\x18E\x190\x3\x2\x2"+
-		"\x2\x18F\x18B\x3\x2\x2\x2\x190\x191\x3\x2\x2\x2\x191\x18F\x3\x2\x2\x2"+
-		"\x191\x192\x3\x2\x2\x2\x192\x193\x3\x2\x2\x2\x193\x194\a(\x2\x2\x194\x195"+
-		"\x5\"\x12\x2\x195\x196\a\x16\x2\x2\x196I\x3\x2\x2\x2\x197\x198\x5\"\x12"+
-		"\x2\x198\x199\a\t\x2\x2\x199\x19B\x3\x2\x2\x2\x19A\x197\x3\x2\x2\x2\x19A"+
-		"\x19B\x3\x2\x2\x2\x19B\x19C\x3\x2\x2\x2\x19C\x19D\x5:\x1E\x2\x19D\x19E"+
-		"\a\x16\x2\x2\x19EK\x3\x2\x2\x2\x19F\x1A0\a!\x2\x2\x1A0\x1A1\a\r\x2\x2"+
-		"\x1A1\x1A2\x5\"\x12\x2\x1A2\x1A3\a\xE\x2\x2\x1A3\x1A4\x5<\x1F\x2\x1A4"+
-		"M\x3\x2\x2\x2\x1A5\x1A6\a#\x2\x2\x1A6\x1A7\x5<\x1F\x2\x1A7\x1A8\a$\x2"+
-		"\x2\x1A8\x1A9\a\r\x2\x2\x1A9\x1AA\x5\"\x12\x2\x1AA\x1AB\a\xE\x2\x2\x1AB"+
-		"\x1AC\a\x16\x2\x2\x1ACO\x3\x2\x2\x2.SXZ\x61\x63gqv\x83\x86\x8C\x97\x9C"+
-		"\x9E\xA3\xAD\xB2\xB4\xBB\xC3\xCF\xD1\xD6\xDC\xE9\xFC\x100\x102\x10F\x11F"+
-		"\x122\x134\x137\x142\x145\x153\x156\x15E\x16B\x16F\x177\x183\x191\x19A";
+		"\t!\x4\"\t\"\x4#\t#\x4$\t$\x4%\t%\x4&\t&\x4\'\t\'\x4(\t(\x4)\t)\x4*\t"+
+		"*\x4+\t+\x3\x2\x3\x2\x3\x3\x5\x3Z\n\x3\x3\x3\x3\x3\x3\x3\a\x3_\n\x3\f"+
+		"\x3\xE\x3\x62\v\x3\x3\x3\x3\x3\x3\x3\x3\x3\a\x3h\n\x3\f\x3\xE\x3k\v\x3"+
+		"\x3\x3\x5\x3n\n\x3\x3\x4\x3\x4\x3\x4\x3\x5\x3\x5\x3\x5\a\x5v\n\x5\f\x5"+
+		"\xE\x5y\v\x5\x3\x6\x3\x6\x5\x6}\n\x6\x3\a\x3\a\x3\b\x3\b\x3\t\x3\t\x3"+
+		"\t\x3\t\x3\t\x3\t\a\t\x89\n\t\f\t\xE\t\x8C\v\t\x5\t\x8E\n\t\x3\t\x3\t"+
+		"\x3\t\x5\t\x93\n\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\a\t\x9C\n\t\f\t"+
+		"\xE\t\x9F\v\t\x3\t\x3\t\a\t\xA3\n\t\f\t\xE\t\xA6\v\t\x3\n\x3\n\x5\n\xAA"+
+		"\n\n\x3\v\x6\v\xAD\n\v\r\v\xE\v\xAE\x3\v\x3\v\x3\f\x3\f\x3\f\x3\f\a\f"+
+		"\xB7\n\f\f\f\xE\f\xBA\v\f\x3\f\x3\f\a\f\xBE\n\f\f\f\xE\f\xC1\v\f\x3\f"+
+		"\x3\f\x3\r\x3\r\x5\r\xC7\n\r\x3\r\x3\r\x3\r\x3\xE\x6\xE\xCD\n\xE\r\xE"+
+		"\xE\xE\xCE\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\x10\x3\x10"+
+		"\a\x10\xDB\n\x10\f\x10\xE\x10\xDE\v\x10\x3\x11\x3\x11\x5\x11\xE2\n\x11"+
+		"\x3\x11\x3\x11\x3\x11\x3\x11\x5\x11\xE8\n\x11\x3\x11\x3\x11\x3\x12\x3"+
+		"\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x5\x12\xF5\n\x12"+
+		"\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12"+
+		"\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x6\x12\x106\n\x12\r\x12\xE\x12\x107"+
+		"\x3\x12\x3\x12\a\x12\x10C\n\x12\f\x12\xE\x12\x10F\v\x12\x3\x13\x3\x13"+
+		"\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x5\x13"+
+		"\x11C\n\x13\x3\x14\x3\x14\x3\x15\x3\x15\x3\x16\x3\x16\x3\x17\x3\x17\x3"+
+		"\x18\x3\x18\x3\x18\x3\x18\a\x18\x12A\n\x18\f\x18\xE\x18\x12D\v\x18\x5"+
+		"\x18\x12F\n\x18\x3\x18\x3\x18\x3\x19\x3\x19\x3\x1A\x3\x1A\x3\x1B\x3\x1B"+
+		"\x3\x1B\a\x1B\x13A\n\x1B\f\x1B\xE\x1B\x13D\v\x1B\x3\x1C\x3\x1C\x3\x1C"+
+		"\x3\x1C\x3\x1C\x3\x1C\a\x1C\x145\n\x1C\f\x1C\xE\x1C\x148\v\x1C\x5\x1C"+
+		"\x14A\n\x1C\x3\x1C\x3\x1C\x3\x1D\x3\x1D\x3\x1D\x3\x1D\x3\x1D\a\x1D\x153"+
+		"\n\x1D\f\x1D\xE\x1D\x156\v\x1D\x5\x1D\x158\n\x1D\x3\x1D\x3\x1D\x3\x1D"+
+		"\x3\x1D\x3\x1D\x3\x1E\x3\x1E\x3\x1F\x3\x1F\x3\x1F\x3\x1F\x3\x1F\a\x1F"+
+		"\x166\n\x1F\f\x1F\xE\x1F\x169\v\x1F\x5\x1F\x16B\n\x1F\x3\x1F\x3\x1F\x3"+
+		" \x3 \a \x171\n \f \xE \x174\v \x3 \x3 \x3!\x3!\x3!\x3!\x3!\x3!\x3!\x3"+
+		"!\x3!\x5!\x181\n!\x3\"\x3\"\x5\"\x185\n\"\x3\"\x3\"\x3#\x3#\x3#\x3#\x5"+
+		"#\x18D\n#\x3#\x3#\x3$\x3$\x3$\x3$\x3$\x3%\x3%\x3%\x5%\x199\n%\x3%\x3%"+
+		"\x3%\x3%\x3%\x3&\x3&\x3&\x3&\x3&\x6&\x1A5\n&\r&\xE&\x1A6\x3&\x3&\x3&\x3"+
+		"&\x3\'\x3\'\x3\'\x5\'\x1B0\n\'\x3\'\x3\'\x3\'\x3(\x3(\x3(\x3(\x3(\x3("+
+		"\x3)\x3)\x3)\x3)\x3)\x3)\x3)\x3)\x3*\x3*\x3*\x3*\x3*\x3*\x3+\a+\x1CA\n"+
+		"+\f+\xE+\x1CD\v+\x3+\x5`i\x1CB\x4\x10\",\x2\x4\x6\b\n\f\xE\x10\x12\x14"+
+		"\x16\x18\x1A\x1C\x1E \"$&(*,.\x30\x32\x34\x36\x38:<>@\x42\x44\x46HJLN"+
+		"PRT\x2\a\x4\x2\x3\x3\x30\x30\x3\x2-.\x3\x2\x1D\x1E\x3\x2 !\x3\x2\x13\x13"+
+		"\x1E7\x2V\x3\x2\x2\x2\x4Y\x3\x2\x2\x2\x6o\x3\x2\x2\x2\br\x3\x2\x2\x2\n"+
+		"z\x3\x2\x2\x2\f~\x3\x2\x2\x2\xE\x80\x3\x2\x2\x2\x10\x92\x3\x2\x2\x2\x12"+
+		"\xA9\x3\x2\x2\x2\x14\xAC\x3\x2\x2\x2\x16\xB2\x3\x2\x2\x2\x18\xC4\x3\x2"+
+		"\x2\x2\x1A\xCC\x3\x2\x2\x2\x1C\xD0\x3\x2\x2\x2\x1E\xDC\x3\x2\x2\x2 \xDF"+
+		"\x3\x2\x2\x2\"\xF4\x3\x2\x2\x2$\x11B\x3\x2\x2\x2&\x11D\x3\x2\x2\x2(\x11F"+
+		"\x3\x2\x2\x2*\x121\x3\x2\x2\x2,\x123\x3\x2\x2\x2.\x125\x3\x2\x2\x2\x30"+
+		"\x132\x3\x2\x2\x2\x32\x134\x3\x2\x2\x2\x34\x136\x3\x2\x2\x2\x36\x13E\x3"+
+		"\x2\x2\x2\x38\x14D\x3\x2\x2\x2:\x15E\x3\x2\x2\x2<\x160\x3\x2\x2\x2>\x16E"+
+		"\x3\x2\x2\x2@\x180\x3\x2\x2\x2\x42\x182\x3\x2\x2\x2\x44\x188\x3\x2\x2"+
+		"\x2\x46\x190\x3\x2\x2\x2H\x198\x3\x2\x2\x2J\x19F\x3\x2\x2\x2L\x1AF\x3"+
+		"\x2\x2\x2N\x1B4\x3\x2\x2\x2P\x1BA\x3\x2\x2\x2R\x1C2\x3\x2\x2\x2T\x1CB"+
+		"\x3\x2\x2\x2VW\t\x2\x2\x2W\x3\x3\x2\x2\x2XZ\a.\x2\x2YX\x3\x2\x2\x2YZ\x3"+
+		"\x2\x2\x2Zm\x3\x2\x2\x2[`\a\x4\x2\x2\\_\a\x5\x2\x2]_\v\x2\x2\x2^\\\x3"+
+		"\x2\x2\x2^]\x3\x2\x2\x2_\x62\x3\x2\x2\x2`\x61\x3\x2\x2\x2`^\x3\x2\x2\x2"+
+		"\x61\x63\x3\x2\x2\x2\x62`\x3\x2\x2\x2\x63n\a\x4\x2\x2\x64i\a\x6\x2\x2"+
+		"\x65h\a\a\x2\x2\x66h\v\x2\x2\x2g\x65\x3\x2\x2\x2g\x66\x3\x2\x2\x2hk\x3"+
+		"\x2\x2\x2ij\x3\x2\x2\x2ig\x3\x2\x2\x2jl\x3\x2\x2\x2ki\x3\x2\x2\x2ln\a"+
+		"\x6\x2\x2m[\x3\x2\x2\x2m\x64\x3\x2\x2\x2n\x5\x3\x2\x2\x2op\a\b\x2\x2p"+
+		"q\t\x3\x2\x2q\a\x3\x2\x2\x2rw\a-\x2\x2st\a\t\x2\x2tv\a-\x2\x2us\x3\x2"+
+		"\x2\x2vy\x3\x2\x2\x2wu\x3\x2\x2\x2wx\x3\x2\x2\x2x\t\x3\x2\x2\x2yw\x3\x2"+
+		"\x2\x2z|\a/\x2\x2{}\a.\x2\x2|{\x3\x2\x2\x2|}\x3\x2\x2\x2}\v\x3\x2\x2\x2"+
+		"~\x7F\a-\x2\x2\x7F\r\x3\x2\x2\x2\x80\x81\t\x4\x2\x2\x81\xF\x3\x2\x2\x2"+
+		"\x82\x83\b\t\x1\x2\x83\x93\x5\b\x5\x2\x84\x8D\a\r\x2\x2\x85\x8A\x5\x10"+
+		"\t\x2\x86\x87\a\v\x2\x2\x87\x89\x5\x10\t\x2\x88\x86\x3\x2\x2\x2\x89\x8C"+
+		"\x3\x2\x2\x2\x8A\x88\x3\x2\x2\x2\x8A\x8B\x3\x2\x2\x2\x8B\x8E\x3\x2\x2"+
+		"\x2\x8C\x8A\x3\x2\x2\x2\x8D\x85\x3\x2\x2\x2\x8D\x8E\x3\x2\x2\x2\x8E\x8F"+
+		"\x3\x2\x2\x2\x8F\x90\a\xE\x2\x2\x90\x91\a\xF\x2\x2\x91\x93\x5\x12\n\x2"+
+		"\x92\x82\x3\x2\x2\x2\x92\x84\x3\x2\x2\x2\x93\xA4\x3\x2\x2\x2\x94\x95\f"+
+		"\x5\x2\x2\x95\xA3\a\x3\x2\x2\x96\x97\f\x4\x2\x2\x97\x98\a\n\x2\x2\x98"+
+		"\x9D\x5\n\x6\x2\x99\x9A\a\v\x2\x2\x9A\x9C\x5\n\x6\x2\x9B\x99\x3\x2\x2"+
+		"\x2\x9C\x9F\x3\x2\x2\x2\x9D\x9B\x3\x2\x2\x2\x9D\x9E\x3\x2\x2\x2\x9E\xA0"+
+		"\x3\x2\x2\x2\x9F\x9D\x3\x2\x2\x2\xA0\xA1\a\f\x2\x2\xA1\xA3\x3\x2\x2\x2"+
+		"\xA2\x94\x3\x2\x2\x2\xA2\x96\x3\x2\x2\x2\xA3\xA6\x3\x2\x2\x2\xA4\xA2\x3"+
+		"\x2\x2\x2\xA4\xA5\x3\x2\x2\x2\xA5\x11\x3\x2\x2\x2\xA6\xA4\x3\x2\x2\x2"+
+		"\xA7\xAA\x5\x10\t\x2\xA8\xAA\a\x1F\x2\x2\xA9\xA7\x3\x2\x2\x2\xA9\xA8\x3"+
+		"\x2\x2\x2\xAA\x13\x3\x2\x2\x2\xAB\xAD\x5\x16\f\x2\xAC\xAB\x3\x2\x2\x2"+
+		"\xAD\xAE\x3\x2\x2\x2\xAE\xAC\x3\x2\x2\x2\xAE\xAF\x3\x2\x2\x2\xAF\xB0\x3"+
+		"\x2\x2\x2\xB0\xB1\a\x2\x2\x3\xB1\x15\x3\x2\x2\x2\xB2\xB3\a\x19\x2\x2\xB3"+
+		"\xB4\x5\b\x5\x2\xB4\xB8\a\x10\x2\x2\xB5\xB7\x5\x1A\xE\x2\xB6\xB5\x3\x2"+
+		"\x2\x2\xB7\xBA\x3\x2\x2\x2\xB8\xB6\x3\x2\x2\x2\xB8\xB9\x3\x2\x2\x2\xB9"+
+		"\xBF\x3\x2\x2\x2\xBA\xB8\x3\x2\x2\x2\xBB\xBE\x5\x16\f\x2\xBC\xBE\x5\x1C"+
+		"\xF\x2\xBD\xBB\x3\x2\x2\x2\xBD\xBC\x3\x2\x2\x2\xBE\xC1\x3\x2\x2\x2\xBF"+
+		"\xBD\x3\x2\x2\x2\xBF\xC0\x3\x2\x2\x2\xC0\xC2\x3\x2\x2\x2\xC1\xBF\x3\x2"+
+		"\x2\x2\xC2\xC3\a\x11\x2\x2\xC3\x17\x3\x2\x2\x2\xC4\xC6\a\x17\x2\x2\xC5"+
+		"\xC7\a\x1C\x2\x2\xC6\xC5\x3\x2\x2\x2\xC6\xC7\x3\x2\x2\x2\xC7\xC8\x3\x2"+
+		"\x2\x2\xC8\xC9\x5\b\x5\x2\xC9\xCA\a\x18\x2\x2\xCA\x19\x3\x2\x2\x2\xCB"+
+		"\xCD\x5\x18\r\x2\xCC\xCB\x3\x2\x2\x2\xCD\xCE\x3\x2\x2\x2\xCE\xCC\x3\x2"+
+		"\x2\x2\xCE\xCF\x3\x2\x2\x2\xCF\x1B\x3\x2\x2\x2\xD0\xD1\x5\xE\b\x2\xD1"+
+		"\xD2\a\x1B\x2\x2\xD2\xD3\x5\f\a\x2\xD3\xD4\a\x10\x2\x2\xD4\xD5\x3\x2\x2"+
+		"\x2\xD5\xD6\x5\x1E\x10\x2\xD6\xD7\a\x11\x2\x2\xD7\x1D\x3\x2\x2\x2\xD8"+
+		"\xDB\x5\x1C\xF\x2\xD9\xDB\x5 \x11\x2\xDA\xD8\x3\x2\x2\x2\xDA\xD9\x3\x2"+
+		"\x2\x2\xDB\xDE\x3\x2\x2\x2\xDC\xDA\x3\x2\x2\x2\xDC\xDD\x3\x2\x2\x2\xDD"+
+		"\x1F\x3\x2\x2\x2\xDE\xDC\x3\x2\x2\x2\xDF\xE1\x5\xE\b\x2\xE0\xE2\a\x1C"+
+		"\x2\x2\xE1\xE0\x3\x2\x2\x2\xE1\xE2\x3\x2\x2\x2\xE2\xE3\x3\x2\x2\x2\xE3"+
+		"\xE4\x5\x10\t\x2\xE4\xE7\x5\f\a\x2\xE5\xE6\a,\x2\x2\xE6\xE8\x5\"\x12\x2"+
+		"\xE7\xE5\x3\x2\x2\x2\xE7\xE8\x3\x2\x2\x2\xE8\xE9\x3\x2\x2\x2\xE9\xEA\a"+
+		"\x18\x2\x2\xEA!\x3\x2\x2\x2\xEB\xEC\b\x12\x1\x2\xEC\xED\x5\x2\x2\x2\xED"+
+		"\xEE\x5\"\x12\x5\xEE\xF5\x3\x2\x2\x2\xEF\xF0\a\r\x2\x2\xF0\xF1\x5\"\x12"+
+		"\x2\xF1\xF2\a\xE\x2\x2\xF2\xF5\x3\x2\x2\x2\xF3\xF5\x5$\x13\x2\xF4\xEB"+
+		"\x3\x2\x2\x2\xF4\xEF\x3\x2\x2\x2\xF4\xF3\x3\x2\x2\x2\xF5\x10D\x3\x2\x2"+
+		"\x2\xF6\xF7\f\x4\x2\x2\xF7\xF8\x5\x2\x2\x2\xF8\xF9\x5\"\x12\x5\xF9\x10C"+
+		"\x3\x2\x2\x2\xFA\xFB\f\b\x2\x2\xFB\xFC\a\t\x2\x2\xFC\x10C\x5<\x1F\x2\xFD"+
+		"\xFE\f\a\x2\x2\xFE\xFF\a\t\x2\x2\xFF\x10C\x5\f\a\x2\x100\x105\f\x6\x2"+
+		"\x2\x101\x102\a\n\x2\x2\x102\x103\x5\"\x12\x2\x103\x104\a\f\x2\x2\x104"+
+		"\x106\x3\x2\x2\x2\x105\x101\x3\x2\x2\x2\x106\x107\x3\x2\x2\x2\x107\x105"+
+		"\x3\x2\x2\x2\x107\x108\x3\x2\x2\x2\x108\x10C\x3\x2\x2\x2\x109\x10A\f\x3"+
+		"\x2\x2\x10A\x10C\x5\x2\x2\x2\x10B\xF6\x3\x2\x2\x2\x10B\xFA\x3\x2\x2\x2"+
+		"\x10B\xFD\x3\x2\x2\x2\x10B\x100\x3\x2\x2\x2\x10B\x109\x3\x2\x2\x2\x10C"+
+		"\x10F\x3\x2\x2\x2\x10D\x10B\x3\x2\x2\x2\x10D\x10E\x3\x2\x2\x2\x10E#\x3"+
+		"\x2\x2\x2\x10F\x10D\x3\x2\x2\x2\x110\x11C\x5,\x17\x2\x111\x11C\x5&\x14"+
+		"\x2\x112\x11C\x5(\x15\x2\x113\x11C\x5*\x16\x2\x114\x11C\x5.\x18\x2\x115"+
+		"\x11C\x5\x30\x19\x2\x116\x11C\x5\x32\x1A\x2\x117\x11C\x5\x34\x1B\x2\x118"+
+		"\x11C\x5\x36\x1C\x2\x119\x11C\x5\x38\x1D\x2\x11A\x11C\x5:\x1E\x2\x11B"+
+		"\x110\x3\x2\x2\x2\x11B\x111\x3\x2\x2\x2\x11B\x112\x3\x2\x2\x2\x11B\x113"+
+		"\x3\x2\x2\x2\x11B\x114\x3\x2\x2\x2\x11B\x115\x3\x2\x2\x2\x11B\x116\x3"+
+		"\x2\x2\x2\x11B\x117\x3\x2\x2\x2\x11B\x118\x3\x2\x2\x2\x11B\x119\x3\x2"+
+		"\x2\x2\x11B\x11A\x3\x2\x2\x2\x11C%\x3\x2\x2\x2\x11D\x11E\x5\n\x6\x2\x11E"+
+		"\'\x3\x2\x2\x2\x11F\x120\a\"\x2\x2\x120)\x3\x2\x2\x2\x121\x122\t\x5\x2"+
+		"\x2\x122+\x3\x2\x2\x2\x123\x124\x5\x4\x3\x2\x124-\x3\x2\x2\x2\x125\x12E"+
+		"\a\n\x2\x2\x126\x12B\x5\"\x12\x2\x127\x128\a\v\x2\x2\x128\x12A\x5\"\x12"+
+		"\x2\x129\x127\x3\x2\x2\x2\x12A\x12D\x3\x2\x2\x2\x12B\x129\x3\x2\x2\x2"+
+		"\x12B\x12C\x3\x2\x2\x2\x12C\x12F\x3\x2\x2\x2\x12D\x12B\x3\x2\x2\x2\x12E"+
+		"\x126\x3\x2\x2\x2\x12E\x12F\x3\x2\x2\x2\x12F\x130\x3\x2\x2\x2\x130\x131"+
+		"\a\f\x2\x2\x131/\x3\x2\x2\x2\x132\x133\x5<\x1F\x2\x133\x31\x3\x2\x2\x2"+
+		"\x134\x135\x5\x6\x4\x2\x135\x33\x3\x2\x2\x2\x136\x13B\x5\f\a\x2\x137\x138"+
+		"\a\t\x2\x2\x138\x13A\x5\f\a\x2\x139\x137\x3\x2\x2\x2\x13A\x13D\x3\x2\x2"+
+		"\x2\x13B\x139\x3\x2\x2\x2\x13B\x13C\x3\x2\x2\x2\x13C\x35\x3\x2\x2\x2\x13D"+
+		"\x13B\x3\x2\x2\x2\x13E\x13F\a\x1A\x2\x2\x13F\x140\x5\x10\t\x2\x140\x149"+
+		"\a\r\x2\x2\x141\x146\x5\"\x12\x2\x142\x143\a\v\x2\x2\x143\x145\x5\"\x12"+
+		"\x2\x144\x142\x3\x2\x2\x2\x145\x148\x3\x2\x2\x2\x146\x144\x3\x2\x2\x2"+
+		"\x146\x147\x3\x2\x2\x2\x147\x14A\x3\x2\x2\x2\x148\x146\x3\x2\x2\x2\x149"+
+		"\x141\x3\x2\x2\x2\x149\x14A\x3\x2\x2\x2\x14A\x14B\x3\x2\x2\x2\x14B\x14C"+
+		"\a\xE\x2\x2\x14C\x37\x3\x2\x2\x2\x14D\x157\a\r\x2\x2\x14E\x14F\x5\x10"+
+		"\t\x2\x14F\x154\x5\x6\x4\x2\x150\x151\a\v\x2\x2\x151\x153\x5\x6\x4\x2"+
+		"\x152\x150\x3\x2\x2\x2\x153\x156\x3\x2\x2\x2\x154\x152\x3\x2\x2\x2\x154"+
+		"\x155\x3\x2\x2\x2\x155\x158\x3\x2\x2\x2\x156\x154\x3\x2\x2\x2\x157\x14E"+
+		"\x3\x2\x2\x2\x157\x158\x3\x2\x2\x2\x158\x159\x3\x2\x2\x2\x159\x15A\a\xE"+
+		"\x2\x2\x15A\x15B\a\xF\x2\x2\x15B\x15C\x5\x12\n\x2\x15C\x15D\x5> \x2\x15D"+
+		"\x39\x3\x2\x2\x2\x15E\x15F\a(\x2\x2\x15F;\x3\x2\x2\x2\x160\x161\x5\f\a"+
+		"\x2\x161\x16A\a\r\x2\x2\x162\x167\x5\"\x12\x2\x163\x164\a\v\x2\x2\x164"+
+		"\x166\x5\"\x12\x2\x165\x163\x3\x2\x2\x2\x166\x169\x3\x2\x2\x2\x167\x165"+
+		"\x3\x2\x2\x2\x167\x168\x3\x2\x2\x2\x168\x16B\x3\x2\x2\x2\x169\x167\x3"+
+		"\x2\x2\x2\x16A\x162\x3\x2\x2\x2\x16A\x16B\x3\x2\x2\x2\x16B\x16C\x3\x2"+
+		"\x2\x2\x16C\x16D\a\xE\x2\x2\x16D=\x3\x2\x2\x2\x16E\x172\a\x10\x2\x2\x16F"+
+		"\x171\x5@!\x2\x170\x16F\x3\x2\x2\x2\x171\x174\x3\x2\x2\x2\x172\x170\x3"+
+		"\x2\x2\x2\x172\x173\x3\x2\x2\x2\x173\x175\x3\x2\x2\x2\x174\x172\x3\x2"+
+		"\x2\x2\x175\x176\a\x11\x2\x2\x176?\x3\x2\x2\x2\x177\x181\x5\x42\"\x2\x178"+
+		"\x181\x5\x44#\x2\x179\x181\x5H%\x2\x17A\x181\x5\x46$\x2\x17B\x181\x5J"+
+		"&\x2\x17C\x181\x5L\'\x2\x17D\x181\x5N(\x2\x17E\x181\x5P)\x2\x17F\x181"+
+		"\x5R*\x2\x180\x177\x3\x2\x2\x2\x180\x178\x3\x2\x2\x2\x180\x179\x3\x2\x2"+
+		"\x2\x180\x17A\x3\x2\x2\x2\x180\x17B\x3\x2\x2\x2\x180\x17C\x3\x2\x2\x2"+
+		"\x180\x17D\x3\x2\x2\x2\x180\x17E\x3\x2\x2\x2\x180\x17F\x3\x2\x2\x2\x181"+
+		"\x41\x3\x2\x2\x2\x182\x184\a\'\x2\x2\x183\x185\x5\"\x12\x2\x184\x183\x3"+
+		"\x2\x2\x2\x184\x185\x3\x2\x2\x2\x185\x186\x3\x2\x2\x2\x186\x187\a\x18"+
+		"\x2\x2\x187\x43\x3\x2\x2\x2\x188\x189\x5\x10\t\x2\x189\x18C\x5\x6\x4\x2"+
+		"\x18A\x18B\a,\x2\x2\x18B\x18D\x5\"\x12\x2\x18C\x18A\x3\x2\x2\x2\x18C\x18D"+
+		"\x3\x2\x2\x2\x18D\x18E\x3\x2\x2\x2\x18E\x18F\a\x18\x2\x2\x18F\x45\x3\x2"+
+		"\x2\x2\x190\x191\x5\x32\x1A\x2\x191\x192\a,\x2\x2\x192\x193\x5\"\x12\x2"+
+		"\x193\x194\a\x18\x2\x2\x194G\x3\x2\x2\x2\x195\x196\x5\"\x12\x2\x196\x197"+
+		"\a\t\x2\x2\x197\x199\x3\x2\x2\x2\x198\x195\x3\x2\x2\x2\x198\x199\x3\x2"+
+		"\x2\x2\x199\x19A\x3\x2\x2\x2\x19A\x19B\x5\f\a\x2\x19B\x19C\a,\x2\x2\x19C"+
+		"\x19D\x5\"\x12\x2\x19D\x19E\a\x18\x2\x2\x19EI\x3\x2\x2\x2\x19F\x1A4\x5"+
+		"\"\x12\x2\x1A0\x1A1\a\n\x2\x2\x1A1\x1A2\x5\"\x12\x2\x1A2\x1A3\a\f\x2\x2"+
+		"\x1A3\x1A5\x3\x2\x2\x2\x1A4\x1A0\x3\x2\x2\x2\x1A5\x1A6\x3\x2\x2\x2\x1A6"+
+		"\x1A4\x3\x2\x2\x2\x1A6\x1A7\x3\x2\x2\x2\x1A7\x1A8\x3\x2\x2\x2\x1A8\x1A9"+
+		"\a,\x2\x2\x1A9\x1AA\x5\"\x12\x2\x1AA\x1AB\a\x18\x2\x2\x1ABK\x3\x2\x2\x2"+
+		"\x1AC\x1AD\x5\"\x12\x2\x1AD\x1AE\a\t\x2\x2\x1AE\x1B0\x3\x2\x2\x2\x1AF"+
+		"\x1AC\x3\x2\x2\x2\x1AF\x1B0\x3\x2\x2\x2\x1B0\x1B1\x3\x2\x2\x2\x1B1\x1B2"+
+		"\x5<\x1F\x2\x1B2\x1B3\a\x18\x2\x2\x1B3M\x3\x2\x2\x2\x1B4\x1B5\a#\x2\x2"+
+		"\x1B5\x1B6\a\r\x2\x2\x1B6\x1B7\x5\"\x12\x2\x1B7\x1B8\a\xE\x2\x2\x1B8\x1B9"+
+		"\x5> \x2\x1B9O\x3\x2\x2\x2\x1BA\x1BB\a%\x2\x2\x1BB\x1BC\x5> \x2\x1BC\x1BD"+
+		"\a&\x2\x2\x1BD\x1BE\a\r\x2\x2\x1BE\x1BF\x5\"\x12\x2\x1BF\x1C0\a\xE\x2"+
+		"\x2\x1C0\x1C1\a\x18\x2\x2\x1C1Q\x3\x2\x2\x2\x1C2\x1C3\a)\x2\x2\x1C3\x1C4"+
+		"\a\x12\x2\x2\x1C4\x1C5\x5T+\x2\x1C5\x1C6\a\x13\x2\x2\x1C6\x1C7\a\x18\x2"+
+		"\x2\x1C7S\x3\x2\x2\x2\x1C8\x1CA\n\x6\x2\x2\x1C9\x1C8\x3\x2\x2\x2\x1CA"+
+		"\x1CD\x3\x2\x2\x2\x1CB\x1CC\x3\x2\x2\x2\x1CB\x1C9\x3\x2\x2\x2\x1CCU\x3"+
+		"\x2\x2\x2\x1CD\x1CB\x3\x2\x2\x2\x31Y^`gimw|\x8A\x8D\x92\x9D\xA2\xA4\xA9"+
+		"\xAE\xB8\xBD\xBF\xC6\xCE\xDA\xDC\xE1\xE7\xF4\x107\x10B\x10D\x11B\x12B"+
+		"\x12E\x13B\x146\x149\x154\x157\x167\x16A\x172\x180\x184\x18C\x198\x1A6"+
+		"\x1AF\x1CB";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }

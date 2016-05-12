@@ -77,9 +77,9 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                     variableManager.AddLocalVariable(variable, methodRegister.GetFormalParameterRegister(variable.VariableName));
                 });
 
-            var ret = Visit(context.statementBlock());
+            Visit(context.statementBlock());
             VariableManagers.RemoveAt(VariableManagers.Count - 1);
-            return ret;
+            return functionType;
         }
 
         public override object VisitStatementBlock([NotNull] ClepsParser.StatementBlockContext context)
@@ -221,9 +221,46 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             return returnValue;
         }
 
+        public override object VisitIfStatement([NotNull] ClepsParser.IfStatementContext context)
+        {
+            IValue conditionValue = Visit(context.rightHandExpression()) as IValue;
+            IMethodRegister methodRegister = CodeGenerator.GetMethodRegister(FullyQualifiedClassName, CurrMemberIsStatic, CurrMemberType, CurrMemberName);
+            methodRegister.CreateIfStatementBlock(conditionValue);
+
+            Visit(context.statementBlock());
+
+            methodRegister.CloseBlock();
+
+            return conditionValue;
+        }
+
+        public override object VisitNativeStatement([NotNull] ClepsParser.NativeStatementContext context)
+        {
+            IMethodRegister methodRegister = CodeGenerator.GetMethodRegister(FullyQualifiedClassName, CurrMemberIsStatic, CurrMemberType, CurrMemberName);
+            var startIndex = context.NativeOpen.StopIndex + 1;
+            var endIndex = context.NativeClose.StartIndex - 1;
+            var length = endIndex - startIndex + 1;
+            var nativeCode = System.IO.File.ReadAllText(FileName).Substring(startIndex, length) + "\n";
+
+            methodRegister.AddNativeCode(nativeCode);
+            return true;
+        }
+
+        public override object VisitFunctionCallStatement([NotNull] ClepsParser.FunctionCallStatementContext context)
+        {
+            IValue expressionValue = Visit(context.rightHandExpression()) as IValue;
+            bool isMembersAccessible = !expressionValue.ExpressionType.IsStaticType;
+
+            IValue ret = doFunctionCall(context.functionCall(), expressionValue.ExpressionType, isMembersAccessible, true /* allowVoidReturn */);
+            IMethodRegister methodRegister = CodeGenerator.GetMethodRegister(FullyQualifiedClassName, CurrMemberIsStatic, CurrMemberType, CurrMemberName);
+            methodRegister.CreateFunctionCallStatement(ret);
+
+            return ret;
+        }
+
         #endregion FunctionStatements
 
-        #region AccessOnExpression
+        #region Expression
 
         public override object VisitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context)
         {
@@ -273,36 +310,62 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             return indexValues;
         }
 
-        #endregion AccessOnExpression
-
-        #region RegisterAssignments
-
-        public override object VisitFunctionCallAssignment([NotNull] ClepsParser.FunctionCallAssignmentContext context)
+        public override object VisitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context)
         {
-            if(!ClassManager.IsClassBodySet(FullyQualifiedClassName))
+            IValue leftValue = Visit(context.LeftExpression) as IValue;
+            IValue rightValue = Visit(context.RightExpression) as IValue;
+
+            if (context.operatorSymbol().GetText() != "==" || leftValue.ExpressionType != CompilerConstants.ClepsByteType || rightValue.ExpressionType != CompilerConstants.ClepsByteType)
             {
-                //This is probably due to some earlier error. Just return something to avoid stalling compilation
-                return CodeGenerator.CreateByte(0);
+                throw new NotImplementedException("This kind of binary operation on these types is not yet implemented");
             }
 
-            ClepsClass clepsClass = ClassManager.GetClass(FullyQualifiedClassName);
-            string targetFunctionName = context.functionCall().FunctionName.GetText();
-            List<IValue> parameters = context.functionCall()._FunctionParameters.Select(p => Visit(p) as IValue).ToList();
+            return CodeGenerator.GetAreByteValuesEqual(leftValue, rightValue);
+        }
+
+        public override object VisitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context)
+        {
+            IValue expressionValue = Visit(context.rightHandExpression()) as IValue;
+            bool isMembersAccessible = !expressionValue.ExpressionType.IsStaticType;
+
+            return doFunctionCall(context.functionCall(), expressionValue.ExpressionType, isMembersAccessible, false /* allowVoidReturn */);
+        }
+
+        private IValue doFunctionCall(ClepsParser.FunctionCallContext functionCall, ClepsType targetType, bool isMemberFunctionsAccessible, bool allowVoidReturn)
+        {
+            ClepsClass targetClepsClass;
+            
+            if(targetType is BasicClepsType)
+            {
+                targetClepsClass = ClassManager.GetClass(targetType.GetClepsTypeString());
+            }
+            else if(targetType is BasicStaticClepsType)
+            {
+                targetClepsClass = ClassManager.GetClass(targetType.GetClepsTypeString());
+                isMemberFunctionsAccessible = false;
+            }
+            else
+            {
+                throw new NotImplementedException("Function calls on non basic types not supported");
+            }
+
+            string targetFunctionName = functionCall.FunctionName.GetText();
+            List<IValue> parameters = functionCall._FunctionParameters.Select(p => Visit(p) as IValue).ToList();
 
             ClepsType functionType = null;
-            if(clepsClass.StaticMemberMethods.ContainsKey(targetFunctionName))
+            if (targetClepsClass.StaticMemberMethods.ContainsKey(targetFunctionName))
             {
-                functionType = clepsClass.StaticMemberMethods[targetFunctionName];
+                functionType = targetClepsClass.StaticMemberMethods[targetFunctionName];
             }
-            else if(CurrMemberIsStatic && clepsClass.MemberMethods.ContainsKey(targetFunctionName))
+            else if (isMemberFunctionsAccessible && targetClepsClass.MemberMethods.ContainsKey(targetFunctionName))
             {
-                functionType = clepsClass.MemberMethods[targetFunctionName];
+                functionType = targetClepsClass.MemberMethods[targetFunctionName];
             }
 
-            if(functionType == null)
+            if (functionType == null)
             {
-                string errorMessage = String.Format("Class {0} does not contain a function called {1}", FullyQualifiedClassName, targetFunctionName);
-                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                string errorMessage = String.Format("Class {0} does not contain a function called {1}", targetClepsClass.FullyQualifiedName, targetFunctionName);
+                Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, errorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
             }
@@ -312,25 +375,100 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             int matchedPosition;
             string fnMatchErrorMessage;
 
-            if(!FunctionOverloadManager.FindMatchingFunctionType(functionOverloads, parameters, out matchedPosition, out fnMatchErrorMessage))
+            if (!FunctionOverloadManager.FindMatchingFunctionType(functionOverloads, parameters, out matchedPosition, out fnMatchErrorMessage))
             {
-                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, fnMatchErrorMessage));
+                Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, fnMatchErrorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
             }
 
             FunctionClepsType chosenFunctionType = functionOverloads[matchedPosition] as FunctionClepsType;
 
-            if (chosenFunctionType.ReturnType == VoidType.GetVoidType())
+            if (!allowVoidReturn && chosenFunctionType.ReturnType == VoidType.GetVoidType())
             {
                 string errorMessage = String.Format("Function {0} does not return a value", targetFunctionName);
-                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, errorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
             }
 
             IValue returnValue = CodeGenerator.GetFunctionCallReturnValue(FullyQualifiedClassName, targetFunctionName, chosenFunctionType, parameters);
             return returnValue;
+        }
+
+        #endregion Expression
+
+        #region RegisterAssignments
+
+        public override object VisitFieldOrClassAssignment([NotNull] ClepsParser.FieldOrClassAssignmentContext context)
+        {
+            List<string> namespaceClassAndFieldHierarchy = context._ClassHierarchy.Select(h => h.GetText()).ToList();
+            bool classFound = false;
+            int i;
+
+            for (i = 1; i <= namespaceClassAndFieldHierarchy.Count; i++)
+            {
+                string classNameToTest = String.Join(".", namespaceClassAndFieldHierarchy.Take(i).ToList());
+                if (ClassManager.IsClassBodySet(classNameToTest))
+                {
+                    classFound = true;
+                    break;
+                }
+            }
+
+            if(!classFound)
+            {
+                string errorMessage = String.Format("Could not find class or field {0}", String.Join(".", namespaceClassAndFieldHierarchy));
+                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                //just return something to avoid stalling
+                return CodeGenerator.CreateByte(0);
+            }
+
+            string fullClassName = String.Join(".", namespaceClassAndFieldHierarchy.Take(i).ToList());
+            ClepsClass currentClass = ClassManager.GetClass(fullClassName);
+            BasicStaticClepsType currentType = new BasicStaticClepsType(fullClassName);
+            var fieldAccesses = namespaceClassAndFieldHierarchy.Skip(i).ToList();
+
+            if(fieldAccesses.Count != 0)
+            {
+                throw new NotImplementedException("Getting fields on static classes is not supported yet");
+            }
+
+            IValue ret = CodeGenerator.GetClassStaticInstance(currentType);
+            return ret;
+        }
+
+        public override object VisitClassInstanceAssignment([NotNull] ClepsParser.ClassInstanceAssignmentContext context)
+        {
+            ClepsType typeName = Visit(context.typename()) as ClepsType;
+            List<IValue> functionParams = context._FunctionParameters.Select(p => Visit(p) as IValue).ToList();
+
+            IValue instance;
+            if (
+                (typeName == CompilerConstants.ClepsByteType || typeName == CompilerConstants.ClepsBoolType) &&
+                (functionParams.Count == 1 && functionParams[0].ExpressionType == typeName)
+            )
+            {
+                instance = functionParams[0];
+            }
+            else
+            {
+                instance = CodeGenerator.CreateClassInstance(typeName as BasicClepsType, functionParams);
+            }
+
+            return instance;
+        }
+
+        public override object VisitFunctionCallAssignment([NotNull] ClepsParser.FunctionCallAssignmentContext context)
+        {
+            if(!ClassManager.IsClassBodySet(FullyQualifiedClassName))
+            {
+                //This is probably due to some earlier error. Just return something to avoid stalling compilation
+                return CodeGenerator.CreateByte(0);
+            }
+
+            ClepsType currentType = new BasicClepsType(FullyQualifiedClassName);
+            return doFunctionCall(context.functionCall(), currentType, !CurrMemberIsStatic, false /* allowVoidReturn */);
         }
 
         public override object VisitArrayAssignment([NotNull] ClepsParser.ArrayAssignmentContext context)
@@ -381,6 +519,17 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             }
 
             return val;
+        }
+
+        public override object VisitBooleanAssignments([NotNull] ClepsParser.BooleanAssignmentsContext context)
+        {
+            return CodeGenerator.CreateBoolean(context.TRUE() != null);
+        }
+
+        public override object VisitPlatformAssignment([NotNull] ClepsParser.PlatformAssignmentContext context)
+        {
+            IValue platformId = CodeGenerator.CreateByte(CodeGenerator.GetPlatform());
+            return platformId;
         }
 
         #endregion RegisterAssignments

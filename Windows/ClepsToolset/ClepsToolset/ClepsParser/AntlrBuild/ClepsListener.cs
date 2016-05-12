@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\shravan\Documents\GitHubVisualStudio\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
+// Generated from C:\Users\shr\Desktop\Code\ClepsOfficialRepo\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -227,17 +227,17 @@ public interface IClepsListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitMemberDeclarationStatement([NotNull] ClepsParser.MemberDeclarationStatementContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>BracketedExpression</c>
+	/// Enter a parse tree produced by the <c>BinaryOperatorOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context);
+	void EnterBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>BracketedExpression</c>
+	/// Exit a parse tree produced by the <c>BinaryOperatorOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context);
+	void ExitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>PreOperatorOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
@@ -251,53 +251,29 @@ public interface IClepsListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitPreOperatorOnExpression([NotNull] ClepsParser.PreOperatorOnExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>SimpleExpression</c>
+	/// Enter a parse tree produced by the <c>BracketedExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context);
+	void EnterBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>SimpleExpression</c>
+	/// Exit a parse tree produced by the <c>BracketedExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context);
+	void ExitBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>FunctionCallOnExpression</c>
+	/// Enter a parse tree produced by the <c>ArrayAccessOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context);
+	void EnterArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>FunctionCallOnExpression</c>
+	/// Exit a parse tree produced by the <c>ArrayAccessOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>BinaryOperatorOnExpression</c>
-	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>BinaryOperatorOnExpression</c>
-	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>PostOperatorOnExpression</c>
-	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>PostOperatorOnExpression</c>
-	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context);
+	void ExitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>FieldAccessOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
@@ -311,17 +287,41 @@ public interface IClepsListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitFieldAccessOnExpression([NotNull] ClepsParser.FieldAccessOnExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by the <c>ArrayAccessOnExpression</c>
+	/// Enter a parse tree produced by the <c>FunctionCallOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context);
+	void EnterFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by the <c>ArrayAccessOnExpression</c>
+	/// Exit a parse tree produced by the <c>FunctionCallOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context);
+	void ExitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>PostOperatorOnExpression</c>
+	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>PostOperatorOnExpression</c>
+	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>SimpleExpression</c>
+	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>SimpleExpression</c>
+	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ClepsParser.rightHandExpressionSimple"/>.
 	/// </summary>
@@ -433,6 +433,16 @@ public interface IClepsListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitFunctionAssignment([NotNull] ClepsParser.FunctionAssignmentContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="ClepsParser.platformAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPlatformAssignment([NotNull] ClepsParser.PlatformAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ClepsParser.platformAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPlatformAssignment([NotNull] ClepsParser.PlatformAssignmentContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="ClepsParser.functionCall"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -542,4 +552,24 @@ public interface IClepsListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitDoWhileStatement([NotNull] ClepsParser.DoWhileStatementContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ClepsParser.nativeStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNativeStatement([NotNull] ClepsParser.NativeStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ClepsParser.nativeStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNativeStatement([NotNull] ClepsParser.NativeStatementContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="ClepsParser.nativeCode"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNativeCode([NotNull] ClepsParser.NativeCodeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ClepsParser.nativeCode"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNativeCode([NotNull] ClepsParser.NativeCodeContext context);
 }

@@ -12,8 +12,9 @@ namespace ClepsCompiler.CompilerTypes
 
         private VoidType()
         {
-            IsFunctionType = false;
             IsArrayType = false;
+            IsFunctionType = false;
+            IsFunctionType = false;
         }
 
         public static VoidType GetVoidType()

@@ -117,6 +117,11 @@ namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
             throw new NotImplementedException();
         }
 
+        public IValue CreateBoolean(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
         public IValue CreateArray(ClepsType arrayType, List<IValue> arrayElements)
         {
             throw new NotImplementedException();
@@ -133,6 +138,26 @@ namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
         }
 
         public IValueRegister GetArrayElementRegister(IValue value, List<IValue> indexes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IValue CreateClassInstance(BasicClepsType instanceType, List<IValue> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte GetPlatform()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IValue GetAreByteValuesEqual(IValue leftValue, IValue rightValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IValue GetClassStaticInstance(BasicStaticClepsType clepsClass)
         {
             throw new NotImplementedException();
         }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\shravan\Documents\GitHubVisualStudio\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
+// Generated from C:\Users\shr\Desktop\Code\ClepsOfficialRepo\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -222,7 +222,7 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitMemberDeclarationStatement([NotNull] ClepsParser.MemberDeclarationStatementContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ClepsParser.BracketedExpression"/>.
+	/// Visit a parse tree produced by <see cref="ClepsParser.BinaryOperatorOnExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -230,7 +230,7 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context) { return VisitChildren(context); }
+	public virtual Result VisitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ClepsParser.PreOperatorOnExpression"/>.
 	/// <para>
@@ -242,7 +242,7 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitPreOperatorOnExpression([NotNull] ClepsParser.PreOperatorOnExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ClepsParser.SimpleExpression"/>.
+	/// Visit a parse tree produced by <see cref="ClepsParser.BracketedExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -250,9 +250,9 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context) { return VisitChildren(context); }
+	public virtual Result VisitBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ClepsParser.FunctionCallOnExpression"/>.
+	/// Visit a parse tree produced by <see cref="ClepsParser.ArrayAccessOnExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -260,27 +260,7 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ClepsParser.BinaryOperatorOnExpression"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ClepsParser.PostOperatorOnExpression"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context) { return VisitChildren(context); }
+	public virtual Result VisitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ClepsParser.FieldAccessOnExpression"/>.
 	/// <para>
@@ -292,7 +272,7 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitFieldAccessOnExpression([NotNull] ClepsParser.FieldAccessOnExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ClepsParser.ArrayAccessOnExpression"/>.
+	/// Visit a parse tree produced by <see cref="ClepsParser.FunctionCallOnExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -300,7 +280,27 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context) { return VisitChildren(context); }
+	public virtual Result VisitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ClepsParser.PostOperatorOnExpression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ClepsParser.SimpleExpression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ClepsParser.rightHandExpressionSimple"/>.
 	/// <para>
@@ -412,6 +412,16 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitFunctionAssignment([NotNull] ClepsParser.FunctionAssignmentContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ClepsParser.platformAssignment"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitPlatformAssignment([NotNull] ClepsParser.PlatformAssignmentContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ClepsParser.functionCall"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -521,4 +531,24 @@ public partial class ClepsBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitDoWhileStatement([NotNull] ClepsParser.DoWhileStatementContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ClepsParser.nativeStatement"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitNativeStatement([NotNull] ClepsParser.NativeStatementContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ClepsParser.nativeCode"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitNativeCode([NotNull] ClepsParser.NativeCodeContext context) { return VisitChildren(context); }
 }

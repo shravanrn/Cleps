@@ -20,7 +20,25 @@ namespace System.Tests
 			System.Types.Byte[2] @testArr = [ 7b, @test ];
 			@test = @testArr[@test];	
 			@testArr[@test] = 6b;
+
+			if(System.Console.DoesConsoleOutputExist())
+			{
+				System.Console.ConsoleOutput(@testArr[@test]);
+			}
+
 			@test = TestStaticFn2(@testArr[@test]);
+
+			System.Types.Bool @boolTrue = true;
+			System.Types.Bool @boolFalse = false;
+
+			if(@boolTrue)
+			{
+				System.Types.Byte @varInIf = 1b;
+			}
+
+			System.Types.Byte @testInst = new System.Types.Byte(5b);
+			System.Tests.TestStruct @testInst2 = new System.Tests.TestStruct();
+
 			return 5b;
 		};
 

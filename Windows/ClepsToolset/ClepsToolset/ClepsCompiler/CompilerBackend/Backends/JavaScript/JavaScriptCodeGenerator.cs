@@ -24,12 +24,17 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
         public void Close() {}
 
+        public byte GetPlatform()
+        {
+            return 0;
+        }
+
         public void CreateClass(string className)
         {
             if (!classesLoaded.ContainsKey(className))
             {
                 classesLoaded.Add(className, null);
-                staticMethods[className] = new List<FunctionNameAndType>();
+                staticMethods[className + ".static"] = new List<FunctionNameAndType>();
                 memberMethods[className] = new List<FunctionNameAndType>();
             }
         }
@@ -62,8 +67,9 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
                 throw new ArgumentException("Expected function type. Got " + functionType.GetClepsTypeString());
             }
 
-            var functionNameAndType = new FunctionNameAndType(className, functionName, functionType);
-            var methodList = isStatic ? staticMethods[className] : memberMethods[className];
+            var classNameToUse = isStatic ? className + ".static" : className;
+            var functionNameAndType = new FunctionNameAndType(classNameToUse, functionName, functionType);
+            var methodList = isStatic ? staticMethods[classNameToUse] : memberMethods[classNameToUse];
 
             if (methodList.Contains(functionNameAndType))
             {
@@ -79,7 +85,8 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
         public IMethodRegister GetMethodRegister(string className, bool isStatic, ClepsType functionType, string functionName)
         {
-            var methodRegisterKey = new FunctionNameAndType(className, functionName, functionType);
+            string classNameToUse = isStatic ? className + ".static" : className;
+            FunctionNameAndType methodRegisterKey = new FunctionNameAndType(classNameToUse, functionName, functionType);
             return methodBodies[methodRegisterKey];
         }
 
@@ -88,10 +95,24 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             return new JavaScriptValue(value.ToString(), CompilerConstants.ClepsByteType);
         }
 
+        public IValue CreateBoolean(bool value)
+        {
+            return new JavaScriptValue(value? "true" : "false", CompilerConstants.ClepsBoolType);
+        }
+
         public IValue CreateArray(ClepsType arrayType, List<IValue> arrayElements)
         {
             string elementCode = String.Join(", ", arrayElements.Select(a => (a as JavaScriptValue).Expression).ToList());
             return new JavaScriptValue("[" + elementCode + "]", arrayType);
+        }
+
+        public IValue CreateClassInstance(BasicClepsType instanceType, List<IValue> parameters)
+        {
+            string parameterString = String.Join(", ", parameters.Select(v => (v as JavaScriptValue).Expression).ToList());
+            string code = String.Format("new {0}({1})", instanceType.GetClepsTypeString(), parameterString);
+
+            JavaScriptValue ret = new JavaScriptValue(code, instanceType);
+            return ret;
         }
 
         public IValue GetRegisterValue(IValueRegister register)
@@ -115,10 +136,27 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
         public IValue GetFunctionCallReturnValue(string fullyQualifiedClassName, string targetFunctionName, FunctionClepsType clepsType, List<IValue> parameters)
         {
-            string parameterString = String.Join(", ", parameters.Select(v => (v as JavaScriptValue).Expression.ToList()));
-            string code = String.Format("{0}.{1}({2})", fullyQualifiedClassName, targetFunctionName, parameterString);
+            string parameterString = String.Join(", ", parameters.Select(v => (v as JavaScriptValue).Expression).ToList());
+            string code = String.Format("{0}.{1}.{2}({3})", TOPLEVELNAMESPACE, fullyQualifiedClassName, targetFunctionName, parameterString);
 
             JavaScriptValue ret = new JavaScriptValue(code, clepsType.ReturnType);
+            return ret;
+        }
+
+        public IValue GetAreByteValuesEqual(IValue leftValue, IValue rightValue)
+        {
+            JavaScriptValue leftValueToUse = leftValue as JavaScriptValue;
+            JavaScriptValue rightValueToUse = rightValue as JavaScriptValue;
+
+            string code = String.Format("({0} == {1})", leftValueToUse.Expression, rightValueToUse.Expression);
+
+            JavaScriptValue ret = new JavaScriptValue(code, CompilerConstants.ClepsBoolType);
+            return ret;
+        }
+
+        public IValue GetClassStaticInstance(BasicStaticClepsType clepsClass)
+        {
+            JavaScriptValue ret = new JavaScriptValue(TOPLEVELNAMESPACE + "." + clepsClass.RawTypeName + "Inst", clepsClass);
             return ret;
         }
 
@@ -146,19 +184,42 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         private void GenerateClass(StringBuilder output, ClepsClass clepsClass)
         {
             EnsureNamespaceExists(output, clepsClass);
-            output.AppendLine(TOPLEVELNAMESPACE + "." + clepsClass.FullyQualifiedName + " = function() {");
+            //output.AppendLine(TOPLEVELNAMESPACE + "." + clepsClass.FullyQualifiedName + " = function() {");
+            //{
+            //    output.AppendLine("\tfunction newInst(curr) {");
+            //    {
+            //        clepsClass.MemberVariables.ToList().ForEach(kvp => output.AppendFormat("\t\tcurr.{0} = {1};\n", kvp.Key, GetTypeInstance(kvp.Value)));
+            //        output.AppendLine("\t}");
+            //    }
+            //    output.AppendLine("\tnewInst(this);");
+            //}
+            //output.AppendLine("};");
+            //clepsClass.MemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.prototype.{2} = {3};\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(clepsClass.FullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
+            //clepsClass.StaticMemberVariables.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = undefined;\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key));
+            //clepsClass.StaticMemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = {3};\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(clepsClass.FullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
+            GenerateJavaScriptClass(output, clepsClass.FullyQualifiedName, clepsClass.MemberVariables, clepsClass.MemberMethods, true /* staticInstCheck */);
+            GenerateJavaScriptClass(output, clepsClass.FullyQualifiedName + ".static", clepsClass.StaticMemberVariables, clepsClass.StaticMemberMethods, false /* staticInstCheck */);
+        }
+
+        private void GenerateJavaScriptClass(StringBuilder output, string fullyQualifiedName, IDictionary<string, ClepsType> fields, IDictionary<string, ClepsType> methods, bool staticInstCheck)
+        {
+            output.AppendLine(TOPLEVELNAMESPACE + "." + fullyQualifiedName + " = function() {");
             {
                 output.AppendLine("\tfunction newInst(curr) {");
                 {
-                    clepsClass.MemberVariables.ToList().ForEach(kvp => output.AppendFormat("\t\tcurr.{0} = {1};\n", kvp.Key, GetTypeInstance(kvp.Value)));
+                    if(staticInstCheck)
+                    {
+                        output.AppendFormat("\t\tif(!{0}.{1}.staticInst){{\n", TOPLEVELNAMESPACE, fullyQualifiedName);
+                        output.AppendFormat("\t\t\t{0}.{1}.staticInst = new {0}.{1}.static();\n", TOPLEVELNAMESPACE, fullyQualifiedName);
+                        output.AppendFormat("\t\t}}\n");
+                    }
+                    fields.ToList().ForEach(kvp => output.AppendFormat("\t\tcurr.{0} = {1};\n", kvp.Key, GetTypeInstance(kvp.Value)));
                     output.AppendLine("\t}");
                 }
                 output.AppendLine("\tnewInst(this);");
             }
             output.AppendLine("};");
-            clepsClass.MemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.prototype.{2} = {3};\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(clepsClass.FullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
-            clepsClass.StaticMemberVariables.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = undefined;\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key));
-            clepsClass.StaticMemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = {3};\n", TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(clepsClass.FullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
+            methods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.prototype.{2} = {3};\n", TOPLEVELNAMESPACE, fullyQualifiedName, kvp.Key, methodBodies[new FunctionNameAndType(fullyQualifiedName, kvp.Key, kvp.Value)].GetMethodBody()));
         }
 
         private void EnsureNamespaceExists(StringBuilder output, ClepsClass clepsClass)

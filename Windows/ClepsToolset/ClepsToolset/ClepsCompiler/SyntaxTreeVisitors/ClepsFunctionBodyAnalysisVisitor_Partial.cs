@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Misc;
+using ClepsCompiler.CompilerTypes;
 
 namespace ClepsCompiler.SyntaxTreeVisitors
 {
@@ -41,9 +42,9 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             var oldCurrentBlockStatus = CurrentBlockStatus;
             CurrentBlockStatus = new List<StatementBlockStatus>() { new StatementBlockStatus(StatementBlockSource.Function) };
 
-            VisitFunctionAssignment_Ex(context);
+            FunctionClepsType functionType = VisitFunctionAssignment_Ex(context) as FunctionClepsType;
 
-            if(!CurrentBlockStatus.Last().ReturnStatementReached)
+            if(functionType.ReturnType != VoidType.GetVoidType() && !CurrentBlockStatus.Last().ReturnStatementReached)
             {
                 string errorMessage = "Not all pathways have return statements";
                 Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));

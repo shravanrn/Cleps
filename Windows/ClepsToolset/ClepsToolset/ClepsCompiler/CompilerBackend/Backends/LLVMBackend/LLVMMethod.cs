@@ -47,5 +47,25 @@ namespace ClepsCompiler.CompilerBackend.Backends.LLVMBackend
         {
             throw new NotImplementedException();
         }
+
+        public void CreateFunctionCallStatement(IValue value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateIfStatementBlock(IValue condition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CloseBlock()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddNativeCode(string nativeCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

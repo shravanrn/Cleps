@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\shravan\Documents\GitHubVisualStudio\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
+// Generated from C:\Users\shr\Desktop\Code\ClepsOfficialRepo\Cleps\Windows\ClepsToolset\ClepsToolset\ClepsParser\AntlrBuild\Cleps.g4 by ANTLR 4.5.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -148,12 +148,12 @@ public interface IClepsVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitMemberDeclarationStatement([NotNull] ClepsParser.MemberDeclarationStatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>BracketedExpression</c>
+	/// Visit a parse tree produced by the <c>BinaryOperatorOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context);
+	Result VisitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>PreOperatorOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
@@ -162,33 +162,19 @@ public interface IClepsVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitPreOperatorOnExpression([NotNull] ClepsParser.PreOperatorOnExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>SimpleExpression</c>
+	/// Visit a parse tree produced by the <c>BracketedExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context);
+	Result VisitBracketedExpression([NotNull] ClepsParser.BracketedExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>FunctionCallOnExpression</c>
+	/// Visit a parse tree produced by the <c>ArrayAccessOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>BinaryOperatorOnExpression</c>
-	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitBinaryOperatorOnExpression([NotNull] ClepsParser.BinaryOperatorOnExpressionContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>PostOperatorOnExpression</c>
-	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context);
+	Result VisitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>FieldAccessOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
@@ -197,12 +183,26 @@ public interface IClepsVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFieldAccessOnExpression([NotNull] ClepsParser.FieldAccessOnExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>ArrayAccessOnExpression</c>
+	/// Visit a parse tree produced by the <c>FunctionCallOnExpression</c>
 	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitArrayAccessOnExpression([NotNull] ClepsParser.ArrayAccessOnExpressionContext context);
+	Result VisitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>PostOperatorOnExpression</c>
+	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPostOperatorOnExpression([NotNull] ClepsParser.PostOperatorOnExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>SimpleExpression</c>
+	/// labeled alternative in <see cref="ClepsParser.rightHandExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSimpleExpression([NotNull] ClepsParser.SimpleExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ClepsParser.rightHandExpressionSimple"/>.
 	/// </summary>
@@ -270,6 +270,12 @@ public interface IClepsVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFunctionAssignment([NotNull] ClepsParser.FunctionAssignmentContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ClepsParser.platformAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPlatformAssignment([NotNull] ClepsParser.PlatformAssignmentContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ClepsParser.functionCall"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -335,4 +341,16 @@ public interface IClepsVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDoWhileStatement([NotNull] ClepsParser.DoWhileStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ClepsParser.nativeStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNativeStatement([NotNull] ClepsParser.NativeStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="ClepsParser.nativeCode"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNativeCode([NotNull] ClepsParser.NativeCodeContext context);
 }

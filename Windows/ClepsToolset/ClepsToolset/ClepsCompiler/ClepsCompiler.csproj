@@ -69,6 +69,7 @@
     <Compile Include="CompilerStructures\CompilerConstants.cs" />
     <Compile Include="CompilerTypes\ArrayClepsType.cs" />
     <Compile Include="CompilerTypes\BasicClepsType.cs" />
+    <Compile Include="CompilerTypes\BasicStaticClepsType.cs" />
     <Compile Include="CompilerTypes\ClepsType.cs" />
     <Compile Include="CompilerStructures\CompilerError.cs" />
     <Compile Include="CompilerStructures\CompilerErrorException.cs" />
