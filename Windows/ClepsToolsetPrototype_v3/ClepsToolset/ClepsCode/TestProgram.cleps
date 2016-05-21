@@ -1,0 +1,69 @@
+namespace System.Tests
+{
+	public class TestStruct
+	{
+		public System.Types.Byte ByteVal;
+	}
+
+	public class MainProgram
+	{
+		public static System.Tests.TestStruct TestStaticVar;
+
+		public System.Tests.TestStruct TestMemberVar;
+		public System.Tests.TestStruct TestStructVar;
+
+		public System.Types.Byte TestMemberByte = 5b;
+		public static System.Types.Byte TestStaticByte = 6b;
+
+		public static () -> System.Types.Byte TestStaticFn = () -> System.Types.Byte
+		{
+			System.Types.Byte @test;
+			@test = 1b;
+			
+			System.Types.Byte[2] @testArr = [ 7b, @test ];
+			@test = @testArr[@test];	
+			@testArr[@test] = 6b;
+			
+			System.Console @consoleObj = new System.Console();
+			if(@consoleObj.DoesConsoleOutputExist())
+			{
+				@consoleObj.ConsoleOutput(@testArr[@test]);
+			}
+			
+			//@test = TestStaticFn2(@testArr[@test]);
+			
+			System.Types.Bool @boolTrue = true;
+			System.Types.Bool @boolFalse = false;
+			
+			if(@boolTrue)
+			{
+				System.Types.Byte @varInIf = 1b;
+			}
+			
+			System.Types.Byte @testInst = new System.Types.Byte(5b);
+			System.Tests.TestStruct @testInst2 = new System.Tests.TestStruct();
+			
+			return 5b;
+		};
+
+		public static (System.Types.Byte, System.Types.Byte) -> System.Types.Byte TestStaticFn2 = (System.Types.Byte @testVar, System.Types.Byte @testVar2) -> System.Types.Byte
+		{
+			return @testVar;
+		};
+
+		public () -> System.Types.Byte TestMemberFn = () -> System.Types.Byte
+		{
+			return 5b;
+		};
+
+		public const () -> System.Types.Byte TestMemberConstFn = () -> System.Types.Byte
+		{
+			return 5b;
+		};
+
+		public const () -> void TestVoidReturnFn = () -> void
+		{
+			
+		};
+	}
+}

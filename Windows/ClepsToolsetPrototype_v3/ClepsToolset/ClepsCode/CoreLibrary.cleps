@@ -1,0 +1,29 @@
+namespace System.Types
+{
+	public class Byte
+	{
+	}
+}
+namespace System
+{
+	public class Console
+	{
+		public static () -> System.Types.Bool DoesConsoleInputExist = () -> System.Types.Bool
+		{
+			return false;
+		};
+
+		public static () -> System.Types.Bool DoesConsoleOutputExist = () -> System.Types.Bool
+		{
+			return true;
+		};
+
+		public static (System.Types.Byte) -> void ConsoleOutput = (System.Types.Byte @val) -> void
+		{
+			native(1)
+			[{
+				console.log(_$val);
+			}];
+		};
+	}
+}

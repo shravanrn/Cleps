@@ -406,7 +406,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             bool classFound = false;
             int i;
 
-            for (i = 1; i <= namespaceClassAndFieldHierarchy.Count; i++)
+            for (i = namespaceClassAndFieldHierarchy.Count; i >= 1; i--)
             {
                 string classNameToTest = String.Join(".", namespaceClassAndFieldHierarchy.Take(i).ToList());
                 if (ClassManager.IsClassBodySet(classNameToTest))

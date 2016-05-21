@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2AD2B9AA-370F-4AB5-A560-3FD37B9F6873}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ClepsCompiler</RootNamespace>
+    <AssemblyName>ClepsCompiler</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr4.Runtime">
+      <HintPath>..\..\..\Binaries\Antlr\Antlr4.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="LLVMSharp">
+      <HintPath>..\..\..\Binaries\LLVMSharp\LLVMSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommandLineParameters.cs" />
+    <Compile Include="CompilerBackend\Backends\JavaScript\JavaScriptCodeGenerator.cs" />
+    <Compile Include="CompilerBackend\Backends\JavaScript\JavaScriptCodeOutputter.cs" />
+    <Compile Include="CompilerBackend\Backends\JavaScript\JavaScriptCodeParameters.cs" />
+    <Compile Include="CompilerBackend\Backends\JavaScript\JavaScriptMethod.cs" />
+    <Compile Include="CompilerBackend\Backends\JavaScript\JavaScriptRegister.cs" />
+    <Compile Include="CompilerBackend\Backends\JavaScript\JavaScriptValue.cs" />
+    <Compile Include="CompilerBackend\ICodeGenerator.cs" />
+    <Compile Include="CompilerBackend\IMethodValue.cs" />
+    <Compile Include="CompilerBackend\IValue.cs" />
+    <Compile Include="CompilerBackend\IValueRegister.cs" />
+    <Compile Include="CompilerBackend\Structures\FunctionContainer.cs" />
+    <Compile Include="CompilerCore\ClassManager.cs" />
+    <Compile Include="CompilerCore\CompilerDriver.cs" />
+    <Compile Include="CompilerCore\FunctionOverloadManager.cs" />
+    <Compile Include="CompilerCore\LexerParserErrorHandler.cs" />
+    <Compile Include="CompilerCore\TypeManager.cs" />
+    <Compile Include="CompilerStructures\AbstractCompilerLog.cs" />
+    <Compile Include="CompilerStructures\ClepsClass.cs" />
+    <Compile Include="CompilerCore\ClepsClassBuilder.cs" />
+    <Compile Include="CompilerStructures\ClepsVariable.cs" />
+    <Compile Include="CompilerStructures\CompilerConstants.cs" />
+    <Compile Include="CompilerStructures\CompilerError.cs" />
+    <Compile Include="CompilerStructures\CompilerLogException.cs" />
+    <Compile Include="CompilerStructures\CompilerWarning.cs" />
+    <Compile Include="CompilerStructures\CompileStatus.cs" />
+    <Compile Include="CompilerCore\VariableManager.cs" />
+    <Compile Include="CompilerTypes\ArrayClepsType.cs" />
+    <Compile Include="CompilerTypes\GenericClepsType.cs" />
+    <Compile Include="CompilerTypes\BasicClepsType.cs" />
+    <Compile Include="CompilerTypes\ClepsType.cs" />
+    <Compile Include="CompilerTypes\FunctionClepsType.cs" />
+    <Compile Include="CompilerTypes\PointerClepsType.cs" />
+    <Compile Include="CompilerTypes\VoidClepsType.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsAbstractVisitor.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsClassNamesCollectorVisitor.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyAnalysisVisitor_Abstract.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_ArrayOperations.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_Common.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_FieldOrClass.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_FunctionAssignment.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_FunctionCall.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_SimpleRegisterAssignments.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_Statements.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_VariableOperations.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsMemberGeneratorVisitor.cs" />
+    <Compile Include="Utils\ClassBehaviors\EqualsAndHashCode.cs" />
+    <Compile Include="Utils\Collections\Comparer2.cs" />
+    <Compile Include="Utils\Collections\DictionaryEnumerator.cs" />
+    <Compile Include="Utils\Collections\IOrderedDictionary.cs" />
+    <Compile Include="Utils\Collections\KeyedCollection2.cs" />
+    <Compile Include="Utils\Collections\OrderedDictionary.cs" />
+    <Compile Include="Utils\Collections\OrderedDictionaryDebug.cs" />
+    <Compile Include="Utils\Helpers\NameGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClepsParser\ClepsParser.csproj">
+      <Project>{059180a4-75d0-45a7-9a65-ec8c7e82b1e5}</Project>
+      <Name>ClepsParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
