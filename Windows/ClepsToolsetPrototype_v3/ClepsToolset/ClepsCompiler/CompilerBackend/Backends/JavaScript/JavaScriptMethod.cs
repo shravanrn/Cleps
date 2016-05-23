@@ -38,7 +38,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
             formalParameters.ForEach(parameterName =>
             {
-                string varNameUsed = NameGenerator.GetAvailableName("_$" + parameterName, variablesCreated);
+                string varNameUsed = NameGenerator.GetAvailableName(JavaScriptCodeParameters.VARIABLEPREFIX + parameterName, variablesCreated);
                 variablesCreated.Add(varNameUsed);
                 FormalParameters.Add(parameterName, varNameUsed);
             });
@@ -55,7 +55,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
         public IValueRegister CreateNewVariable(ClepsVariable variable, IValue initialValue = null)
         {
-            string varName = NameGenerator.GetAvailableName("_$" + variable.VariableName, variablesCreated);
+            string varName = NameGenerator.GetAvailableName(JavaScriptCodeParameters.VARIABLEPREFIX + variable.VariableName, variablesCreated);
             variablesCreated.Add(varName);
 
             if (initialValue == null)
@@ -94,7 +94,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         public void CreateIfStatementBlock(IValue condition)
         {
             JavaScriptValue conditionToUse = condition as JavaScriptValue;
-            AppendFormatLine("if({0}) {{", conditionToUse.Expression);
+            AppendFormatLine("if({0}[0]) {{", conditionToUse.Expression);
             IndentationLevel++;
         }
 

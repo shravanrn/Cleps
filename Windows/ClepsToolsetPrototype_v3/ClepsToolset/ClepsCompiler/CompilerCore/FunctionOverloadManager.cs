@@ -11,7 +11,7 @@ namespace ClepsCompiler.CompilerCore
 {
     class FunctionOverloadManager
     {
-        public static bool FindMatchingFunctionType(List<ClepsVariable> functionOverloads, List<IValue> parameters, out int matchPostition, out string errorMessage)
+        public static bool FindMatchingFunctionType(TypeManager typeManager,  List<ClepsVariable> functionOverloads, List<IValue> parameters, out int matchPostition, out string errorMessage)
         {
             if(functionOverloads.Count > 1)
             {
@@ -19,19 +19,21 @@ namespace ClepsCompiler.CompilerCore
             }
 
             var functionOverload = functionOverloads[0];
+            var functionOverloadType = functionOverload.VariableType as FunctionClepsType;
 
-            if(parameters.Count != (functionOverload.VariableType as FunctionClepsType).ParameterTypes.Count)
+            if (parameters.Count == functionOverloadType.ParameterTypes.Count &&
+                functionOverloadType.ParameterTypes.Zip(parameters.Select(p => p.ExpressionType).ToList(), (targetType, callType) => typeManager.IsSameOrSubTypeOf(targetType, callType)).All(v => v))
+            {
+                matchPostition = 0;
+                errorMessage = null;
+                return true;
+            }
+            else
             {
                 string parametersString = String.Join(",", parameters.Select(p => p.ExpressionType.GetClepsTypeString()).ToList());
                 matchPostition = -1;
                 errorMessage = String.Format("No function overload supports parameters of type: ({0})", parametersString);
                 return false;
-            }
-            else
-            {
-                matchPostition = 0;
-                errorMessage = null;
-                return true;
             }
         }
 

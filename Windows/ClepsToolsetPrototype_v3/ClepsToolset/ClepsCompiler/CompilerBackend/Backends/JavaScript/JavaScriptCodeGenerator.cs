@@ -46,8 +46,8 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             ClassStaticInitializers[className] = new JavaScriptMethod(new FunctionClepsType(new List<ClepsType>(), VoidClepsType.GetVoidType()));
 
             //static initializing should occur only once
-            ClassStaticInitializers[className].CreateIfStatementBlock(new JavaScriptValue("!" + JavaScriptCodeParameters.TOPLEVELNAMESPACE + "." + className + ".classStaticInitialized", CompilerConstants.ClepsBoolType));
-            ClassStaticInitializers[className].CreateAssignment(new JavaScriptRegister(JavaScriptCodeParameters.TOPLEVELNAMESPACE + "." + className + ".classStaticInitialized", CompilerConstants.ClepsBoolType), new JavaScriptValue("true", CompilerConstants.ClepsBoolType));
+            ClassStaticInitializers[className].CreateIfStatementBlock(new JavaScriptValue("![" + JavaScriptCodeParameters.TOPLEVELNAMESPACE + "." + className + ".classStaticInitialized]", CompilerConstants.ClepsBoolType));
+            ClassStaticInitializers[className].CreateAssignment(new JavaScriptRegister(JavaScriptCodeParameters.TOPLEVELNAMESPACE + "." + className + ".classStaticInitialized", CompilerConstants.ClepsBoolType), new JavaScriptValue("[true]", CompilerConstants.ClepsBoolType));
         }
 
         public void SetClassBodyAndCreateConstructor(ClepsClass clepsClass)
@@ -93,12 +93,12 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
         public IValue CreateByte(byte value)
         {
-            return new JavaScriptValue(value.ToString(), CompilerConstants.ClepsByteType);
+            return new JavaScriptValue(String.Format("[{0}]", value), CompilerConstants.ClepsByteType);
         }
 
         public IValue CreateBoolean(bool value)
         {
-            return new JavaScriptValue(value ? "true" : "false", CompilerConstants.ClepsBoolType);
+            return new JavaScriptValue(String.Format("[{0}]", value ? "true" : "false"), CompilerConstants.ClepsBoolType);
         }
 
         public IValue CreateArray(ClepsType arrayType, List<IValue> arrayElements)
@@ -116,20 +116,52 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             return ret;
         }
 
+        public IValue GetThisInstanceValue(BasicClepsType thisInstanceType)
+        {
+            JavaScriptValue ret = new JavaScriptValue("this", thisInstanceType);
+            return ret;
+        }
+
+        public IValue GetPtrToValue(IValue value)
+        {
+            JavaScriptValue valueToUse = value as JavaScriptValue;
+            return new JavaScriptValue(String.Format("[{0}]", valueToUse.Expression), new PointerClepsType(valueToUse.ExpressionType));
+        }
+
+        public IValue DereferencePtrToValue(IValue value)
+        {
+            JavaScriptValue valueToUse = value as JavaScriptValue;
+            return new JavaScriptValue(String.Format("{0}[0]", valueToUse.Expression), (valueToUse.ExpressionType as PointerClepsType).BaseType);
+        }
+
         public IValue GetRegisterValue(IValueRegister register)
         {
             JavaScriptRegister registerToUse = register as JavaScriptRegister;
-
             var ret = new JavaScriptValue(registerToUse.Expression, registerToUse.ExpressionType);
             return ret;
         }
 
-        public IValue GetFunctionCallReturnValue(string fullyQualifiedClassName, string targetFunctionName, FunctionClepsType clepsType, List<IValue> parameters)
+        public IValue GetFunctionCallReturnValue(IValue target, BasicClepsType targetType, string targetFunctionName, FunctionClepsType clepsType, List<IValue> parameters)
         {
-            string fullFunctionName = String.Format("{0}.{1}.{2}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, fullyQualifiedClassName, JavaScriptCodeParameters.GetMangledFunctionName(targetFunctionName, clepsType));
+            string code;
 
-            string parameterString = String.Join(", ", parameters.Select(v => (v as JavaScriptValue).Expression).ToList());
-            string code = String.Format("{0}({1})", fullFunctionName, parameterString);
+            if (CompilerConstants.SystemSupportedTypes.Contains(targetType))
+            {
+                bool isStatic = target == null;
+                string fullFunctionName = String.Format("{0}.{1}.{2}{3}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, targetType.GetClepsTypeString(), isStatic? "" : "prototype.",JavaScriptCodeParameters.GetMangledFunctionName(targetFunctionName, clepsType));
+                string functionTarget = target != null ? (target as JavaScriptValue).Expression : String.Format("{0}.{1}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, targetType.GetClepsTypeString());
+                string parameterString = String.Join("", parameters.Select(v => ", " + (v as JavaScriptValue).Expression).ToList());
+
+                code = String.Format("{0}.call({1}{2})", fullFunctionName, functionTarget, parameterString);
+            }
+            else
+            {
+                string functionTarget = target != null ? (target as JavaScriptValue).Expression : String.Format("{0}.{1}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, targetType.GetClepsTypeString());
+                string fullFunctionName = String.Format("{0}.{1}", functionTarget, JavaScriptCodeParameters.GetMangledFunctionName(targetFunctionName, clepsType));
+
+                string parameterString = String.Join(", ", parameters.Select(v => (v as JavaScriptValue).Expression).ToList());
+                code = String.Format("{0}({1})", fullFunctionName, parameterString);
+            }
 
             JavaScriptValue ret = new JavaScriptValue(code, clepsType.ReturnType);
             return ret;
@@ -140,7 +172,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             JavaScriptValue leftValueToUse = leftValue as JavaScriptValue;
             JavaScriptValue rightValueToUse = rightValue as JavaScriptValue;
 
-            string code = String.Format("({0} == {1})", leftValueToUse.Expression, rightValueToUse.Expression);
+            string code = String.Format("[{0}[0] == {1}[0]]", leftValueToUse.Expression, rightValueToUse.Expression);
 
             JavaScriptValue ret = new JavaScriptValue(code, CompilerConstants.ClepsBoolType);
             return ret;
@@ -166,7 +198,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             return ret;
         }
 
-        public IValueRegister GetMemberFieldRegisterForWriteFromDifferentClass(string className, string memberName, ClepsType memberType)
+        public IValueRegister GetConstantMemberFieldRegisterForWrite(string className, string memberName, ClepsType memberType)
         {
             JavaScriptRegister ret;
             if (memberType.IsFunctionType)
@@ -175,7 +207,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             }
             else
             {
-                ret = new JavaScriptRegister(String.Format("{0}.{1}.{2}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, className, memberName), memberType);
+                ret = new JavaScriptRegister(String.Format("{0}.{1}.prototype.{2}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, className, memberName), memberType);
             }
             return ret;
         }

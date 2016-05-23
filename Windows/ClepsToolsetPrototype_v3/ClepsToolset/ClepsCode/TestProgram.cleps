@@ -30,7 +30,7 @@ namespace System.Tests
 				@consoleObj.ConsoleOutput(@testArr[@test]);
 			}
 			
-			//@test = TestStaticFn2(@testArr[@test]);
+			@test = TestStaticFn2(@testArr[@test]);
 			
 			System.Types.Bool @boolTrue = true;
 			System.Types.Bool @boolFalse = false;
@@ -42,18 +42,20 @@ namespace System.Tests
 			
 			System.Types.Byte @testInst = new System.Types.Byte(5b);
 			System.Tests.TestStruct @testInst2 = new System.Tests.TestStruct();
+
+			8b.Print();
 			
 			return 5b;
 		};
 
-		public static (System.Types.Byte, System.Types.Byte) -> System.Types.Byte TestStaticFn2 = (System.Types.Byte @testVar, System.Types.Byte @testVar2) -> System.Types.Byte
+		public static (System.Types.Byte) -> System.Types.Byte TestStaticFn2 = (System.Types.Byte @testVar) -> System.Types.Byte
 		{
 			return @testVar;
 		};
 
 		public () -> System.Types.Byte TestMemberFn = () -> System.Types.Byte
 		{
-			return 5b;
+			return TestMemberConstFn();
 		};
 
 		public const () -> System.Types.Byte TestMemberConstFn = () -> System.Types.Byte

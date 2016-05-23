@@ -18,5 +18,10 @@ namespace ClepsCompiler.CompilerCore
 
             throw new NotImplementedException("Super type of no or multiple types is not supported");
         }
+
+        public bool IsSameOrSubTypeOf(ClepsType baseType, ClepsType typeToTest)
+        {
+            return baseType == typeToTest;
+        }
     }
 }

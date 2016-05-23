@@ -15,7 +15,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
         {
             IValue value = Visit(rightHandExpression) as IValue;
 
-            if (register.ExpressionType == value.ExpressionType && register.ExpressionType == CompilerConstants.ClepsByteType)
+            if (register.ExpressionType == value.ExpressionType && CompilerConstants.SystemSupportedTypes.Contains(register.ExpressionType))
             {
                 CurrMethodRegister.CreateAssignment(register, value);
             }
@@ -25,19 +25,15 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             }
         }
 
-        private BasicClepsType GetDereferencedTypeOrNull(ClepsType targetType)
+        private IValue GetDereferencedRegisterOrNull(IValue target)
         {
-            if (targetType == null)
+            if (target == null)
             {
                 return null;
             }
-            else if (targetType is BasicClepsType)
+            else if (target.ExpressionType is BasicClepsType)
             {
-                return targetType as BasicClepsType;
-            }
-            else if (targetType is PointerClepsType)
-            {
-                return GetDereferencedTypeOrNull((targetType as PointerClepsType).BaseType);
+                return target;
             }
             else
             {

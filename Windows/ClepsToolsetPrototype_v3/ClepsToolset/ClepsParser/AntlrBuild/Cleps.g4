@@ -15,6 +15,7 @@ VOID : 'void';
 TRUE : 'true';
 FALSE : 'false';
 NULL : 'null';
+THIS : 'this';
 IF : 'if';
 FOR : 'for';
 DO : 'do';
@@ -90,13 +91,16 @@ rightHandExpression :
 	| operatorSymbol rightHandExpression # PreOperatorOnExpression
 	| LeftExpression=rightHandExpression operatorSymbol RightExpression=rightHandExpression # BinaryOperatorOnExpression
 	| rightHandExpression operatorSymbol # PostOperatorOnExpression
+	| '@(' addressOfOrValueAtTargetExpression ')' # AddressOfOnExpression
+	| '$(' addressOfOrValueAtTargetExpression ')' # ValueAtOnExpression
 ;
 
-rightHandExpressionSimple : stringAssignments | numericAssignments | nullAssignment | booleanAssignments | arrayAssignment | functionCallAssignment | variableAssignment | fieldOrClassAssignment | classInstanceAssignment | functionAssignment;
+rightHandExpressionSimple : stringAssignments | numericAssignments | nullAssignment | booleanAssignments | thisAssignment | arrayAssignment | functionCallAssignment | variableAssignment | fieldOrClassAssignment | classInstanceAssignment | functionAssignment;
 numericAssignments : numeric;
 nullAssignment : NULL;
 booleanAssignments : TRUE|FALSE;
 stringAssignments : stringValue;
+thisAssignment : THIS;
 arrayAssignment : '[' (ArrayElements+=rightHandExpression (',' ArrayElements+=rightHandExpression)*)? ']';
 functionCallAssignment : functionCall;
 variableAssignment : variable;
@@ -106,6 +110,8 @@ functionAssignment : '(' (FunctionParameters+=variableDeclaration (',' FunctionP
 
 functionCall : FunctionName=classOrMemberName '(' (FunctionParameters+=rightHandExpression (',' FunctionParameters+=rightHandExpression)*)? ')';
 statementBlock : '{' functionStatement* '}';
+
+addressOfOrValueAtTargetExpression : thisAssignment | variableAssignment | fieldOrClassAssignment;
 
 /////////////////////////////////////////////////////////////
 

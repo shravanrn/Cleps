@@ -11,5 +11,7 @@ namespace ClepsCompiler.CompilerStructures
     {
         public static readonly ClepsType ClepsByteType = new BasicClepsType("System.Types.Byte");
         public static readonly ClepsType ClepsBoolType = new BasicClepsType("System.Types.Bool");
+
+        public static List<ClepsType> SystemSupportedTypes = new List<ClepsType> { ClepsByteType, ClepsBoolType };
     }
 }

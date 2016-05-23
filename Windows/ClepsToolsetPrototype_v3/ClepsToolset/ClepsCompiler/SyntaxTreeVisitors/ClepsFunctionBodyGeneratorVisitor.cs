@@ -14,7 +14,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
     partial class ClepsFunctionBodyGeneratorVisitor : ClepsFunctionBodyAnalysisVisitor_Abstract
     {
         //private string CurrMemberName;
-        //private bool CurrMemberIsStatic;
+        private bool CurrMemberIsStatic;
         private ClepsType CurrMemberType;
         private IMethodValue CurrMethodRegister;
         private List<VariableManager> VariableManagers = new List<VariableManager>();
@@ -33,11 +33,11 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             bool isConst = context.CONST() != null;
 
             //var oldMemberName = CurrMemberName;
-            //var oldMemberIsStatic = CurrMemberIsStatic;
+            var oldMemberIsStatic = CurrMemberIsStatic;
             var oldMemberType = CurrMemberType;
 
             //CurrMemberName = memberName;
-            //CurrMemberIsStatic = isStatic;
+            CurrMemberIsStatic = isStatic;
             CurrMemberType = memberType;
 
             if (context.rightHandExpression() != null)
@@ -60,7 +60,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                         if (isConst)
                         {
                             initializerMethod = CodeGenerator.GetGlobalInitializerRegister();
-                            targetRegister = CodeGenerator.GetMemberFieldRegisterForWriteFromDifferentClass(FullyQualifiedClassName, memberName, memberType);
+                            targetRegister = CodeGenerator.GetConstantMemberFieldRegisterForWrite(FullyQualifiedClassName, memberName, memberType);
                         }
                         else
                         {
@@ -74,7 +74,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             }
 
             //CurrMemberName = oldMemberName;
-            //CurrMemberIsStatic = oldMemberIsStatic;
+            CurrMemberIsStatic = oldMemberIsStatic;
             CurrMemberType = oldMemberType;
 
             return true;

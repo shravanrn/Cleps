@@ -16,38 +16,30 @@ namespace ClepsCompiler.SyntaxTreeVisitors
         public override object VisitFunctionCallOnExpression([NotNull] ClepsParser.FunctionCallOnExpressionContext context)
         {
             IValue target = Visit(context.rightHandExpression()) as IValue;
-            return doFunctionCall(context.functionCall(), target, target.ExpressionType, true, false /* allowVoidReturn */);
+            return doFunctionCall(context.functionCall(), target, target.ExpressionType, false /* allowVoidReturn */);
         }
 
         public override object VisitFunctionCallStatement([NotNull] ClepsParser.FunctionCallStatementContext context)
         {
-            if(context.rightHandExpression() == null)
-            {
-                throw new NotImplementedException("Function call with target expression is not yet supported");
-            }
-
             IValue target = Visit(context.rightHandExpression()) as IValue;
-            IValue functionCall = doFunctionCall(context.functionCall(), target, target.ExpressionType, true, true /* allowVoidReturn */);
+            IValue functionCall = doFunctionCall(context.functionCall(), target, target.ExpressionType, true /* allowVoidReturn */);
             CurrMethodRegister.CreateFunctionCallStatement(functionCall);
 
             return true;
         }
 
-        //public override object VisitFunctionCallAssignment([NotNull] ClepsParser.FunctionCallAssignmentContext context)
-        //{
-        //    if (!ClassManager.IsClassBodySet(FullyQualifiedClassName))
-        //    {
-        //        //This is probably due to some earlier error. Just return something to avoid stalling compilation
-        //        return CodeGenerator.CreateByte(0);
-        //    }
-
-        //    ClepsType currentType = new BasicClepsType(FullyQualifiedClassName);
-        //    return doFunctionCall(context.functionCall(), currentType, !CurrMemberIsStatic, false /* allowVoidReturn */);
-        //}
-
-        private IValue doFunctionCall(ClepsParser.FunctionCallContext functionCall, IValue target, ClepsType targetType, bool isMemberFunctionsAccessible, bool allowVoidReturn)
+        public override object VisitFunctionCallAssignment([NotNull] ClepsParser.FunctionCallAssignmentContext context)
         {
-            BasicClepsType dereferencedType = GetDereferencedTypeOrNull(targetType);
+            BasicClepsType currentType = new BasicClepsType(FullyQualifiedClassName);
+            IValue target = CurrMemberIsStatic? null : CodeGenerator.GetThisInstanceValue(currentType);
+            return doFunctionCall(context.functionCall(), target, currentType, true /* allowVoidReturn */);
+        }
+
+        private IValue doFunctionCall(ClepsParser.FunctionCallContext functionCall, IValue target, ClepsType targetType, bool allowVoidReturn)
+        {
+            IValue dereferencedTarget = target == null? null : GetDereferencedRegisterOrNull(target);
+            BasicClepsType dereferencedType = target == null? targetType as BasicClepsType : dereferencedTarget.ExpressionType as BasicClepsType;
+
             if (dereferencedType == null)
             {
                 string errorMessage = String.Format("Could not dereference expression on type {0}", targetType.GetClepsTypeString());
@@ -61,17 +53,20 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             List<IValue> parameters = functionCall._FunctionParameters.Select(p => Visit(p) as IValue).ToList();
 
             List<ClepsVariable> functionOverloads;
+            bool isStatic;
             if (targetClepsClass.StaticMemberMethods.ContainsKey(targetFunctionName))
             {
+                isStatic = true;
                 functionOverloads = targetClepsClass.StaticMemberMethods[targetFunctionName];
             }
-            else if (isMemberFunctionsAccessible && targetClepsClass.MemberMethods.ContainsKey(targetFunctionName))
+            else if (target != null && targetClepsClass.MemberMethods.ContainsKey(targetFunctionName))
             {
+                isStatic = false;
                 functionOverloads = targetClepsClass.MemberMethods[targetFunctionName];
             }
             else
             {
-                string errorMessage = String.Format("Class {0} does not contain a {1}static function called {2}.", targetClepsClass.FullyQualifiedName, isMemberFunctionsAccessible? "member or " : "",targetFunctionName);
+                string errorMessage = String.Format("Class {0} does not contain a {1}static function called {2}.", targetClepsClass.FullyQualifiedName, target == null? "" : "member or ",targetFunctionName);
                 Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, errorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
@@ -80,7 +75,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             int matchedPosition;
             string fnMatchErrorMessage;
 
-            if (!FunctionOverloadManager.FindMatchingFunctionType(functionOverloads, parameters, out matchedPosition, out fnMatchErrorMessage))
+            if (!FunctionOverloadManager.FindMatchingFunctionType(TypeManager, functionOverloads, parameters, out matchedPosition, out fnMatchErrorMessage))
             {
                 Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, fnMatchErrorMessage));
                 //Just return something to avoid stalling compilation
@@ -97,7 +92,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 return CodeGenerator.CreateByte(0);
             }
 
-            IValue returnValue = CodeGenerator.GetFunctionCallReturnValue(targetType.GetClepsTypeString(), targetFunctionName, chosenFunctionType, parameters);
+            IValue returnValue = CodeGenerator.GetFunctionCallReturnValue(isStatic? null : dereferencedTarget, dereferencedType, targetFunctionName, chosenFunctionType, parameters);
             return returnValue;
         }
 

@@ -94,6 +94,7 @@
     <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_FieldOrClass.cs" />
     <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_FunctionAssignment.cs" />
     <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_FunctionCall.cs" />
+    <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_PointerManipulation.cs" />
     <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_SimpleRegisterAssignments.cs" />
     <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_Statements.cs" />
     <Compile Include="SyntaxTreeVisitors\ClepsFunctionBodyGeneratorVisitor_VariableOperations.cs" />

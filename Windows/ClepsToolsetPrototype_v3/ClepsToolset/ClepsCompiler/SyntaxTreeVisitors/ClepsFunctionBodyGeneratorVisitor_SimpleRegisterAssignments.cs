@@ -44,14 +44,29 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             return CodeGenerator.CreateBoolean(context.TRUE() != null);
         }
 
+        public override object VisitThisAssignment([NotNull] ClepsParser.ThisAssignmentContext context)
+        {
+            if(CurrMemberIsStatic)
+            {
+                string errorMessage = "Cannot use the this keyword in a static member";
+                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                //just return something to avoid stalling
+                return CodeGenerator.CreateByte(0);
+            }
+
+            BasicClepsType currentClassType = new BasicClepsType(FullyQualifiedClassName);
+            IValue thisValue = CodeGenerator.GetThisInstanceValue(currentClassType);
+            IValue thisPtr = CodeGenerator.GetPtrToValue(thisValue);
+            return thisPtr;
+        }
+
         public override object VisitClassInstanceAssignment([NotNull] ClepsParser.ClassInstanceAssignmentContext context)
         {
             ClepsType typeName = Visit(context.typename()) as ClepsType;
             List<IValue> functionParams = context._FunctionParameters.Select(p => Visit(p) as IValue).ToList();
 
             IValue instance;
-            if (
-                (typeName == CompilerConstants.ClepsByteType || typeName == CompilerConstants.ClepsBoolType) &&
+            if (CompilerConstants.SystemSupportedTypes.Contains(typeName) &&
                 (functionParams.Count == 1 && functionParams[0].ExpressionType == typeName)
             )
             {

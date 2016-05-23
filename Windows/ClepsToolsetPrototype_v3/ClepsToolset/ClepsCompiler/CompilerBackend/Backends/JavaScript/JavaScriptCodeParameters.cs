@@ -10,6 +10,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
     class JavaScriptCodeParameters
     {
         public const string TOPLEVELNAMESPACE = "Cleps";
+        public const string VARIABLEPREFIX = "_$";
 
         public static readonly Dictionary<char, char> CHARACTERSUBSTITUTIONS = new Dictionary<char, char>()
         {

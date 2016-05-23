@@ -2,6 +2,14 @@ namespace System.Types
 {
 	public class Byte
 	{
+		public const () -> void Print = () -> void
+		{
+			System.Console @consoleObj = new System.Console();
+			if(@consoleObj.DoesConsoleOutputExist())
+			{
+				@consoleObj.ConsoleOutput($(this));
+			}
+		};
 	}
 }
 namespace System
@@ -20,10 +28,7 @@ namespace System
 
 		public static (System.Types.Byte) -> void ConsoleOutput = (System.Types.Byte @val) -> void
 		{
-			native(1)
-			[{
-				console.log(_$val);
-			}];
+			native(1) [{	console.log(_$val[0]);}];
 		};
 	}
 }

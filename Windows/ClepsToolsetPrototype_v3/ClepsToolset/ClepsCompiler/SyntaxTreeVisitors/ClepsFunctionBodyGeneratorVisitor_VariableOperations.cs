@@ -21,7 +21,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         public override object VisitVariableAssignment([NotNull] ClepsParser.VariableAssignmentContext context)
         {
-            IValueRegister register = GetVariableRegister(context);
+            IValueRegister register = GetVariableRegisterOrNullWithError(context);
             IValue variableValue;
             if (register == null)
             {
@@ -77,7 +77,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         public override object VisitFunctionVariableAssignmentStatement([NotNull] ClepsParser.FunctionVariableAssignmentStatementContext context)
         {
-            IValueRegister register = GetVariableRegister(context.variableAssignment());
+            IValueRegister register = GetVariableRegisterOrNullWithError(context.variableAssignment());
             if (register == null)
             {
                 return false;
@@ -88,7 +88,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             return register;
         }
 
-        private IValueRegister GetVariableRegister([NotNull] ClepsParser.VariableAssignmentContext context)
+        private IValueRegister GetVariableRegisterOrNullWithError([NotNull] ClepsParser.VariableAssignmentContext context)
         {
             string variableName = Visit(context.variable()) as string;
             var variableManager = VariableManagers.Last();
