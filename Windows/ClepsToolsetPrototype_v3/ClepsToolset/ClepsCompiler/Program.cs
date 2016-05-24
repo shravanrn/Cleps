@@ -41,7 +41,7 @@ namespace ClepsCompiler
 
         private static CommandLineParameters ParseParameters(string[] args)
         {
-            CommandLineParameters programParams = new CommandLineParameters { Files = new List<string>(args), OutputDirectory = ".", OutputFileName = "outputFile", ExitOnFirstError = false };
+            CommandLineParameters programParams = new CommandLineParameters { Files = new List<string>(args), OutputDirectory = ".", OutputFileName = "outputFile", ExitOnFirstError = false, EntryPointClass = null };
             if (programParams.Files.Count == 0)
             {
                 {

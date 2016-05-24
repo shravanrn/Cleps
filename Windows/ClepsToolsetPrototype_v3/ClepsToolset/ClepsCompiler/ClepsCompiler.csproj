@@ -63,6 +63,7 @@
     <Compile Include="CompilerBackend\Structures\FunctionContainer.cs" />
     <Compile Include="CompilerCore\ClassManager.cs" />
     <Compile Include="CompilerCore\CompilerDriver.cs" />
+    <Compile Include="CompilerCore\EntryPointManager.cs" />
     <Compile Include="CompilerCore\FunctionOverloadManager.cs" />
     <Compile Include="CompilerCore\LexerParserErrorHandler.cs" />
     <Compile Include="CompilerCore\TypeManager.cs" />

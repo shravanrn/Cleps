@@ -12,5 +12,6 @@ namespace ClepsCompiler
         public string OutputDirectory { get; internal set; }
         public string OutputFileName { get; internal set; }
         public bool ExitOnFirstError { get; internal set; }
+        public string EntryPointClass { get; internal set; }
     }
 }

@@ -13,6 +13,7 @@ namespace ClepsCompiler.CompilerBackend
         void Initiate();
         void Close();
         byte GetPlatform();
+        void AddEntryPoint(string fullClassName, string functionName);
 
         void CreateClass(string className);
         void SetClassBodyAndCreateConstructor(ClepsClass clepsClass);

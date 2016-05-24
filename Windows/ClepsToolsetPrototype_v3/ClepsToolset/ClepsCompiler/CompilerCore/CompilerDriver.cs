@@ -27,6 +27,7 @@ namespace ClepsCompiler.CompilerCore
             CompileStatus status = new CompileStatus(Args.ExitOnFirstError);
             ICodeGenerator codeGenerator = new JavaScriptCodeGenerator();
             TypeManager typeManager = new TypeManager();
+            EntryPointManager entryPointManager = new EntryPointManager(status, Args.EntryPointClass);
 
             try
             {
@@ -37,13 +38,21 @@ namespace ClepsCompiler.CompilerCore
                     ParseFilesWithGenerator(classSkeletonGenerator, status);
                 }
                 {
-                    ClepsMemberGeneratorVisitor memberGenerator = new ClepsMemberGeneratorVisitor(status, classManager, codeGenerator);
+                    ClepsMemberGeneratorVisitor memberGenerator = new ClepsMemberGeneratorVisitor(status, classManager, codeGenerator, entryPointManager);
                     ParseFilesWithGenerator(memberGenerator, status);
                 }
                 {
                     ClepsFunctionBodyGeneratorVisitor functionBodyGenerator = new ClepsFunctionBodyGeneratorVisitor(status, classManager, codeGenerator, typeManager);
                     ParseFilesWithGenerator(functionBodyGenerator, status);
                 }
+
+                string entryClassName = entryPointManager.GetChosenEntryPointOrNull();
+
+                if (!String.IsNullOrWhiteSpace(entryClassName))
+                {
+                    codeGenerator.AddEntryPoint(entryClassName, EntryPointManager.EntryPointName);
+                }
+
                 codeGenerator.Output(Args.OutputDirectory, Args.OutputFileName, status);
             }
             catch (CompilerLogException)

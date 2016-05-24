@@ -27,17 +27,13 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             List<ClepsVariable> functionParameters = context._FunctionParameters.Select(p => Visit(p) as ClepsVariable).ToList();
 
-            //List<ClepsType> parameterTypes = context._FunctionParameterTypes.Select(t => Visit(context.FunctionReturnType) as ClepsType).ToList();
             FunctionClepsType functionType = new FunctionClepsType(functionParameters.Select(p => p.VariableType).ToList(), returnType);
 
-            var newMethod = CodeGenerator.CreateNewMethod(functionType);//.GetMethodRegister(FullyQualifiedClassName, CurrMemberIsStatic, CurrMemberType, CurrMemberName);
+            var newMethod = CodeGenerator.CreateNewMethod(functionType);
             CurrMethodRegister = newMethod;
 
-            //var formalParameterNames = context._FormalParameters.Select(p => Visit(p) as string).ToList();
             CurrMethodRegister.SetFormalParameterNames(functionParameters.Select(p => p.VariableName).ToList());
 
-            //formalParameterNames.Zip(parameterTypes, (name, clepsType) => new ClepsVariable(name, clepsType))
-            //    .ToList().ForEach(variable =>
             functionParameters.ForEach(variable => {
                 variableManager.AddLocalVariable(variable, CurrMethodRegister.GetFormalParameterRegister(variable.VariableName));
             });

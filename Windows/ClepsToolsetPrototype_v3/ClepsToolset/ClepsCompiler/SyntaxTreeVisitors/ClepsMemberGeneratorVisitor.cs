@@ -15,11 +15,15 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 {
     class ClepsMemberGeneratorVisitor : ClepsAbstractVisitor
     {
-        public ClepsMemberGeneratorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator) : base(status, classManager, codeGenerator){ }
+        private EntryPointManager EntryPointManager;
+
+        public ClepsMemberGeneratorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, EntryPointManager entryPointManager) : base(status, classManager, codeGenerator)
+        {
+            EntryPointManager = entryPointManager;
+        }
 
         public override bool VisitClassDeclarationStatements_Ex([NotNull] ClepsParser.ClassDeclarationStatementsContext context)
         {
-
             if (!ClassManager.IsClassBuilderAvailable(FullyQualifiedClassName))
             {
                 //if the class was not found in the loaded class stage, then this is probably due to an earlier parsing error, just stop processing this class
@@ -68,14 +72,11 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 return false;
             }
 
-            //if (memberType.IsFunctionType)
-            //{
-            //    CodeGenerator.CreateMethod(FullyQualifiedClassName, isStatic, memberType as FunctionClepsType, memberName);
-            //}
-
             bool isConst = context.CONST() != null;
-
             classBuilder.AddNewMember(isStatic, new ClepsVariable(memberName, memberType, isConst));
+
+            EntryPointManager.NewMemberSeen(FullyQualifiedClassName, memberName, memberType, isStatic);
+            
             return true;
         }
     }

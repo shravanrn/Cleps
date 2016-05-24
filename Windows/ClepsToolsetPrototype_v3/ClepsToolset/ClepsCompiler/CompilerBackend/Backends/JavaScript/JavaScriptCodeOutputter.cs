@@ -13,26 +13,29 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
     class JavaScriptCodeOutputter
     {
         private Dictionary<string, ClepsClass> ClassesLoaded;
-        //private Dictionary<FunctionContainer, JavaScriptMethod> MethodBodies;
         private Dictionary<string, JavaScriptMethod> ClassInitializers = new Dictionary<string, JavaScriptMethod>();
         private Dictionary<string, JavaScriptMethod> ClassStaticInitializers = new Dictionary<string, JavaScriptMethod>();
         private JavaScriptMethod GlobalInitializer;
         private List<string> NamespacesCreated;
+        private string EntryPointClass;
+        private string EntryPointFunctionName;
 
         public JavaScriptCodeOutputter(Dictionary<string, ClepsClass> classesLoaded, 
-            Dictionary<FunctionContainer, JavaScriptMethod> methodBodies,
             Dictionary<string, JavaScriptMethod> classInitializers,
             Dictionary<string, JavaScriptMethod> classStaticInitializers,
             JavaScriptMethod globalInitializer,
-            List<string> namespacesCreated
+            string entryPointClass, 
+            string entryPointFunctionName
         )
         {
             ClassesLoaded = classesLoaded;
-            //MethodBodies = methodBodies;
             ClassInitializers = classInitializers;
             ClassStaticInitializers = classStaticInitializers;
             GlobalInitializer = globalInitializer;
-            NamespacesCreated = namespacesCreated;
+            EntryPointClass = entryPointClass;
+            EntryPointFunctionName = entryPointFunctionName;
+
+            NamespacesCreated = new List<string>();
         }
 
         public void Output(string directoryName, string fileNameWithoutExtension, CompileStatus status)
@@ -46,6 +49,13 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             }
 
             output.AppendLine(GlobalInitializer.GetMethodBodyWithoutDeclaration());
+
+            if (!String.IsNullOrWhiteSpace(EntryPointClass) && !String.IsNullOrWhiteSpace(EntryPointFunctionName))
+            {
+                FunctionClepsType voidFuncType = new FunctionClepsType(new List<ClepsType>(), VoidClepsType.GetVoidType());
+                output.AppendFormat("{0}.{1}.{2}();\n", JavaScriptCodeParameters.TOPLEVELNAMESPACE, EntryPointClass, JavaScriptCodeParameters.GetMangledFunctionName("classStaticInitializer", voidFuncType));
+                output.AppendFormat("{0}.{1}.{2}();\n", JavaScriptCodeParameters.TOPLEVELNAMESPACE, EntryPointClass, JavaScriptCodeParameters.GetMangledFunctionName(EntryPointFunctionName, voidFuncType));
+            }
 
             var outputFileName = Path.Combine(directoryName, fileNameWithoutExtension + ".js");
             File.WriteAllText(outputFileName, output.ToString());
@@ -72,11 +82,6 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
             GenerateMethodWithBody(output, clepsClass.FullyQualifiedName, "classInitializer", voidFuncType, false, ClassInitializers[clepsClass.FullyQualifiedName]);
             GenerateMethodWithBody(output, clepsClass.FullyQualifiedName, "classStaticInitializer", voidFuncType, true, ClassStaticInitializers[clepsClass.FullyQualifiedName]);
-            //clepsClass.MemberMethods.ToList().ForEach(method => method.Value.ForEach(overloadType => GenerateMethod(output, clepsClass.FullyQualifiedName, method.Key, overloadType, false) ));
-            clepsClass.MemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.prototype.{2} = undefined;\n", JavaScriptCodeParameters.TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key));
-            clepsClass.StaticMemberVariables.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = undefined;\n", JavaScriptCodeParameters.TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key));
-            clepsClass.StaticMemberMethods.ToList().ForEach(kvp => output.AppendFormat("{0}.{1}.{2} = undefined;\n", JavaScriptCodeParameters.TOPLEVELNAMESPACE, clepsClass.FullyQualifiedName, kvp.Key));
-            //clepsClass.StaticMemberMethods.ToList().ForEach(method => method.Value.ForEach(overloadType => GenerateMethod(output, clepsClass.FullyQualifiedName, method.Key, overloadType, true)));
         }
 
         private void EnsureNamespaceExists(StringBuilder output, ClepsClass clepsClass)
@@ -94,12 +99,6 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
                 }
             }
         }
-
-        //private void GenerateMethod(StringBuilder output, string fullyQualifiedClassName, string methodName, FunctionClepsType methodType, bool isStatic)
-        //{
-        //    FunctionContainer functionContainer = new FunctionContainer(fullyQualifiedClassName, methodName, methodType);
-        //    GenerateMethodWithBody(output, fullyQualifiedClassName, methodName, methodType, isStatic, MethodBodies[functionContainer]);
-        //}
 
         private void GenerateMethodWithBody(StringBuilder output, string fullyQualifiedClassName, string methodName, FunctionClepsType methodType, bool isStatic, JavaScriptMethod method)
         {

@@ -14,22 +14,22 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
     class JavaScriptCodeGenerator : ICodeGenerator
     {
         private Dictionary<string, ClepsClass> ClassesLoaded;
-        private Dictionary<FunctionContainer, JavaScriptMethod> MethodBodies;
         private Dictionary<string, JavaScriptMethod> ClassInitializers;
         private Dictionary<string, JavaScriptMethod> ClassStaticInitializers;
         private JavaScriptMethod GlobalInitializer;
-        private List<string> NamespacesCreated;
+        private string EntryPointClass;
+        private string EntryPointFunctionName;
 
         public void Initiate()
         {
             FunctionClepsType voidFuncType = new FunctionClepsType(new List<ClepsType>(), VoidClepsType.GetVoidType());
 
             ClassesLoaded = new Dictionary<string, ClepsClass>();
-            MethodBodies = new Dictionary<FunctionContainer, JavaScriptMethod>();
             ClassInitializers = new Dictionary<string, JavaScriptMethod>();
             ClassStaticInitializers = new Dictionary<string, JavaScriptMethod>();
             GlobalInitializer = new JavaScriptMethod(voidFuncType);
-            NamespacesCreated = new List<string>();
+            EntryPointClass = null;
+            EntryPointFunctionName = null;
         }
 
         public void Close() { }
@@ -37,6 +37,12 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         public byte GetPlatform()
         {
             return 1;
+        }
+
+        public void AddEntryPoint(string fullClassName, string functionName)
+        {
+            EntryPointClass = fullClassName;
+            EntryPointFunctionName = functionName;
         }
 
         public void CreateClass(string className)
@@ -75,21 +81,6 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             var methodRegister = new JavaScriptMethod(functionType);
             return methodRegister;
         }
-
-        //public IMethodValue CreateMethod(string className, bool isStatic, FunctionClepsType functionType, string functionName)
-        //{
-        //    var functionContainer = new FunctionContainer(className, functionName, functionType);
-        //    var methodRegister = new JavaScriptMethod(functionType);
-
-        //    MethodBodies.Add(functionContainer, methodRegister);
-        //    return methodRegister;
-        //}
-
-        //public IMethodValue GetMethodRegister(string className, bool isStatic, FunctionClepsType functionType, string functionName)
-        //{
-        //    FunctionContainer methodRegisterKey = new FunctionContainer(className, functionName, functionType);
-        //    return MethodBodies[methodRegisterKey];
-        //}
 
         public IValue CreateByte(byte value)
         {
@@ -227,7 +218,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         {
             //the static initializer function has an if statement created so that the initializer runs once. Closing this if block
             ClassStaticInitializers.Values.ToList().ForEach(m => m.CloseBlock());
-            var outputter = new JavaScriptCodeOutputter(ClassesLoaded, MethodBodies, ClassInitializers, ClassStaticInitializers, GlobalInitializer, NamespacesCreated);
+            var outputter = new JavaScriptCodeOutputter(ClassesLoaded, ClassInitializers, ClassStaticInitializers, GlobalInitializer, EntryPointClass, EntryPointFunctionName);
             outputter.Output(directoryName, fileNameWithoutExtension, status);
         }
     }
