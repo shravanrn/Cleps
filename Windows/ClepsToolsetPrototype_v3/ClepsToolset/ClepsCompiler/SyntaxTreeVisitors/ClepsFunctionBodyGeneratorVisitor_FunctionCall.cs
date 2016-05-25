@@ -21,7 +21,17 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         public override object VisitFunctionCallStatement([NotNull] ClepsParser.FunctionCallStatementContext context)
         {
-            IValue target = Visit(context.rightHandExpression()) as IValue;
+            IValue target;
+            if (context.rightHandExpression() == null)
+            {
+                //if no target is specified, pretend this is called on 'this'
+                target = CodeGenerator.GetThisInstanceValue(new BasicClepsType(FullyQualifiedClassName));
+            }
+            else
+            {
+                target = Visit(context.rightHandExpression()) as IValue;
+            }
+
             IValue functionCall = doFunctionCall(context.functionCall(), target, target.ExpressionType, true /* allowVoidReturn */);
             CurrMethodRegister.CreateFunctionCallStatement(functionCall);
 

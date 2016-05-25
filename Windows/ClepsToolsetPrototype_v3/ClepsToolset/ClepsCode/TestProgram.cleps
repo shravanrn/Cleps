@@ -15,7 +15,7 @@ namespace System.Tests
 		public System.Types.Byte TestMemberByte = 5b;
 		public static System.Types.Byte TestStaticByte = 6b;
 
-		public static const () -> void Main = () -> void
+		public static const () -> void TestStaticFn = () -> void
 		{
 			System.Types.Byte @test;
 			@test = 1b;
@@ -61,9 +61,9 @@ namespace System.Tests
 			return 5b;
 		};
 
-		//public static const () -> void Main = () -> void
-		//{
-		//	TestStaticFn();
-		//};
+		public static const () -> void Main = () -> void
+		{
+			TestStaticFn();
+		};
 	}
 }
