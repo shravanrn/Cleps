@@ -30,7 +30,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 return target;
             }
 
-            IValue ret = CodeGenerator.DereferencePtrToValue(target);
+            IValue ret = CodeGenerator.GetDereferencedValueFromPtr(target);
             return ret;
         }
     }

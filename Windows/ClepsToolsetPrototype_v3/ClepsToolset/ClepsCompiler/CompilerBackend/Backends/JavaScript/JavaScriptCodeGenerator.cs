@@ -119,7 +119,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             return new JavaScriptValue(String.Format("[{0}]", valueToUse.Expression), new PointerClepsType(valueToUse.ExpressionType));
         }
 
-        public IValue DereferencePtrToValue(IValue value)
+        public IValue GetDereferencedValueFromPtr(IValue value)
         {
             JavaScriptValue valueToUse = value as JavaScriptValue;
             return new JavaScriptValue(String.Format("{0}[0]", valueToUse.Expression), (valueToUse.ExpressionType as PointerClepsType).BaseType);
@@ -139,7 +139,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             if (CompilerConstants.SystemSupportedTypes.Contains(targetType))
             {
                 bool isStatic = target == null;
-                string fullFunctionName = String.Format("{0}.{1}.{2}{3}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, targetType.GetClepsTypeString(), isStatic? "" : "prototype.",JavaScriptCodeParameters.GetMangledFunctionName(targetFunctionName, clepsType));
+                string fullFunctionName = String.Format("{0}.{1}.{2}{3}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, targetType.GetClepsTypeString(), isStatic ? "" : "prototype.", JavaScriptCodeParameters.GetMangledFunctionName(targetFunctionName, clepsType));
                 string functionTarget = target != null ? (target as JavaScriptValue).Expression : String.Format("{0}.{1}", JavaScriptCodeParameters.TOPLEVELNAMESPACE, targetType.GetClepsTypeString());
                 string parameterString = String.Join("", parameters.Select(v => ", " + (v as JavaScriptValue).Expression).ToList());
 
@@ -158,14 +158,67 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             return ret;
         }
 
-        public IValue GetAreByteValuesEqual(IValue leftValue, IValue rightValue)
+        public IValue PerformEqualityCheck(IValue value1, IValue value2)
         {
-            JavaScriptValue leftValueToUse = leftValue as JavaScriptValue;
-            JavaScriptValue rightValueToUse = rightValue as JavaScriptValue;
+            JavaScriptValue value1ToUse = value1 as JavaScriptValue;
+            JavaScriptValue value2ToUse = value2 as JavaScriptValue;
 
-            string code = String.Format("[{0}[0] == {1}[0]]", leftValueToUse.Expression, rightValueToUse.Expression);
+            if (value1ToUse.ExpressionType != value2ToUse.ExpressionType)
+            {
+                throw new NotImplementedException("Equality check on non equal types not supported");
+            }
+
+            string code;
+            if (value1ToUse.ExpressionType == CompilerConstants.ClepsByteType ||
+                value1ToUse.ExpressionType == CompilerConstants.ClepsBoolType)
+            {
+                code = String.Format("[{0}[0] == {1}[0]]", value1ToUse.Expression, value2ToUse.Expression);
+            }
+            else
+            {
+                throw new NotImplementedException(String.Format("Addition type {0} not supported", value1ToUse.ExpressionType.GetClepsTypeString()));
+            }
 
             JavaScriptValue ret = new JavaScriptValue(code, CompilerConstants.ClepsBoolType);
+            return ret;
+        }
+
+        public IValue PerformWrappedAddition(IValue value1, IValue value2)
+        {
+            return PerformWrappedOperation(value1, value2, "+");
+        }
+
+        public IValue PerformWrappedSubtraction(IValue value1, IValue value2)
+        {
+            return PerformWrappedOperation(value1, value2, "-");
+        }
+
+        public IValue PerformWrappedMultiplication(IValue value1, IValue value2)
+        {
+            return PerformWrappedOperation(value1, value2, "*");
+        }
+
+        private IValue PerformWrappedOperation(IValue value1, IValue value2, string operation)
+        {
+            JavaScriptValue value1ToUse = value1 as JavaScriptValue;
+            JavaScriptValue value2ToUse = value2 as JavaScriptValue;
+
+            if (value1ToUse.ExpressionType != value2ToUse.ExpressionType)
+            {
+                throw new NotImplementedException("Addition of non equal types not supported");
+            }
+
+            string code;
+            if (value1ToUse.ExpressionType == CompilerConstants.ClepsByteType)
+            {
+                code = String.Format("[( {0}[0] {2} {1}[0] ) % 256 ]", value1ToUse.Expression, value2ToUse.Expression, operation);
+            }
+            else
+            {
+                throw new NotImplementedException(String.Format("Addition type {0} not supported", value1ToUse.ExpressionType.GetClepsTypeString()));
+            }
+
+            JavaScriptValue ret = new JavaScriptValue(code, CompilerConstants.ClepsByteType);
             return ret;
         }
 

@@ -61,9 +61,30 @@ namespace System.Tests
 			return 5b;
 		};
 
+		public static const () -> void ArithmeticTests = () -> void
+		{
+			System.Types.Byte @val1 = 2b;
+			System.Types.Byte @val2 = 3b;
+			System.Types.Byte @val3 = 255b;
+
+
+			//System.Types.Byte @valOverflowErr = @val1 <+> @val2;
+
+			System.Console @consoleObj = new System.Console();
+			if(@consoleObj.DoesConsoleOutputExist())
+			{
+				//Basic addition
+				@consoleObj.ConsoleOutput(@val1 + @val2);
+				//Overflow addition
+				@consoleObj.ConsoleOutput(@val1 + @val3);
+			}
+
+		};
+
 		public static const () -> void Main = () -> void
 		{
 			TestStaticFn();
+			ArithmeticTests();
 		};
 	}
 }

@@ -12,18 +12,6 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 {
     partial class ClepsFunctionBodyGeneratorVisitor
     {
-        public override object VisitIfStatement([NotNull] ClepsParser.IfStatementContext context)
-        {
-            IValue conditionValue = Visit(context.rightHandExpression()) as IValue;
-            CurrMethodRegister.CreateIfStatementBlock(conditionValue);
-
-            Visit(context.statementBlock());
-
-            CurrMethodRegister.CloseBlock();
-
-            return conditionValue;
-        }
-
         public override bool VisitFunctionReturnStatement_Ex([NotNull] ClepsParser.FunctionReturnStatementContext context)
         {
             IValue returnValue = null;
