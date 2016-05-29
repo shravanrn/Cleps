@@ -14,17 +14,19 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
         public static readonly Dictionary<string, string> CHARACTERSUBSTITUTIONS = new Dictionary<string, string>()
         {
-            {" ", "$blank$" },
-            {",", "$comma$" },
+            {" ", "$_$" },
+            {",", "$c$" },
             {"<", "$lt$" },
             {">", "$gt$" },
-            {"(", "$oround$" },
-            {")", "$cround$" },
+            {"(", "$orb$" },
+            {")", "$crb$" },
             {".", "$dot$" },                    
-            {"+", "$plus$" },
-            {"-", "$dash$" },
-            {"*", "$star$" },
-            {"/", "$fslash$" },
+            {"+", "$pls$" },
+            {"-", "$dsh$" },
+            {"*", "$str$" },
+            {"/", "$fsl$" },
+            {"!", "$not$" },
+            {"=", "$eq$" },
         };
 
 

@@ -50,9 +50,14 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
 
             output.AppendLine(GlobalInitializer.GetMethodBodyWithoutDeclaration());
 
+            FunctionClepsType voidFuncType = new FunctionClepsType(new List<ClepsType>(), VoidClepsType.GetVoidType());
+            foreach (var clepsType in CompilerConstants.SystemSupportedTypes)
+            {
+                output.AppendFormat("{0}.{1}.{2}();\n", JavaScriptCodeParameters.TOPLEVELNAMESPACE, clepsType.GetClepsTypeString(), JavaScriptCodeParameters.GetMangledFunctionName("classStaticInitializer", voidFuncType));
+            }
+
             if (!String.IsNullOrWhiteSpace(EntryPointClass) && !String.IsNullOrWhiteSpace(EntryPointFunctionName))
             {
-                FunctionClepsType voidFuncType = new FunctionClepsType(new List<ClepsType>(), VoidClepsType.GetVoidType());
                 output.AppendFormat("{0}.{1}.{2}();\n", JavaScriptCodeParameters.TOPLEVELNAMESPACE, EntryPointClass, JavaScriptCodeParameters.GetMangledFunctionName("classStaticInitializer", voidFuncType));
                 output.AppendFormat("{0}.{1}.{2}();\n", JavaScriptCodeParameters.TOPLEVELNAMESPACE, EntryPointClass, JavaScriptCodeParameters.GetMangledFunctionName(EntryPointFunctionName, voidFuncType));
             }
