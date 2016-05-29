@@ -18,6 +18,7 @@ namespace ClepsCompiler.CompilerBackend
         void CreateFunctionCallStatement(IValue value);
 
         void CreateIfStatementBlock(IValue condition);
+        void CreateLoop(IValue entryCondition, IValue exitCondition);
         void CloseBlock();
     }
 }

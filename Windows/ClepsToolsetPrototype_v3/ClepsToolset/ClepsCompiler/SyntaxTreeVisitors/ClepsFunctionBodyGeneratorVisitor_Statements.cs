@@ -20,7 +20,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 returnValue = Visit(context.rightHandExpression()) as IValue;
             }
 
-            var currFunctionType = CurrMemberType as FunctionClepsType;
+            var currFunctionType = CurrMethodGenerator.ExpressionType as FunctionClepsType;
 
             if (currFunctionType.ReturnType != returnValue.ExpressionType)
             {
@@ -28,7 +28,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 Status.AddError(new CompilerError(FileName, context.rightHandExpression().Start.Line, context.rightHandExpression().Start.Column, errorMessage));
             }
 
-            CurrMethodRegister.CreateReturnStatement(returnValue);
+            CurrMethodGenerator.CreateReturnStatement(returnValue);
 
             return true;
         }
@@ -50,7 +50,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             if (platformId == CodeGenerator.GetPlatform())
             {
-                CurrMethodRegister.AddNativeCode(nativeCode);
+                CurrMethodGenerator.AddNativeCode(nativeCode);
             }
 
             return true;

@@ -32,10 +32,6 @@ namespace ClepsCompiler.CompilerBackend
         IValue GetDereferencedValueFromPtr(IValue value);
         IValue GetRegisterValue(IValueRegister register);
         IValue GetFunctionCallReturnValue(IValue target, BasicClepsType targetType, string targetFunctionName, FunctionClepsType clepsType, List<IValue> parameters);
-        IValue PerformEqualityCheck(IValue value1, IValue value2);
-        IValue PerformWrappedAddition(IValue value1, IValue value2);
-        IValue PerformWrappedSubtraction(IValue value1, IValue value2);
-        IValue PerformWrappedMultiplication(IValue value1, IValue value2);
 
         IValueRegister GetStaticFieldRegister(string className, string memberName, ClepsType memberType);
         IValueRegister GetMemberFieldRegisterFromSameClass(string className, string memberName, ClepsType memberType);

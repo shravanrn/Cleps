@@ -13,13 +13,25 @@ namespace ClepsCompiler.SyntaxTreeVisitors
         public override object VisitIfStatement([NotNull] ClepsParser.IfStatementContext context)
         {
             IValue conditionValue = Visit(context.rightHandExpression()) as IValue;
-            CurrMethodRegister.CreateIfStatementBlock(conditionValue);
+            CurrMethodGenerator.CreateIfStatementBlock(conditionValue);
 
             Visit(context.statementBlock());
 
-            CurrMethodRegister.CloseBlock();
+            CurrMethodGenerator.CloseBlock();
 
             return conditionValue;
+        }
+
+        public override object VisitDoWhileStatement([NotNull] ClepsParser.DoWhileStatementContext context)
+        {
+            IValue whileConditionValue = Visit(context.TerminalCondition) as IValue;
+            CurrMethodGenerator.CreateLoop(null, whileConditionValue);
+
+            Visit(context.statementBlock());
+
+            CurrMethodGenerator.CloseBlock();
+
+            return whileConditionValue;
         }
 
     }

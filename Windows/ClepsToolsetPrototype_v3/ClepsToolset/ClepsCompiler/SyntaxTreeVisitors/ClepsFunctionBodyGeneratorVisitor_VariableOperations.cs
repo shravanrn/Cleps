@@ -69,7 +69,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 }
             }
 
-            IValueRegister variableRegister = CurrMethodRegister.CreateNewVariable(variable, value);
+            IValueRegister variableRegister = CurrMethodGenerator.CreateNewVariable(variable, value);
             variableManager.AddLocalVariable(variable, variableRegister);
 
             return variable;

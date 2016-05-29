@@ -77,14 +77,46 @@ namespace System.Tests
 				@consoleObj.ConsoleOutput(@val1 + @val2);
 				//Overflow addition
 				@consoleObj.ConsoleOutput(@val1 + @val3);
+				//Basic subtraction
+				@consoleObj.ConsoleOutput(@val2 - @val1);
+				//Overflow subtraction
+				@consoleObj.ConsoleOutput(@val1 - @val2);
 			}
+		};
 
+		public static const () -> void LoopTest = () -> void
+		{
+			System.Types.Byte @i = 1b;
+
+			System.Console @consoleObj = new System.Console();
+			if(@consoleObj.DoesConsoleOutputExist())
+			{
+				do
+				{
+					@consoleObj.ConsoleOutput(@i);
+					@i = @i + 1b;
+				} while(@i != 10b);
+			}
 		};
 
 		public static const () -> void Main = () -> void
 		{
 			TestStaticFn();
+
+			System.Console @consoleObj = new System.Console();
+			if(@consoleObj.DoesConsoleOutputExist())
+			{
+				@consoleObj.ConsoleOutputLine();
+			}
+
 			ArithmeticTests();
+
+			if(@consoleObj.DoesConsoleOutputExist())
+			{
+				@consoleObj.ConsoleOutputLine();
+			}
+
+			LoopTest();
 		};
 	}
 }

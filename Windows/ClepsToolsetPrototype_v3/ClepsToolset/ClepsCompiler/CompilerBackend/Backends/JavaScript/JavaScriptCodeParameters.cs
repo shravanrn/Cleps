@@ -12,17 +12,19 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         public const string TOPLEVELNAMESPACE = "Cleps";
         public const string VARIABLEPREFIX = "_$";
 
-        public static readonly Dictionary<char, char> CHARACTERSUBSTITUTIONS = new Dictionary<char, char>()
+        public static readonly Dictionary<string, string> CHARACTERSUBSTITUTIONS = new Dictionary<string, string>()
         {
-            //{'|', '\u01C0'}, // Unicode Symbol ǀ 
-            {' ', '_' },//'\uFE4D'}, // Unicode Symbol ﹍
-            {',', '_' },//'\u00B8'}, // Unicode Symbol ¸
-            {'-', '_' },//'\u1508'}, // Unicode Symbol ᔈ
-            {'<', '_' },//'\u00AB'}, // Unicode Symbol «
-            {'>', '_' },//'\u00BB'}, // Unicode Symbol »
-            {'(', '_' },//'\u093F'}, // Unicode Symbol ि
-            {')', '_' },//'\u0940'}, // Unicode Symbol ी
-            {'.', '_' },//'\uFE4E'}, // Unicode Symbol ﹎ 
+            {" ", "$blank$" },
+            {",", "$comma$" },
+            {"<", "$lt$" },
+            {">", "$gt$" },
+            {"(", "$oround$" },
+            {")", "$cround$" },
+            {".", "$dot$" },                    
+            {"+", "$plus$" },
+            {"-", "$dash$" },
+            {"*", "$star$" },
+            {"/", "$fslash$" },
         };
 
 

@@ -91,17 +91,44 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             AppendFormatLine("{0};", valueToUse.Expression);
         }
 
+        private Stack<JavaScriptValue> exitConditionToApplyAtTheEndOfBlocks = new Stack<JavaScriptValue>();
+
         public void CreateIfStatementBlock(IValue condition)
         {
             JavaScriptValue conditionToUse = condition as JavaScriptValue;
             AppendFormatLine("if({0}[0]) {{", conditionToUse.Expression);
             IndentationLevel++;
+
+            exitConditionToApplyAtTheEndOfBlocks.Push(null);
+        }
+
+        public void CreateLoop(IValue entryCondition, IValue exitCondition)
+        {
+            JavaScriptValue entryConditionToUse = entryCondition as JavaScriptValue;
+            string entryConditionCode = entryConditionToUse != null ? entryConditionToUse.Expression + "[0]" : "true";
+
+            AppendFormatLine("while({0}) {{", entryConditionCode);
+            IndentationLevel++;
+
+            JavaScriptValue exitConditionToUse = exitCondition as JavaScriptValue;
+            exitConditionToApplyAtTheEndOfBlocks.Push(exitConditionToUse);
         }
 
         public void CloseBlock()
         {
+            JavaScriptValue exitConditionToUse = exitConditionToApplyAtTheEndOfBlocks.Pop();
+
+            if (exitConditionToUse != null)
+            {
+                AppendFormatLine("if(!({0}[0])) {{", exitConditionToUse.Expression);
+                IndentationLevel++;
+                AppendFormatLine("break; ");
+                IndentationLevel--;
+                AppendFormatLine("}}");
+            }
+
             IndentationLevel--;
-            if(IndentationLevel == 0)
+            if (IndentationLevel == 0)
             {
                 throw new Exception("Got extra close block call");
             }

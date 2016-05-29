@@ -78,7 +78,13 @@ classBodyStatements :
 	|	memberDeclarationStatement
 )*;
 
-memberDeclarationStatement : visibilityModifier STATIC? CONST? typename FieldName=classOrMemberName (ASSIGNMENT_OPERATOR rightHandExpression)? END;
+memberDeclarationStatement : visibilityModifier 
+	(
+		(STATIC? CONST? typename FieldName=classOrMemberName (ASSIGNMENT_OPERATOR rightHandExpression)?) |
+		(STATIC CONST typename OPERATOR OperatorName=operatorSymbol rightHandExpression)
+	)
+	END;
+
 
 ///////////////////////////////////////////////////////
 

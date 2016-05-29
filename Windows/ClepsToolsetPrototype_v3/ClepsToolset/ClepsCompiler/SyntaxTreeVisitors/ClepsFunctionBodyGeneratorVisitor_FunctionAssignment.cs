@@ -15,7 +15,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
     {
         public override IMethodValue VisitFunctionAssignment_Ex([NotNull] ClepsParser.FunctionAssignmentContext context)
         {
-            var oldCurrMethodRegister = CurrMethodRegister;
+            var oldCurrMethodRegister = CurrMethodGenerator;
             VariableManager variableManager = new VariableManager();
             VariableManagers.Add(variableManager);
 
@@ -30,18 +30,18 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             FunctionClepsType functionType = new FunctionClepsType(functionParameters.Select(p => p.VariableType).ToList(), returnType);
 
             var newMethod = CodeGenerator.CreateNewMethod(functionType);
-            CurrMethodRegister = newMethod;
+            CurrMethodGenerator = newMethod;
 
-            CurrMethodRegister.SetFormalParameterNames(functionParameters.Select(p => p.VariableName).ToList());
+            CurrMethodGenerator.SetFormalParameterNames(functionParameters.Select(p => p.VariableName).ToList());
 
             functionParameters.ForEach(variable => {
-                variableManager.AddLocalVariable(variable, CurrMethodRegister.GetFormalParameterRegister(variable.VariableName));
+                variableManager.AddLocalVariable(variable, CurrMethodGenerator.GetFormalParameterRegister(variable.VariableName));
             });
 
             Visit(context.statementBlock());
 
             VariableManagers.RemoveAt(VariableManagers.Count - 1);
-            CurrMethodRegister = oldCurrMethodRegister;
+            CurrMethodGenerator = oldCurrMethodRegister;
             return newMethod;
         }
     }

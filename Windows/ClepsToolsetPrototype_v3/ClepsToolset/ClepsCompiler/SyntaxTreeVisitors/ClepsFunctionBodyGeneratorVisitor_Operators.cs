@@ -19,23 +19,15 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             IValue ret;
 
-            if(leftValue.ExpressionType == rightValue.ExpressionType && leftValue.ExpressionType == CompilerConstants.ClepsByteType)
+            if (leftValue.ExpressionType == rightValue.ExpressionType)
             {
-                if (operatorString == "+")
-                {
-                    ret = CodeGenerator.PerformWrappedAddition(leftValue, rightValue);
-                }
-                else
-                {
-                    string errorMessage = String.Format("Operator {0} is not supported on arguments of type ({1}, {2})", operatorString, leftValue.ExpressionType.GetClepsTypeString(), rightValue.ExpressionType.GetClepsTypeString());
-                    Status.AddError(new CompilerError(FileName, context.operatorSymbol().Start.Line, context.operatorSymbol().Start.Column, errorMessage));
-                    //just use the first element access to avoid stalling
-                    ret = leftValue;
-                }
+                List<IValue> parameters = new List<IValue>() { leftValue, rightValue };
+                return doFunctionCall(context, operatorString, parameters, null /* target */, leftValue.ExpressionType, false);
             }
+
             else
             {
-                throw new NotImplementedException("Operators not supported on other types");
+                throw new NotImplementedException("Operators for non equal types not supported");
             }
 
             return ret;

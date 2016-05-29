@@ -17,7 +17,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             if (register.ExpressionType == value.ExpressionType && CompilerConstants.SystemSupportedTypes.Contains(register.ExpressionType))
             {
-                CurrMethodRegister.CreateAssignment(register, value);
+                CurrMethodGenerator.CreateAssignment(register, value);
             }
             else
             {

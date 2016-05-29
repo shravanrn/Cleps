@@ -51,7 +51,16 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         public override object VisitMemberDeclarationStatement([NotNull] ClepsParser.MemberDeclarationStatementContext context)
         {
-            string memberName = context.FieldName.Name.Text;
+            string memberName;
+
+            if (context.OPERATOR() == null)
+            {
+                memberName = context.FieldName.Name.Text;
+            }
+            else
+            {
+                memberName = context.OperatorName.GetText();
+            }
 
             ClepsClassBuilder classBuilder = ClassManager.GetClassBuilder(FullyQualifiedClassName);
 

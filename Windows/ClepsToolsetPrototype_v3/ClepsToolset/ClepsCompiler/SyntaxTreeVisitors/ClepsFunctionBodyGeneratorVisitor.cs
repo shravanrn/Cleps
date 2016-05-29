@@ -15,8 +15,8 @@ namespace ClepsCompiler.SyntaxTreeVisitors
     {
         //private string CurrMemberName;
         private bool CurrMemberIsStatic;
-        private ClepsType CurrMemberType;
-        private IMethodValue CurrMethodRegister;
+        //private ClepsType CurrMemberType;
+        private IMethodValue CurrMethodGenerator;
         private List<VariableManager> VariableManagers = new List<VariableManager>();
         private TypeManager TypeManager;
 
@@ -27,18 +27,28 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         public override object VisitMemberDeclarationStatement([NotNull] ClepsParser.MemberDeclarationStatementContext context)
         {
-            string memberName = context.FieldName.Name.Text;
+            string memberName;
+
+            if (context.OPERATOR() == null)
+            {
+                memberName = context.FieldName.Name.Text;
+            }
+            else
+            {
+                memberName = context.OperatorName.GetText();
+            }
+
             bool isStatic = context.STATIC() != null;
             ClepsType memberType = Visit(context.typename()) as ClepsType;
             bool isConst = context.CONST() != null;
 
             //var oldMemberName = CurrMemberName;
             var oldMemberIsStatic = CurrMemberIsStatic;
-            var oldMemberType = CurrMemberType;
+            //var oldMemberType = CurrMemberType;
 
             //CurrMemberName = memberName;
             CurrMemberIsStatic = isStatic;
-            CurrMemberType = memberType;
+            //CurrMemberType = memberType;
 
             if (context.rightHandExpression() != null)
             {
@@ -75,7 +85,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             //CurrMemberName = oldMemberName;
             CurrMemberIsStatic = oldMemberIsStatic;
-            CurrMemberType = oldMemberType;
+            //CurrMemberType = oldMemberType;
 
             return true;
         }

@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
 using ClepsCompiler.CompilerBackend;
 using ClepsCompiler.CompilerCore;
 using ClepsCompiler.CompilerStructures;
@@ -33,7 +34,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             }
 
             IValue functionCall = doFunctionCall(context.functionCall(), target, target.ExpressionType, true /* allowVoidReturn */);
-            CurrMethodRegister.CreateFunctionCallStatement(functionCall);
+            CurrMethodGenerator.CreateFunctionCallStatement(functionCall);
 
             return true;
         }
@@ -45,7 +46,14 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             return doFunctionCall(context.functionCall(), target, currentType, true /* allowVoidReturn */);
         }
 
-        private IValue doFunctionCall(ClepsParser.FunctionCallContext functionCall, IValue target, ClepsType targetType, bool allowVoidReturn)
+        private IValue doFunctionCall([NotNull] ClepsParser.FunctionCallContext context, IValue target, ClepsType targetType, bool allowVoidReturn)
+        {
+            string targetFunctionName = context.FunctionName.GetText();
+            List<IValue> parameters = context._FunctionParameters.Select(p => Visit(p) as IValue).ToList();
+            return doFunctionCall(context, targetFunctionName, parameters, target, targetType, allowVoidReturn);
+        }
+
+        private IValue doFunctionCall(ParserRuleContext context, string targetFunctionName, List<IValue> parameters, IValue target, ClepsType targetType, bool allowVoidReturn)
         {
             IValue dereferencedTarget = target == null? null : GetDereferencedRegisterOrNull(target);
             BasicClepsType dereferencedType = target == null? targetType as BasicClepsType : dereferencedTarget.ExpressionType as BasicClepsType;
@@ -53,14 +61,13 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             if (dereferencedType == null)
             {
                 string errorMessage = String.Format("Could not dereference expression on type {0}", targetType.GetClepsTypeString());
-                Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, errorMessage));
+                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
                 //just return something to avoid stalling
                 return CodeGenerator.CreateByte(0);
             }
 
             ClepsClass targetClepsClass = ClassManager.GetClass(dereferencedType.GetClepsTypeString());
-            string targetFunctionName = functionCall.FunctionName.GetText();
-            List<IValue> parameters = functionCall._FunctionParameters.Select(p => Visit(p) as IValue).ToList();
+
 
             List<ClepsVariable> functionOverloads;
             bool isStatic;
@@ -77,7 +84,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             else
             {
                 string errorMessage = String.Format("Class {0} does not contain a {1}static function called {2}.", targetClepsClass.FullyQualifiedName, target == null? "" : "member or ",targetFunctionName);
-                Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, errorMessage));
+                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
             }
@@ -87,7 +94,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             if (!FunctionOverloadManager.FindMatchingFunctionType(TypeManager, functionOverloads, parameters, out matchedPosition, out fnMatchErrorMessage))
             {
-                Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, fnMatchErrorMessage));
+                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, fnMatchErrorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
             }
@@ -97,7 +104,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             if (!allowVoidReturn && chosenFunctionType.ReturnType == VoidClepsType.GetVoidType())
             {
                 string errorMessage = String.Format("Function {0} does not return a value", targetFunctionName);
-                Status.AddError(new CompilerError(FileName, functionCall.Start.Line, functionCall.Start.Column, errorMessage));
+                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
             }

@@ -1,5 +1,20 @@
 namespace System.Types
 {
+	public class Bool
+	{
+		public static const (System.Types.Bool, System.Types.Bool) -> System.Types.Bool operator == (System.Types.Bool @value1, System.Types.Bool @value2) -> System.Types.Bool
+		{
+			native(1) [{	return [ _$value1[0] == _$value2[0] ];}];
+			return false;
+		};
+
+		public static const (System.Types.Bool, System.Types.Bool) -> System.Types.Bool operator != (System.Types.Bool @value1, System.Types.Bool @value2) -> System.Types.Bool
+		{
+			native(1) [{	return [ _$value1[0] != _$value2[0] ];}];
+			return false;
+		};
+	}
+
 	public class Byte
 	{
 		public const () -> void Print = () -> void
@@ -9,6 +24,30 @@ namespace System.Types
 			{
 				@consoleObj.ConsoleOutput($(this));
 			}
+		};
+
+		public static const (System.Types.Byte, System.Types.Bool) -> System.Types.Byte operator == (System.Types.Byte @value1, System.Types.Byte @value2) -> System.Types.Bool
+		{
+			native(1) [{	return [ _$value1[0] == _$value2[0] ];}];
+			return false;
+		};
+
+		public static const (System.Types.Byte, System.Types.Byte) -> System.Types.Bool operator != (System.Types.Byte @value1, System.Types.Byte @value2) -> System.Types.Bool
+		{
+			native(1) [{	return [ _$value1[0] != _$value2[0] ];}];
+			return false;
+		};
+
+		public static const (System.Types.Byte, System.Types.Byte) -> System.Types.Byte operator + (System.Types.Byte @value1, System.Types.Byte @value2) -> System.Types.Byte
+		{
+			native(1) [{	return [ (_$value1[0] + _$value2[0]) % 256 ];}];
+			return 0b;
+		};
+
+		public static const (System.Types.Byte, System.Types.Byte) -> System.Types.Byte operator - (System.Types.Byte @value1, System.Types.Byte @value2) -> System.Types.Byte
+		{
+			native(1) [{	return [ (_$value1[0] - _$value2[0] + 256) % 256 ];}];
+			return 0b;
 		};
 	}
 }
@@ -29,6 +68,11 @@ namespace System
 		public static (System.Types.Byte) -> void ConsoleOutput = (System.Types.Byte @val) -> void
 		{
 			native(1) [{	console.log(_$val[0]);}];
+		};
+
+		public static () -> void ConsoleOutputLine = () -> void
+		{
+			native(1) [{	console.log("\n");}];
 		};
 	}
 }
