@@ -1,3 +1,51 @@
+native(1) [{
+function clepsPtr(val)
+{
+	this.obj = val;
+}
+}];
+
+namespace System.Memory
+{
+	public class MemoryTransfer
+	{
+		public static const (System.Types.Byte) -> System.Types.Byte CopyClepsObjectInstance = (System.Types.Byte @val) -> System.Types.Byte
+		{
+			native(1) [{
+			function copyClepsObject(_$source)
+			{
+				if (!_$source) { return _$source; }
+				if (_$source instanceof clepsPtr) { return _$source; }
+
+				var typeString = Object.prototype.toString.call(_$source);
+
+				if (typeString === "[object Array]") {
+					var result = [];
+					_$source.forEach(function(element, index) { 
+						result[index] = copyClepsObject(element);
+					});
+
+					return result;
+				} else if (typeString === "[object Object]") {
+					var result = {};
+					for (var i in _$source) {
+						result[i] = copyClepsObject(_$source[i]);
+					}
+
+					return result;
+				} else {
+					return _$source;
+				}
+			}
+
+			return copyClepsObject(_$val);
+			}];
+
+			return @val;
+		};
+	}
+}
+
 namespace System.Types
 {
 	public class Bool

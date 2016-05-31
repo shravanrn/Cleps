@@ -19,13 +19,15 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         private List<string> NamespacesCreated;
         private string EntryPointClass;
         private string EntryPointFunctionName;
+        private List<string> GlobalNativeCodeSnippets;
 
         public JavaScriptCodeOutputter(Dictionary<string, ClepsClass> classesLoaded, 
             Dictionary<string, JavaScriptMethod> classInitializers,
             Dictionary<string, JavaScriptMethod> classStaticInitializers,
             JavaScriptMethod globalInitializer,
             string entryPointClass, 
-            string entryPointFunctionName
+            string entryPointFunctionName,
+            List<string> globalNativeCodeSnippets
         )
         {
             ClassesLoaded = classesLoaded;
@@ -34,6 +36,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             GlobalInitializer = globalInitializer;
             EntryPointClass = entryPointClass;
             EntryPointFunctionName = entryPointFunctionName;
+            GlobalNativeCodeSnippets = globalNativeCodeSnippets;
 
             NamespacesCreated = new List<string>();
         }
@@ -42,6 +45,11 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         {
             StringBuilder output = new StringBuilder();
             InitializeOutput(output);
+
+            foreach(var nativeCodeSnippet in GlobalNativeCodeSnippets)
+            {
+                output.AppendLine(nativeCodeSnippet);
+            }
 
             foreach (var clepsClass in ClassesLoaded)
             {

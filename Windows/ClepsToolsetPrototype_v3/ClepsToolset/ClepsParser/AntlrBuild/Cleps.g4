@@ -64,8 +64,9 @@ typenameAndVoid : typename | VOID;
 
 ///////////////////////////////////////////////////////
 
-compilationUnit : namespaceBlockStatement+ EOF;
+compilationUnit : (namespaceBlockStatement | nativeGlobalStatement)+ EOF;
 
+nativeGlobalStatement : nativeStatement;
 namespaceBlockStatement : (NAMESPACE NamespaceName=nestedIdentifier '{' usingNamespaceStatements*)( namespaceBlockStatement | classDeclarationStatements)*('}');
 
 usingNamespaceStatement : USING STATIC? nestedIdentifier END;
@@ -121,7 +122,7 @@ addressOfOrValueAtTargetExpression : thisAssignment | variableAssignment | field
 
 /////////////////////////////////////////////////////////////
 
-functionStatement : functionReturnStatement | functionVariableDeclarationStatement | functionFieldAssignmentStatement | functionVariableAssignmentStatement | functionArrayAssignmentStatement | functionCallStatement | ifStatement | doWhileStatement | nativeStatement;
+functionStatement : functionReturnStatement | functionVariableDeclarationStatement | functionFieldAssignmentStatement | functionVariableAssignmentStatement | functionArrayAssignmentStatement | functionCallStatement | ifStatement | doWhileStatement | nativeFunctionStatement;
 
 functionReturnStatement : RETURN rightHandExpression? END;
 
@@ -135,5 +136,6 @@ functionCallStatement : (rightHandExpression '.')? functionCall END;
 ifStatement : IF '(' rightHandExpression ')' statementBlock;
 doWhileStatement : DO statementBlock WHILE '(' TerminalCondition=rightHandExpression ')' END;
 
+nativeFunctionStatement : nativeStatement;
 nativeStatement : NATIVE '(' PlatFormTarget=NUMERIC_TOKEN ')' NativeOpen='[{' nativeCode NativeClose='}]' END;
 nativeCode : (~('}]'))*?;

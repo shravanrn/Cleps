@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Antlr4.Runtime.Tree;
 
 namespace ClepsCompiler.SyntaxTreeVisitors
 {
@@ -33,6 +34,28 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             return true;
         }
 
+        public override object VisitNativeGlobalStatement([NotNull] ClepsParser.NativeGlobalStatementContext context)
+        {
+            var code = Visit(context.nativeStatement()) as string;
+            if (code != null)
+            {
+                CodeGenerator.AddNativeCode(code);
+            }
+
+            return true;
+        }
+
+        public override object VisitNativeFunctionStatement([NotNull] ClepsParser.NativeFunctionStatementContext context)
+        {
+            var code = Visit(context.nativeStatement()) as string;
+            if (code != null)
+            {
+                CurrMethodGenerator.AddNativeCode(code);
+            }
+
+            return true;
+        }
+
         public override object VisitNativeStatement([NotNull] ClepsParser.NativeStatementContext context)
         {
             var startIndex = context.NativeOpen.StopIndex + 1;
@@ -50,10 +73,12 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             if (platformId == CodeGenerator.GetPlatform())
             {
-                CurrMethodGenerator.AddNativeCode(nativeCode);
+                return nativeCode;
             }
-
-            return true;
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -19,6 +19,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         private JavaScriptMethod GlobalInitializer;
         private string EntryPointClass;
         private string EntryPointFunctionName;
+        private List<string> GlobalNativeCodeSnippets;
 
         public void Initiate()
         {
@@ -30,9 +31,10 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             GlobalInitializer = new JavaScriptMethod(voidFuncType);
             EntryPointClass = null;
             EntryPointFunctionName = null;
+            GlobalNativeCodeSnippets = new List<string>();
         }
 
-        public void Close() { }
+    public void Close() { }
 
         public byte GetPlatform()
         {
@@ -43,6 +45,11 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         {
             EntryPointClass = fullClassName;
             EntryPointFunctionName = functionName;
+        }
+
+        public void AddNativeCode(string nativeCode)
+        {
+            GlobalNativeCodeSnippets.Add(nativeCode);
         }
 
         public void CreateClass(string className)
@@ -116,13 +123,13 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         public IValue GetPtrToValue(IValue value)
         {
             JavaScriptValue valueToUse = value as JavaScriptValue;
-            return new JavaScriptValue(String.Format("[{0}]", valueToUse.Expression), new PointerClepsType(valueToUse.ExpressionType));
+            return new JavaScriptValue(String.Format("new clepsPtr({0})", valueToUse.Expression), new PointerClepsType(valueToUse.ExpressionType));
         }
 
         public IValue GetDereferencedValueFromPtr(IValue value)
         {
             JavaScriptValue valueToUse = value as JavaScriptValue;
-            return new JavaScriptValue(String.Format("{0}[0]", valueToUse.Expression), (valueToUse.ExpressionType as PointerClepsType).BaseType);
+            return new JavaScriptValue(String.Format("({0}).obj", valueToUse.Expression), (valueToUse.ExpressionType as PointerClepsType).BaseType);
         }
 
         public IValue GetRegisterValue(IValueRegister register)
@@ -208,7 +215,7 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
         {
             //the static initializer function has an if statement created so that the initializer runs once. Closing this if block
             ClassStaticInitializers.Values.ToList().ForEach(m => m.CloseBlock());
-            var outputter = new JavaScriptCodeOutputter(ClassesLoaded, ClassInitializers, ClassStaticInitializers, GlobalInitializer, EntryPointClass, EntryPointFunctionName);
+            var outputter = new JavaScriptCodeOutputter(ClassesLoaded, ClassInitializers, ClassStaticInitializers, GlobalInitializer, EntryPointClass, EntryPointFunctionName, GlobalNativeCodeSnippets);
             outputter.Output(directoryName, fileNameWithoutExtension, status);
         }
     }
