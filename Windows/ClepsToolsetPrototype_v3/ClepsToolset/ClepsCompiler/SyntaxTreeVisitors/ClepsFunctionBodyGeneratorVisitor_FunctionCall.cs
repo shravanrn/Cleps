@@ -68,7 +68,6 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             ClepsClass targetClepsClass = ClassManager.GetClass(dereferencedType.GetClepsTypeString());
 
-
             List<ClepsVariable> functionOverloads;
             bool isStatic;
             if (targetClepsClass.StaticMemberMethods.ContainsKey(targetFunctionName))
@@ -100,6 +99,8 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             }
 
             FunctionClepsType chosenFunctionType = functionOverloads[matchedPosition].VariableType as FunctionClepsType;
+
+            handleGenerics();
 
             if (!allowVoidReturn && chosenFunctionType.ReturnType == VoidClepsType.GetVoidType())
             {

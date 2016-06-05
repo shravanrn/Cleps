@@ -110,6 +110,7 @@
     <Compile Include="Utils\Collections\OrderedDictionary.cs" />
     <Compile Include="Utils\Collections\OrderedDictionaryDebug.cs" />
     <Compile Include="Utils\Helpers\NameGenerator.cs" />
+    <Compile Include="Utils\Types\SuccessStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

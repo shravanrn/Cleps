@@ -31,7 +31,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         private List<StatementBlockStatus> CurrentBlockStatus;
 
-        public ClepsFunctionBodyAnalysisVisitor_Abstract(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator) : base(status, classManager, codeGenerator){ }
+        public ClepsFunctionBodyAnalysisVisitor_Abstract(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, TypeManager typeManager) : base(status, classManager, codeGenerator, typeManager) { }
 
 
         public virtual IMethodValue VisitFunctionAssignment_Ex([NotNull] ClepsParser.FunctionAssignmentContext context) { return VisitChildren(context) as IMethodValue; }

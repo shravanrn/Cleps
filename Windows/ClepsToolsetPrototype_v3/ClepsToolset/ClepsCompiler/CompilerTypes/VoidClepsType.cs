@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClepsCompiler.Utils.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace ClepsCompiler.CompilerTypes
     {
         private static VoidClepsType singleton = null;
 
-        private VoidClepsType() : base(false, false, false, false, false)
+        private VoidClepsType() : base(false, false, false, false, false, false)
         {
         }
 
@@ -22,6 +23,16 @@ namespace ClepsCompiler.CompilerTypes
             }
 
             return singleton;
+        }
+
+        public override ClepsType ReplaceTemplateTypeComponents(GenericClepsType templateTypeName, ClepsType targetTypeName)
+        {
+            return this;
+        }
+
+        public override SuccessStatus ReplaceWithConcreteType(ClepsType concreteType, Dictionary<GenericClepsType, ClepsType> outReplacementsMade)
+        {
+            return SuccessStatus.Failure;
         }
 
         public override string GetClepsTypeString()

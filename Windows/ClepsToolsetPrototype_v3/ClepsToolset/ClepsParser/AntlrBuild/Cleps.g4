@@ -53,13 +53,14 @@ variable : '@' VariableName=(ID|PASCALCASE_ID);
 nestedIdentifier : PASCALCASE_ID ('.' PASCALCASE_ID)*;
 numeric : NumericValue=NUMERIC_TOKEN NumericType=ID?;
 classOrMemberName : Name=PASCALCASE_ID;
+templateName : Name=PASCALCASE_ID;
 
 visibilityModifier : PUBLIC | INTERNAL;
 typename : 
-	RawTypeName=nestedIdentifier # BasicType
+	RawTypeName=nestedIdentifier # BasicOrTemplateType
 	| BaseType=typename '*' # PointerType
 	| BaseType=typename '[' ArrayDimensions+=numeric (',' ArrayDimensions+=numeric)* ']' # ArrayType
-	| '(' (FunctionParameterTypes+=typename (',' FunctionParameterTypes+=typename)*)? ')' '->' FunctionReturnType=typenameAndVoid #FunctionType;
+	| ('<' TemplateTypes+=templateName (',' FunctionTemplateTypes+=templateName)* '>')? '(' (FunctionParameterTypes+=typename (',' FunctionParameterTypes+=typename)*)? ')' '->' FunctionReturnType=typenameAndVoid #FunctionType;
 typenameAndVoid : typename | VOID;
 
 ///////////////////////////////////////////////////////
@@ -113,7 +114,7 @@ functionCallAssignment : functionCall;
 variableAssignment : variable;
 fieldOrClassAssignment : ClassHierarchy+=classOrMemberName ('.' ClassHierarchy+=classOrMemberName)*;
 classInstanceAssignment : NEW typename '(' (FunctionParameters+=rightHandExpression (',' FunctionParameters+=rightHandExpression)*)? ')';
-functionAssignment : '(' (FunctionParameters+=variableDeclaration (',' FunctionParameters+=variableDeclaration)*)? ')' '->' FunctionReturnType=typenameAndVoid statementBlock;
+functionAssignment : ('<' FunctionTemplateTypes+=templateName (',' FunctionTemplateTypes+=templateName)* '>')? '(' (FunctionParameters+=variableDeclaration (',' FunctionParameters+=variableDeclaration)*)? ')' '->' FunctionReturnType=typenameAndVoid statementBlock;
 
 functionCall : FunctionName=classOrMemberName '(' (FunctionParameters+=rightHandExpression (',' FunctionParameters+=rightHandExpression)*)? ')';
 statementBlock : '{' functionStatement* '}';

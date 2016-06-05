@@ -12,7 +12,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 {
     class ClepsClassNamesCollectorVisitor : ClepsAbstractVisitor
     {
-        public ClepsClassNamesCollectorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator) : base(status, classManager, codeGenerator){}
+        public ClepsClassNamesCollectorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, TypeManager typeManager) : base(status, classManager, codeGenerator, typeManager) { }
 
         public override bool VisitClassDeclarationStatements_Ex([NotNull] ClepsParser.ClassDeclarationStatementsContext context)
         {

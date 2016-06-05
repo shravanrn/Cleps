@@ -17,7 +17,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
     {
         private EntryPointManager EntryPointManager;
 
-        public ClepsMemberGeneratorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, EntryPointManager entryPointManager) : base(status, classManager, codeGenerator)
+        public ClepsMemberGeneratorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, EntryPointManager entryPointManager, TypeManager typeManager) : base(status, classManager, codeGenerator, typeManager)
         {
             EntryPointManager = entryPointManager;
         }

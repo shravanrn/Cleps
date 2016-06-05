@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClepsCompiler.Utils.Types;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,10 +13,27 @@ namespace ClepsCompiler.CompilerTypes
         public ClepsType BaseType { get; private set; }
         public long[] Dimensions { get; private set; }
 
-        public ArrayClepsType(ClepsType baseType, long[] dimensions) : base(true, false, false, false, false)
+        public ArrayClepsType(ClepsType baseType, long[] dimensions) : base(true, false, false, false, false, baseType.HasGenericComponents)
         {
             BaseType = baseType;
             Dimensions = dimensions;
+        }
+
+        public override ClepsType ReplaceTemplateTypeComponents(GenericClepsType templateTypeName, ClepsType targetTypeName)
+        {
+            var newBaseType = BaseType.ReplaceTemplateTypeComponents(templateTypeName, targetTypeName);
+            return newBaseType;
+        }
+
+        public override SuccessStatus ReplaceWithConcreteType(ClepsType concreteType, Dictionary<GenericClepsType, ClepsType> outReplacementsMade)
+        {
+            if(!concreteType.IsArrayType)
+            {
+                return SuccessStatus.Failure;
+            }
+
+            ArrayClepsType concreteTypeToUse = concreteType as ArrayClepsType;
+            return BaseType.ReplaceWithConcreteType(concreteTypeToUse.BaseType, outReplacementsMade);
         }
 
         public override string GetClepsTypeString()

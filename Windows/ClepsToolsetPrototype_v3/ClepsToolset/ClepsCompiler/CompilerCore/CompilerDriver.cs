@@ -34,11 +34,11 @@ namespace ClepsCompiler.CompilerCore
                 codeGenerator.Initiate();
 
                 {
-                    ClepsClassNamesCollectorVisitor classSkeletonGenerator = new ClepsClassNamesCollectorVisitor(status, classManager, codeGenerator);
+                    ClepsClassNamesCollectorVisitor classSkeletonGenerator = new ClepsClassNamesCollectorVisitor(status, classManager, codeGenerator, typeManager);
                     ParseFilesWithGenerator(classSkeletonGenerator, status);
                 }
                 {
-                    ClepsMemberGeneratorVisitor memberGenerator = new ClepsMemberGeneratorVisitor(status, classManager, codeGenerator, entryPointManager);
+                    ClepsMemberGeneratorVisitor memberGenerator = new ClepsMemberGeneratorVisitor(status, classManager, codeGenerator, entryPointManager, typeManager);
                     ParseFilesWithGenerator(memberGenerator, status);
                 }
                 {

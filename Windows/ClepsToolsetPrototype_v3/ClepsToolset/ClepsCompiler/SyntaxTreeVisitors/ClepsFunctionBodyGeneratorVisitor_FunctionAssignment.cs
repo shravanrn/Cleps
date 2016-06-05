@@ -13,6 +13,20 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 {
     partial class ClepsFunctionBodyGeneratorVisitor
     {
+        private class TemplateFunction
+        {
+            public ClepsParser.FunctionAssignmentContext FunctionAssignmentContext { get; private set; }
+            public string SourceMemberOfCreation { get; private set; }
+
+            public TemplateFunction(ClepsParser.FunctionAssignmentContext functionAssignmentContext, string sourceMemberOfCreation)
+            {
+                FunctionAssignmentContext = functionAssignmentContext;
+                SourceMemberOfCreation = sourceMemberOfCreation;
+            }
+        }
+
+        private List<TemplateFunction> TemplateFunctions = new List<TemplateFunction>();
+
         public override IMethodValue VisitFunctionAssignment_Ex([NotNull] ClepsParser.FunctionAssignmentContext context)
         {
             var oldCurrMethodRegister = CurrMethodGenerator;
@@ -25,9 +39,13 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 returnType = Visit(context.FunctionReturnType) as ClepsType;
             }
 
+            List<GenericClepsType> templateParameters = context._FunctionTemplateTypes != null ?
+                templateParameters = context._FunctionTemplateTypes.Select(t => new GenericClepsType(TypeManager, t.GetText())).ToList() :
+                new List<GenericClepsType>();
+
             List<ClepsVariable> functionParameters = context._FunctionParameters.Select(p => Visit(p) as ClepsVariable).ToList();
 
-            FunctionClepsType functionType = new FunctionClepsType(functionParameters.Select(p => p.VariableType).ToList(), returnType);
+            FunctionClepsType functionType = new FunctionClepsType(TypeManager, templateParameters, functionParameters.Select(p => p.VariableType).ToList(), returnType);
 
             var newMethod = CodeGenerator.CreateNewMethod(functionType);
             CurrMethodGenerator = newMethod;
@@ -38,7 +56,14 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 variableManager.AddLocalVariable(variable, CurrMethodGenerator.GetFormalParameterRegister(variable.VariableName));
             });
 
-            Visit(context.statementBlock());
+            if (templateParameters.Count == 0)
+            {
+                Visit(context.statementBlock());
+            }
+            else
+            {
+                TemplateFunctions.Add(new TemplateFunction(context, CurrMemberName));
+            }
 
             VariableManagers.RemoveAt(VariableManagers.Count - 1);
             CurrMethodGenerator = oldCurrMethodRegister;

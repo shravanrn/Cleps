@@ -23,17 +23,21 @@ namespace ClepsCompiler.SyntaxTreeVisitors
         protected CompileStatus Status;
         protected ClassManager ClassManager;
         protected ICodeGenerator CodeGenerator;
+        protected TypeManager TypeManager;
 
         private List<string> CurrentNamespaceHierarchy;
         private List<string> CurrentClassHierarchy;
         protected string CurrentNamespace { get { return String.Join(".", CurrentNamespaceHierarchy); } }
         protected string FullyQualifiedClassName { get { return String.Join(".", CurrentNamespaceHierarchy.Union(CurrentClassHierarchy).ToList()); } }
+        protected readonly List<string> CurrentTemplateNames;
 
-        public ClepsAbstractVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator)
+        public ClepsAbstractVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, TypeManager typeManager)
         {
             Status = status;
             ClassManager = classManager;
             CodeGenerator = codeGenerator;
+            TypeManager = typeManager;
+            CurrentTemplateNames = new List<string>();
         }
 
         public object ParseFile(string fileName, IParseTree tree)
@@ -85,10 +89,20 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         #region ClepsTypes
 
-        public sealed override object VisitBasicType([NotNull] ClepsParser.BasicTypeContext context)
+        public sealed override object VisitBasicOrTemplateType([NotNull] ClepsParser.BasicOrTemplateTypeContext context)
         {
+            ClepsType ret;
             string rawTypeName = context.RawTypeName.GetText();
-            var ret = new BasicClepsType(rawTypeName);
+
+            if (CurrentTemplateNames.Contains(rawTypeName))
+            {
+                ret = new GenericClepsType(TypeManager, rawTypeName);
+            }
+            else
+            {
+                ret = new BasicClepsType(rawTypeName);
+            }
+
             return ret;
         }
 
@@ -125,10 +139,34 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         public sealed override object VisitFunctionType([NotNull] ClepsParser.FunctionTypeContext context)
         {
+            List<GenericClepsType> templateParameters = new List<GenericClepsType>();
+            List<string> templateNamesAdded = new List<string>();
+
+            if (context._FunctionTemplateTypes != null)
+            {
+                foreach (var t in context._FunctionTemplateTypes)
+                {
+                    var templateName = t.GetText();
+                    templateParameters.Add(new GenericClepsType(TypeManager, templateName));
+
+                    if (!CurrentTemplateNames.Contains(templateName))
+                    {
+                        CurrentTemplateNames.Add(templateName);
+                    }
+                    else
+                    {
+                        string errorMessage = String.Format("Template name {0} has already been defined.", templateName);
+                        Status.AddError(new CompilerError(FileName, t.Start.Line, t.Start.Column, errorMessage));
+                    }
+                }
+            }
+
             List<ClepsType> parameters = context._FunctionParameterTypes.Select(p => Visit(p) as ClepsType).ToList();
             ClepsType returnType = Visit(context.FunctionReturnType) as ClepsType;
 
-            var ret = new FunctionClepsType(parameters, returnType);
+            templateNamesAdded.ForEach(added => CurrentTemplateNames.Remove(added));
+
+            var ret = new FunctionClepsType(TypeManager, templateParameters, parameters, returnType);
             return ret;
         }
 

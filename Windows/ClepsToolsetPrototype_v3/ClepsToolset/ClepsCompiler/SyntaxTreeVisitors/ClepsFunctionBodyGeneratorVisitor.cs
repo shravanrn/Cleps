@@ -13,17 +13,13 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 {
     partial class ClepsFunctionBodyGeneratorVisitor : ClepsFunctionBodyAnalysisVisitor_Abstract
     {
-        //private string CurrMemberName;
+        private string CurrMemberName;
         private bool CurrMemberIsStatic;
-        //private ClepsType CurrMemberType;
+        private ClepsType CurrMemberType;
         private IMethodValue CurrMethodGenerator;
         private List<VariableManager> VariableManagers = new List<VariableManager>();
-        private TypeManager TypeManager;
 
-        public ClepsFunctionBodyGeneratorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, TypeManager typeManager) : base(status, classManager, codeGenerator)
-        {
-            TypeManager = typeManager;
-        }
+        public ClepsFunctionBodyGeneratorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, TypeManager typeManager) : base(status, classManager, codeGenerator, typeManager) {}
 
         public override object VisitMemberDeclarationStatement([NotNull] ClepsParser.MemberDeclarationStatementContext context)
         {
@@ -42,50 +38,47 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             ClepsType memberType = Visit(context.typename()) as ClepsType;
             bool isConst = context.CONST() != null;
 
-            //var oldMemberName = CurrMemberName;
+            var oldMemberName = CurrMemberName;
             var oldMemberIsStatic = CurrMemberIsStatic;
-            //var oldMemberType = CurrMemberType;
+            var oldMemberType = CurrMemberType;
 
-            //CurrMemberName = memberName;
+            CurrMemberName = memberName;
             CurrMemberIsStatic = isStatic;
-            //CurrMemberType = memberType;
+            CurrMemberType = memberType;
 
             if (context.rightHandExpression() != null)
             {
                 var expressionValue = Visit(context.rightHandExpression());
 
-                //if(!memberType.IsFunctionType)
-                {
-                    IValue expressionRegister = expressionValue as IValue;
-                    IValueRegister targetRegister;
-                    IMethodValue initializerMethod;
+                IValue expressionRegister = expressionValue as IValue;
+                IValueRegister targetRegister;
+                IMethodValue initializerMethod;
 
-                    if (isStatic)
+                if (isStatic)
+                {
+                    initializerMethod = CodeGenerator.GetClassStaticInitializerRegister(FullyQualifiedClassName);
+                    targetRegister = CodeGenerator.GetStaticFieldRegister(FullyQualifiedClassName, memberName, memberType);
+                }
+                else
+                {
+                    if (isConst)
                     {
-                        initializerMethod = CodeGenerator.GetClassStaticInitializerRegister(FullyQualifiedClassName);
-                        targetRegister = CodeGenerator.GetStaticFieldRegister(FullyQualifiedClassName, memberName, memberType);
+                        initializerMethod = CodeGenerator.GetGlobalInitializerRegister();
+                        targetRegister = CodeGenerator.GetConstantMemberFieldRegisterForWrite(FullyQualifiedClassName, memberName, memberType);
                     }
                     else
                     {
-                        if (isConst)
-                        {
-                            initializerMethod = CodeGenerator.GetGlobalInitializerRegister();
-                            targetRegister = CodeGenerator.GetConstantMemberFieldRegisterForWrite(FullyQualifiedClassName, memberName, memberType);
-                        }
-                        else
-                        {
-                            initializerMethod = CodeGenerator.GetClassInitializerRegister(FullyQualifiedClassName);
-                            targetRegister = CodeGenerator.GetMemberFieldRegisterFromSameClass(FullyQualifiedClassName, memberName, memberType);
-                        }
+                        initializerMethod = CodeGenerator.GetClassInitializerRegister(FullyQualifiedClassName);
+                        targetRegister = CodeGenerator.GetMemberFieldRegisterFromSameClass(FullyQualifiedClassName, memberName, memberType);
                     }
-
-                    initializerMethod.CreateAssignment(targetRegister, expressionRegister);
                 }
+
+                initializerMethod.CreateAssignment(targetRegister, expressionRegister);
             }
 
-            //CurrMemberName = oldMemberName;
+            CurrMemberName = oldMemberName;
             CurrMemberIsStatic = oldMemberIsStatic;
-            //CurrMemberType = oldMemberType;
+            CurrMemberType = oldMemberType;
 
             return true;
         }
