@@ -164,8 +164,6 @@ namespace ClepsCompiler.CompilerBackend.Backends.JavaScript
             return ret;
         }
 
-
-
         public IValueRegister GetStaticFieldRegister(string className, string memberName, ClepsType memberType)
         {
             JavaScriptRegister ret;

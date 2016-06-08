@@ -89,9 +89,10 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             }
 
             int matchedPosition;
+            Dictionary<GenericClepsType, ClepsType> templateReplacements;
             string fnMatchErrorMessage;
 
-            if (!FunctionOverloadManager.FindMatchingFunctionType(TypeManager, functionOverloads, parameters, out matchedPosition, out fnMatchErrorMessage))
+            if (!FunctionOverloadManager.FindMatchingFunctionType(TypeManager, functionOverloads, parameters, out matchedPosition, out templateReplacements, out fnMatchErrorMessage))
             {
                 Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, fnMatchErrorMessage));
                 //Just return something to avoid stalling compilation
@@ -100,14 +101,19 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             FunctionClepsType chosenFunctionType = functionOverloads[matchedPosition].VariableType as FunctionClepsType;
 
-            handleGenerics();
-
             if (!allowVoidReturn && chosenFunctionType.ReturnType == VoidClepsType.GetVoidType())
             {
                 string errorMessage = String.Format("Function {0} does not return a value", targetFunctionName);
                 Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
+            }
+
+            handleGenerics();
+
+            if(chosenFunctionType.HasGenericComponents)
+            {
+                
             }
 
             IValue returnValue = CodeGenerator.GetFunctionCallReturnValue(isStatic? null : dereferencedTarget, dereferencedType, targetFunctionName, chosenFunctionType, parameters);

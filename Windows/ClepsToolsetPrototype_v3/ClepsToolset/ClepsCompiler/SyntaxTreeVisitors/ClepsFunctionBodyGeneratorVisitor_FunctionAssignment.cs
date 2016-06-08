@@ -5,6 +5,7 @@ using ClepsCompiler.CompilerStructures;
 using ClepsCompiler.CompilerTypes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +18,24 @@ namespace ClepsCompiler.SyntaxTreeVisitors
         {
             public ClepsParser.FunctionAssignmentContext FunctionAssignmentContext { get; private set; }
             public string SourceMemberOfCreation { get; private set; }
+            private List<Dictionary<GenericClepsType, ClepsType>> ConcreteInstantiations;
 
             public TemplateFunction(ClepsParser.FunctionAssignmentContext functionAssignmentContext, string sourceMemberOfCreation)
             {
                 FunctionAssignmentContext = functionAssignmentContext;
                 SourceMemberOfCreation = sourceMemberOfCreation;
+                ConcreteInstantiations = new List<Dictionary<GenericClepsType, ClepsType>>();
+            }
+
+            public bool ConcreteInstanceExists(Dictionary<GenericClepsType, ClepsType> replacements)
+            {
+                return ConcreteInstantiations.Where(c => c.Count == replacements.Count && c.All(kvp => replacements.ContainsKey(kvp.Key) && c[kvp.Key] == replacements[kvp.Key])).Any();
+            }
+
+            public void AddConcreteInstance(Dictionary<GenericClepsType, ClepsType> replacements)
+            {
+                Debug.Assert(!ConcreteInstanceExists(replacements));
+                ConcreteInstantiations.Add(replacements);
             }
         }
 
