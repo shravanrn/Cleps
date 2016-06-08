@@ -53,13 +53,14 @@ variable : '@' VariableName=(ID|PASCALCASE_ID);
 nestedIdentifier : PASCALCASE_ID ('.' PASCALCASE_ID)*;
 numeric : NumericValue=NUMERIC_TOKEN NumericType=ID?;
 classOrMemberName : Name=PASCALCASE_ID;
-templateName : Name=PASCALCASE_ID;
+templateName : '$' Name=PASCALCASE_ID;
 
 visibilityModifier : PUBLIC | INTERNAL;
 typename : 
-	RawTypeName=nestedIdentifier # BasicOrTemplateType
+	RawTypeName=nestedIdentifier # BasicType
 	| BaseType=typename '*' # PointerType
 	| BaseType=typename '[' ArrayDimensions+=numeric (',' ArrayDimensions+=numeric)* ']' # ArrayType
+	| templateName # TemplateType
 	| ('<' TemplateTypes+=templateName (',' FunctionTemplateTypes+=templateName)* '>')? '(' (FunctionParameterTypes+=typename (',' FunctionParameterTypes+=typename)*)? ')' '->' FunctionReturnType=typenameAndVoid #FunctionType;
 typenameAndVoid : typename | VOID;
 

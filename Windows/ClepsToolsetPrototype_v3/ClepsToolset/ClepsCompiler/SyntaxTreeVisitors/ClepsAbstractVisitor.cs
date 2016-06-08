@@ -29,7 +29,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
         private List<string> CurrentClassHierarchy;
         protected string CurrentNamespace { get { return String.Join(".", CurrentNamespaceHierarchy); } }
         protected string FullyQualifiedClassName { get { return String.Join(".", CurrentNamespaceHierarchy.Union(CurrentClassHierarchy).ToList()); } }
-        protected readonly List<string> CurrentTemplateNames;
+        protected Dictionary<GenericClepsType, ClepsType> TemplateReplacementsToUse;
 
         public ClepsAbstractVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, TypeManager typeManager)
         {
@@ -37,7 +37,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             ClassManager = classManager;
             CodeGenerator = codeGenerator;
             TypeManager = typeManager;
-            CurrentTemplateNames = new List<string>();
+            TemplateReplacementsToUse = new Dictionary<GenericClepsType, ClepsType>();
         }
 
         public object ParseFile(string fileName, IParseTree tree)
@@ -89,21 +89,29 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         #region ClepsTypes
 
-        public sealed override object VisitBasicOrTemplateType([NotNull] ClepsParser.BasicOrTemplateTypeContext context)
+        public sealed override object VisitBasicType([NotNull] ClepsParser.BasicTypeContext context)
         {
-            ClepsType ret;
             string rawTypeName = context.RawTypeName.GetText();
+            ClepsType ret = new BasicClepsType(rawTypeName);
+            return ret;
+        }
 
-            if (CurrentTemplateNames.Contains(rawTypeName))
+        public sealed override object VisitTemplateType([NotNull] ClepsParser.TemplateTypeContext context)
+        {
+            string rawTypeName = context.templateName().Name.Text;
+            GenericClepsType templateType = new GenericClepsType(TypeManager, rawTypeName);
+
+            if(TemplateReplacementsToUse.ContainsKey(templateType))
             {
-                ret = new GenericClepsType(TypeManager, rawTypeName);
+                return TemplateReplacementsToUse[templateType];
             }
             else
             {
-                ret = new BasicClepsType(rawTypeName);
+                string errorMessage = String.Format("No substitution specified for template ${0}", rawTypeName);
+                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                //in case of an error, try to gracefully continue by assuming any type 
+                return CompilerConstants.ClepsByteType;
             }
-
-            return ret;
         }
 
         public sealed override object VisitPointerType([NotNull] ClepsParser.PointerTypeContext context)
@@ -149,9 +157,9 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                     var templateName = t.GetText();
                     templateParameters.Add(new GenericClepsType(TypeManager, templateName));
 
-                    if (!CurrentTemplateNames.Contains(templateName))
+                    if (!templateNamesAdded.Contains(templateName))
                     {
-                        CurrentTemplateNames.Add(templateName);
+                        templateNamesAdded.Add(templateName);
                     }
                     else
                     {
@@ -163,8 +171,6 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             List<ClepsType> parameters = context._FunctionParameterTypes.Select(p => Visit(p) as ClepsType).ToList();
             ClepsType returnType = Visit(context.FunctionReturnType) as ClepsType;
-
-            templateNamesAdded.ForEach(added => CurrentTemplateNames.Remove(added));
 
             var ret = new FunctionClepsType(TypeManager, templateParameters, parameters, returnType);
             return ret;

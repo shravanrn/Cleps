@@ -16,8 +16,9 @@ namespace ClepsCompiler.CompilerCore
             TypeManager typeManager, 
             List<ClepsVariable> functionOverloads, 
             List<IValue> parameters, 
-            out int matchPosition, 
-            out Dictionary<GenericClepsType, ClepsType> templateReplacements, 
+            out int matchPosition,
+            out Dictionary<GenericClepsType, ClepsType> templateReplacements,
+            out FunctionClepsType chosenFunctionType, 
             out string errorMessage
         )
         {
@@ -31,7 +32,7 @@ namespace ClepsCompiler.CompilerCore
 
             if (parameters.Count != functionOverloadType.ParameterTypes.Count)
             {
-                return ReturnErrorForFindMatchingFunctionType(parameters, out matchPosition, out templateReplacements, out errorMessage);
+                return ReturnErrorForFindMatchingFunctionType(parameters, out matchPosition, out templateReplacements, out chosenFunctionType, out errorMessage);
             }
 
             FunctionClepsType functionTypeToTest = functionOverloadType;
@@ -53,7 +54,7 @@ namespace ClepsCompiler.CompilerCore
 
                 if (parameterReplaceStatus == SuccessStatus.Failure)
                 {
-                    return ReturnErrorForFindMatchingFunctionType(parameters, out matchPosition, out templateReplacements, out errorMessage);
+                    return ReturnErrorForFindMatchingFunctionType(parameters, out matchPosition, out templateReplacements, out chosenFunctionType, out errorMessage);
                 }
 
                 foreach (var replacement in replacementsMade)
@@ -71,20 +72,22 @@ namespace ClepsCompiler.CompilerCore
             {
                 matchPosition = 0;
                 templateReplacements = replacementsMade;
+                chosenFunctionType = functionTypeToTest;
                 errorMessage = null;
                 return true;
             }
             else
             {
-                return ReturnErrorForFindMatchingFunctionType(parameters, out matchPosition, out templateReplacements, out errorMessage);
+                return ReturnErrorForFindMatchingFunctionType(parameters, out matchPosition, out templateReplacements, out chosenFunctionType, out errorMessage);
             }
         }
 
-        private static bool ReturnErrorForFindMatchingFunctionType(List<IValue> parameters, out int matchPosition, out Dictionary<GenericClepsType, ClepsType> templateReplacements, out string errorMessage)
+        private static bool ReturnErrorForFindMatchingFunctionType(List<IValue> parameters, out int matchPosition, out Dictionary<GenericClepsType, ClepsType> templateReplacements, out FunctionClepsType chosenFunctionType, out string errorMessage)
         {
             string parametersString = String.Join(",", parameters.Select(p => p.ExpressionType.GetClepsTypeString()).ToList());
             matchPosition = -1;
             templateReplacements = new Dictionary<GenericClepsType, ClepsType>();
+            chosenFunctionType = null;
             errorMessage = String.Format("No function overload supports parameters of type: ({0})", parametersString);
             return false;
         }
