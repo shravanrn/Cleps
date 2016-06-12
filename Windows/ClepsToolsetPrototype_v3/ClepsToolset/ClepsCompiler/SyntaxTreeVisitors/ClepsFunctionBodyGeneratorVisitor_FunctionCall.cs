@@ -55,53 +55,84 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
         private IValue doFunctionCall(ParserRuleContext context, string targetFunctionName, List<IValue> parameters, IValue target, ClepsType targetType, bool allowVoidReturn)
         {
-            IValue dereferencedTarget = target == null? null : GetDereferencedRegisterOrNull(target);
-            BasicClepsType dereferencedType = target == null? targetType as BasicClepsType : dereferencedTarget.ExpressionType as BasicClepsType;
-
-            if (dereferencedType == null)
-            {
-                string errorMessage = String.Format("Could not dereference expression on type {0}", targetType.GetClepsTypeString());
-                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
-                //just return something to avoid stalling
-                return CodeGenerator.CreateByte(0);
-            }
-
-            ClepsClass targetClepsClass = ClassManager.GetClass(dereferencedType.GetClepsTypeString());
-
+            IValue dereferencedTarget;
+            BasicClepsType dereferencedType;
             List<ClepsVariable> functionOverloads;
             bool isStatic;
-            if (targetClepsClass.StaticMemberMethods.ContainsKey(targetFunctionName))
+
+            if (targetType is FunctionClepsType)
             {
-                isStatic = true;
-                functionOverloads = targetClepsClass.StaticMemberMethods[targetFunctionName];
-            }
-            else if (target != null && targetClepsClass.MemberMethods.ContainsKey(targetFunctionName))
-            {
-                isStatic = false;
-                functionOverloads = targetClepsClass.MemberMethods[targetFunctionName];
+                throw new NotImplementedException("Calling local variable lambda functionsnot yet supported");
             }
             else
             {
-                string errorMessage = String.Format("Class {0} does not contain a {1}static function called {2}.", targetClepsClass.FullyQualifiedName, target == null? "" : "member or ",targetFunctionName);
-                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
-                //Just return something to avoid stalling compilation
-                return CodeGenerator.CreateByte(0);
+                dereferencedTarget = target == null ? null : GetDereferencedRegisterOrNull(target);
+                dereferencedType = target == null ? targetType as BasicClepsType : dereferencedTarget.ExpressionType as BasicClepsType;
+
+                if (dereferencedType == null)
+                {
+                    string errorMessage = String.Format("Could not dereference expression on type {0}", targetType.GetClepsTypeString());
+                    Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                    //just return something to avoid stalling
+                    return CodeGenerator.CreateByte(0);
+                }
+
+                ClepsClass targetClepsClass = ClassManager.GetClass(dereferencedType.GetClepsTypeString());
+
+                if (targetClepsClass.StaticMemberMethods.ContainsKey(targetFunctionName))
+                {
+                    isStatic = true;
+                    functionOverloads = targetClepsClass.StaticMemberMethods[targetFunctionName];
+                }
+                else if (target != null && targetClepsClass.MemberMethods.ContainsKey(targetFunctionName))
+                {
+                    isStatic = false;
+                    functionOverloads = targetClepsClass.MemberMethods[targetFunctionName];
+                }
+                else
+                {
+                    string errorMessage = String.Format("Class {0} does not contain a {1}static function called {2}.", targetClepsClass.FullyQualifiedName, target == null ? "" : "member or ", targetFunctionName);
+                    Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                    //Just return something to avoid stalling compilation
+                    return CodeGenerator.CreateByte(0);
+                }
             }
 
             int matchedPosition;
-            Dictionary<GenericClepsType, ClepsType> templateReplacements;
+            Dictionary<GenericClepsType, ClepsType> replacementsMade;
+            FunctionClepsType chosenTargetFunctionType;
             string fnMatchErrorMessage;
 
-            if (!FunctionOverloadManager.FindMatchingFunctionType(TypeManager, functionOverloads, parameters, out matchedPosition, out templateReplacements, out fnMatchErrorMessage))
+            if (!FunctionOverloadManager.FindMatchingFunctionType(TypeManager, functionOverloads, parameters, out matchedPosition, out replacementsMade, out chosenTargetFunctionType, out fnMatchErrorMessage))
             {
                 Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, fnMatchErrorMessage));
                 //Just return something to avoid stalling compilation
                 return CodeGenerator.CreateByte(0);
             }
 
-            FunctionClepsType chosenFunctionType = functionOverloads[matchedPosition].VariableType as FunctionClepsType;
+            FunctionClepsType chosenSourceFunctionType = functionOverloads[matchedPosition].VariableType as FunctionClepsType;
 
-            if (!allowVoidReturn && chosenFunctionType.ReturnType == VoidClepsType.GetVoidType())
+            if(chosenSourceFunctionType.HasGenericComponents)
+            {
+                TemplateFunction chosenTemplateFunction = TemplateFunctions.Where(t => t.SourceClassOfCreation == dereferencedType.GetClepsTypeString() && t.SourceMemberOfCreation == targetFunctionName).FirstOrDefault();
+
+                if(chosenTemplateFunction == null)
+                {
+                    string errorMessage = String.Format("Function {0} in Class {1} has never been initialized.", targetFunctionName, dereferencedType.GetClepsTypeString());
+                    Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                    //Just return something to avoid stalling compilation
+                    return CodeGenerator.CreateByte(0);
+                }
+
+                var oldTemplateReplacementsToUse = TemplateReplacementsToUse;
+                TemplateReplacementsToUse = replacementsMade;
+
+                Visit(chosenTemplateFunction.FunctionAssignmentContext);
+
+                TemplateReplacementsToUse = oldTemplateReplacementsToUse;
+            }
+
+            if (!allowVoidReturn && chosenTargetFunctionType.ReturnType == VoidClepsType.GetVoidType())
             {
                 string errorMessage = String.Format("Function {0} does not return a value", targetFunctionName);
                 Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
@@ -109,14 +140,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 return CodeGenerator.CreateByte(0);
             }
 
-            handleGenerics();
-
-            if(chosenFunctionType.HasGenericComponents)
-            {
-                
-            }
-
-            IValue returnValue = CodeGenerator.GetFunctionCallReturnValue(isStatic? null : dereferencedTarget, dereferencedType, targetFunctionName, chosenFunctionType, parameters);
+            IValue returnValue = CodeGenerator.GetFunctionCallReturnValue(isStatic? null : dereferencedTarget, dereferencedType, targetFunctionName, chosenTargetFunctionType, parameters);
             return returnValue;
         }
 

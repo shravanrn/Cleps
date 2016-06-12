@@ -66,11 +66,6 @@ namespace ClepsCompiler.CompilerTypes
 
             FunctionClepsType concreteTypeToUse = concreteType as FunctionClepsType;
 
-            if (concreteTypeToUse.HasGenericComponents)
-            {
-                throw new NotImplementedException("Partial replacement of template parameters not supported. Not sure if this even needs to be supported");
-            }
-
             if (ParameterTypes.Count != concreteTypeToUse.ParameterTypes.Count)
             {
                 return SuccessStatus.Failure;
@@ -88,7 +83,14 @@ namespace ClepsCompiler.CompilerTypes
                 }
                 else
                 {
-                    return parameterType.ReplaceWithConcreteType(concreteParameterType, newReplacementsMade);
+                    if (concreteParameterType.HasGenericComponents)
+                    {
+                        return TypeManager.IsSameOrSubTypeOf(parameterType, concreteParameterType) ? SuccessStatus.Success : SuccessStatus.Failure;
+                    }
+                    else
+                    {
+                        return parameterType.ReplaceWithConcreteType(concreteParameterType, newReplacementsMade);
+                    }
                 }
             }).Any(s => s == SuccessStatus.Failure)? SuccessStatus.Failure : SuccessStatus.Success;
 

@@ -33,8 +33,11 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             List<ClepsVariable> functionParameters = context._FunctionParameters.Select(p => Visit(p) as ClepsVariable).ToList();
 
             FunctionClepsType functionType = new FunctionClepsType(TypeManager, templateParameters, functionParameters.Select(p => p.VariableType).ToList(), returnType);
+            IMethodValue newMethod = null;
 
-            var newMethod = CodeGenerator.CreateNewMethod(functionType);
+            if (templateParameters.Count == 0)
+            {
+                newMethod = CodeGenerator.CreateNewMethod(functionType);
             CurrMethodGenerator = newMethod;
 
             CurrMethodGenerator.SetFormalParameterNames(functionParameters.Select(p => p.VariableName).ToList());
@@ -42,14 +45,11 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             functionParameters.ForEach(variable => {
                 variableManager.AddLocalVariable(variable, CurrMethodGenerator.GetFormalParameterRegister(variable.VariableName));
             });
-
-            if (templateParameters.Count == 0)
-            {
                 Visit(context.statementBlock());
             }
             else
             {
-                TemplateFunctions.Add(new TemplateFunction(context, CurrMemberName));
+                TemplateFunctions.Add(new TemplateFunction(context, FullyQualifiedClassName, CurrMemberName));
             }
 
             VariableManagers.RemoveAt(VariableManagers.Count - 1);
