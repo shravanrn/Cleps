@@ -14,33 +14,6 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 {
     partial class ClepsFunctionBodyGeneratorVisitor
     {
-        private class TemplateFunction
-        {
-            public ClepsParser.FunctionAssignmentContext FunctionAssignmentContext { get; private set; }
-            public string SourceMemberOfCreation { get; private set; }
-            private List<Dictionary<GenericClepsType, ClepsType>> ConcreteInstantiations;
-
-            public TemplateFunction(ClepsParser.FunctionAssignmentContext functionAssignmentContext, string sourceMemberOfCreation)
-            {
-                FunctionAssignmentContext = functionAssignmentContext;
-                SourceMemberOfCreation = sourceMemberOfCreation;
-                ConcreteInstantiations = new List<Dictionary<GenericClepsType, ClepsType>>();
-            }
-
-            public bool ConcreteInstanceExists(Dictionary<GenericClepsType, ClepsType> replacements)
-            {
-                return ConcreteInstantiations.Where(c => c.Count == replacements.Count && c.All(kvp => replacements.ContainsKey(kvp.Key) && c[kvp.Key] == replacements[kvp.Key])).Any();
-            }
-
-            public void AddConcreteInstance(Dictionary<GenericClepsType, ClepsType> replacements)
-            {
-                Debug.Assert(!ConcreteInstanceExists(replacements));
-                ConcreteInstantiations.Add(replacements);
-            }
-        }
-
-        private List<TemplateFunction> TemplateFunctions = new List<TemplateFunction>();
-
         public override IMethodValue VisitFunctionAssignment_Ex([NotNull] ClepsParser.FunctionAssignmentContext context)
         {
             var oldCurrMethodRegister = CurrMethodGenerator;

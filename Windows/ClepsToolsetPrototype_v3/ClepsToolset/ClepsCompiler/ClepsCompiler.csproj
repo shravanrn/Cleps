@@ -66,6 +66,7 @@
     <Compile Include="CompilerCore\EntryPointManager.cs" />
     <Compile Include="CompilerCore\FunctionOverloadManager.cs" />
     <Compile Include="CompilerCore\LexerParserErrorHandler.cs" />
+    <Compile Include="CompilerCore\TemplateManager.cs" />
     <Compile Include="CompilerCore\TypeManager.cs" />
     <Compile Include="CompilerStructures\AbstractCompilerLog.cs" />
     <Compile Include="CompilerStructures\ClepsClass.cs" />
