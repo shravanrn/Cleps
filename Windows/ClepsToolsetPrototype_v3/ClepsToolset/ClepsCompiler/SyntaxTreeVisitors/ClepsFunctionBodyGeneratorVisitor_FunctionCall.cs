@@ -114,9 +114,9 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             if(chosenSourceFunctionType.HasGenericComponents)
             {
-                TemplateFunction chosenTemplateFunction = TemplateFunctions.Where(t => t.SourceClassOfCreation == dereferencedType.GetClepsTypeString() && t.SourceMemberOfCreation == targetFunctionName).FirstOrDefault();
+                List<ParserRuleContext> templateFunctions = TemplateManager.GetFunctionInitializationsForVariable(dereferencedType.GetClepsTypeString(), targetFunctionName, null);
 
-                if(chosenTemplateFunction == null)
+                if(templateFunctions.Count == 0)
                 {
                     string errorMessage = String.Format("Function {0} in Class {1} has never been initialized.", targetFunctionName, dereferencedType.GetClepsTypeString());
                     Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
@@ -127,7 +127,7 @@ namespace ClepsCompiler.SyntaxTreeVisitors
                 var oldTemplateReplacementsToUse = TemplateReplacementsToUse;
                 TemplateReplacementsToUse = replacementsMade;
 
-                Visit(chosenTemplateFunction.FunctionAssignmentContext);
+                templateFunctions.ForEach(f => TemplateManager.CallIfNotInstantiated(f, TemplateReplacementsToUse, (fCopy) => Visit(fCopy) as IMethodValue));
 
                 TemplateReplacementsToUse = oldTemplateReplacementsToUse;
             }

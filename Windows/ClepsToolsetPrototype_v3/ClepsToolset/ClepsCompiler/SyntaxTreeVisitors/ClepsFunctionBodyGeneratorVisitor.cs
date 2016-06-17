@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
 using ClepsCompiler.CompilerBackend;
 using ClepsCompiler.CompilerCore;
 using ClepsCompiler.CompilerStructures;
@@ -18,8 +19,11 @@ namespace ClepsCompiler.SyntaxTreeVisitors
         private ClepsType CurrMemberType;
         private IMethodValue CurrMethodGenerator;
         private List<VariableManager> VariableManagers = new List<VariableManager>();
+        private TemplateManager<ParserRuleContext> TemplateManager = new TemplateManager<ParserRuleContext>();
 
-        public ClepsFunctionBodyGeneratorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, TypeManager typeManager) : base(status, classManager, codeGenerator, typeManager) {}
+        public ClepsFunctionBodyGeneratorVisitor(CompileStatus status, ClassManager classManager, ICodeGenerator codeGenerator, TypeManager typeManager) : base(status, classManager, codeGenerator, typeManager)
+        {
+        }
 
         public override object VisitMemberDeclarationStatement([NotNull] ClepsParser.MemberDeclarationStatementContext context)
         {

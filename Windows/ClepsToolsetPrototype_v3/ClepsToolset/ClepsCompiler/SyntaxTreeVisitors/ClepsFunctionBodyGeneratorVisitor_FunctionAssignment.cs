@@ -27,30 +27,51 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             }
 
             List<GenericClepsType> templateParameters = context._FunctionTemplateTypes != null ?
-                templateParameters = context._FunctionTemplateTypes.Select(t => new GenericClepsType(TypeManager, t.GetText())).ToList() :
+                context._FunctionTemplateTypes.Select(t => new GenericClepsType(TypeManager, t.GetText())).ToList() :
                 new List<GenericClepsType>();
 
             List<ClepsVariable> functionParameters = context._FunctionParameters.Select(p => Visit(p) as ClepsVariable).ToList();
+            List<ClepsType> parameterTypes = functionParameters.Select(p => p.VariableType).ToList();
 
-            FunctionClepsType functionType = new FunctionClepsType(TypeManager, templateParameters, functionParameters.Select(p => p.VariableType).ToList(), returnType);
+            FunctionClepsType functionType = new FunctionClepsType(TypeManager, templateParameters, parameterTypes, returnType);
             IMethodValue newMethod = null;
+            bool generateFunction;
 
-            if (templateParameters.Count == 0)
+            if (templateParameters.Count != 0)
             {
-                newMethod = CodeGenerator.CreateNewMethod(functionType);
-            CurrMethodGenerator = newMethod;
-
-            CurrMethodGenerator.SetFormalParameterNames(functionParameters.Select(p => p.VariableName).ToList());
-
-            functionParameters.ForEach(variable => {
-                variableManager.AddLocalVariable(variable, CurrMethodGenerator.GetFormalParameterRegister(variable.VariableName));
-            });
-                Visit(context.statementBlock());
+                if(functionType.TemplateParameters.All(t => TemplateReplacementsToUse.ContainsKey(t)))
+                {
+                    TemplateReplacementsToUsefunctionType.ReplaceTemplateTypeComponents()
+                    List<ClepsType> replacedParameterTypes = parameterTypes.Select(p => (p is GenericClepsType)? TemplateReplacementsToUse[p as GenericClepsType] : p).ToList();
+                    ClepsType replacedReturn
+                    functionType = new FunctionClepsType(replacedParameterTypes, )
+                    generateFunction = true;
+                }
+                else
+                {
+                    TemplateManager.CreatePossibleFunctionAssignment(FullyQualifiedClassName, CurrMemberName, null /* only class members supported for now */, context);
+                    generateFunction = false;
+                }
             }
             else
             {
-                TemplateFunctions.Add(new TemplateFunction(context, FullyQualifiedClassName, CurrMemberName));
+                generateFunction = true;
             }
+
+
+            if(generateFunction)
+            {
+                newMethod = CodeGenerator.CreateNewMethod(functionType);
+                CurrMethodGenerator = newMethod;
+
+                CurrMethodGenerator.SetFormalParameterNames(functionParameters.Select(p => p.VariableName).ToList());
+
+                functionParameters.ForEach(variable => {
+                    variableManager.AddLocalVariable(variable, CurrMethodGenerator.GetFormalParameterRegister(variable.VariableName));
+                });
+                Visit(context.statementBlock());
+            }
+            
 
             VariableManagers.RemoveAt(VariableManagers.Count - 1);
             CurrMethodGenerator = oldCurrMethodRegister;
