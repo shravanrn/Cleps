@@ -61,7 +61,7 @@ typename :
 	| BaseType=typename '*' # PointerType
 	| BaseType=typename '[' ArrayDimensions+=numeric (',' ArrayDimensions+=numeric)* ']' # ArrayType
 	| templateName # TemplateType
-	| ('<' TemplateTypes+=templateName (',' FunctionTemplateTypes+=templateName)* '>')? '(' (FunctionParameterTypes+=typename (',' FunctionParameterTypes+=typename)*)? ')' '->' FunctionReturnType=typenameAndVoid #FunctionType;
+	| ('<' FunctionTemplateTypes+=templateName (',' FunctionTemplateTypes+=templateName)* '>')? '(' (FunctionParameterTypes+=typename (',' FunctionParameterTypes+=typename)*)? ')' '->' FunctionReturnType=typenameAndVoid #FunctionType;
 typenameAndVoid : typename | VOID;
 
 ///////////////////////////////////////////////////////

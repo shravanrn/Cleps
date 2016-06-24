@@ -60,8 +60,8 @@ namespace ClepsCompiler.CompilerCore
 
         public void AddTemplateFunctionVariable(string clepsClass, string memberName, string locationInMember)
         {
-            Debug.Assert(String.IsNullOrWhiteSpace(clepsClass));
-            Debug.Assert(String.IsNullOrWhiteSpace(memberName));
+            Debug.Assert(!String.IsNullOrWhiteSpace(clepsClass));
+            Debug.Assert(!String.IsNullOrWhiteSpace(memberName));
 
             var key = new VariableKey() { ClepsClass = clepsClass, MemberName = memberName, LocationInMember = locationInMember ?? "" };
             VariableInstances.Add(key, new List<T>());

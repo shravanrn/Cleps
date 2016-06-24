@@ -9,7 +9,7 @@ namespace System.Memory
 {
 	public class MemoryTransfer
 	{
-		public static const <T>(System.Types.Byte) -> System.Types.Byte CopyClepsObjectInstance = <T>(System.Types.Byte @val) -> System.Types.Byte
+		public static const <$T>($T) -> $T CopyClepsObjectInstance = <$T>($T @source) -> $T
 		{
 			native(1) [{
 			function copyClepsObject(_$source)

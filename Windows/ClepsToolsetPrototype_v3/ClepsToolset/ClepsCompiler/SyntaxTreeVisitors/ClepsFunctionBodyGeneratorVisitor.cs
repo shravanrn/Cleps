@@ -50,7 +50,12 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             CurrMemberIsStatic = isStatic;
             CurrMemberType = memberType;
 
-            if (context.rightHandExpression() != null)
+            if (memberType.HasGenericComponents)
+            {
+                TemplateManager.AddTemplateFunctionVariable(FullyQualifiedClassName, CurrMemberName, "");
+            }
+
+            if (context.rightHandExpression() != null && !memberType.HasGenericComponents)
             {
                 var expressionValue = Visit(context.rightHandExpression());
 

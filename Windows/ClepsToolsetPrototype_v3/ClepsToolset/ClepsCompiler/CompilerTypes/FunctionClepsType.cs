@@ -30,7 +30,11 @@ namespace ClepsCompiler.CompilerTypes
             {
                 for (int i = 0; i < TemplateParameters.Count; i++)
                 {
-                    thisFunctionTypeWithStandardTemplates = thisFunctionTypeWithStandardTemplates.ReplaceTemplateTypeComponents(TemplateParameters[i], new GenericClepsType(TypeManager, "T" + i)) as FunctionClepsType;
+                    var standardTemplateType = new GenericClepsType(TypeManager, "T" + i);
+                    if (TemplateParameters[i] != standardTemplateType)
+                    {
+                        thisFunctionTypeWithStandardTemplates = thisFunctionTypeWithStandardTemplates.ReplaceTemplateTypeComponents(TemplateParameters[i], standardTemplateType) as FunctionClepsType;
+                    }
                 }
             }
         }

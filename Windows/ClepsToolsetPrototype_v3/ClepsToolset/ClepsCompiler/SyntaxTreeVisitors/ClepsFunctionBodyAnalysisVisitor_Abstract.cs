@@ -43,10 +43,13 @@ namespace ClepsCompiler.SyntaxTreeVisitors
 
             IMethodValue functionType = VisitFunctionAssignment_Ex(context);
 
-            if ((functionType.ExpressionType as FunctionClepsType).ReturnType != VoidClepsType.GetVoidType() && !CurrentBlockStatus.Last().ReturnStatementReached)
+            if (functionType != null)
             {
-                string errorMessage = "Not all pathways have return statements";
-                Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                if ((functionType.ExpressionType as FunctionClepsType).ReturnType != VoidClepsType.GetVoidType() && !CurrentBlockStatus.Last().ReturnStatementReached)
+                {
+                    string errorMessage = "Not all pathways have return statements";
+                    Status.AddError(new CompilerError(FileName, context.Start.Line, context.Start.Column, errorMessage));
+                }
             }
 
             CurrentBlockStatus = oldCurrentBlockStatus;

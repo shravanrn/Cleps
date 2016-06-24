@@ -116,6 +116,9 @@ namespace System.Tests
 				@consoleObj.ConsoleOutputLine();
 			}
 
+			System.Memory.MemoryTransfer @mem = new System.Memory.MemoryTransfer();
+			System.Console @consoleObjCopy = @mem.CopyClepsObjectInstance(@consoleObj);
+
 			LoopTest();
 		};
 	}

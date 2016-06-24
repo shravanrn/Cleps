@@ -41,10 +41,11 @@ namespace ClepsCompiler.SyntaxTreeVisitors
             {
                 if(functionType.TemplateParameters.All(t => TemplateReplacementsToUse.ContainsKey(t)))
                 {
-                    TemplateReplacementsToUsefunctionType.ReplaceTemplateTypeComponents()
-                    List<ClepsType> replacedParameterTypes = parameterTypes.Select(p => (p is GenericClepsType)? TemplateReplacementsToUse[p as GenericClepsType] : p).ToList();
-                    ClepsType replacedReturn
-                    functionType = new FunctionClepsType(replacedParameterTypes, )
+                    foreach (var kvp in TemplateReplacementsToUse)
+                    {
+                        functionType = functionType.ReplaceTemplateTypeComponents(kvp.Key, kvp.Value) as FunctionClepsType;
+                    }
+
                     generateFunction = true;
                 }
                 else
